@@ -5,6 +5,7 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { StickyCallBar } from "@/components/layout/StickyCallBar";
 import { PhoneClickTracker } from "@/components/analytics/PhoneClickTracker";
+import { LocalBusinessJsonLd } from "@/components/seo/LocalBusinessJsonLd";
 import { siteConfig } from "@/config/site";
 import "./globals.css";
 
@@ -20,9 +21,41 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const title = `${siteConfig.name} — ${siteConfig.tagline}`;
+
 export const metadata: Metadata = {
-  title: `${siteConfig.name} — ${siteConfig.tagline}`,
+  metadataBase: new URL(siteConfig.url),
+  title,
   description: siteConfig.description,
+  alternates: {
+    canonical: siteConfig.url,
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
+  openGraph: {
+    type: "website",
+    locale: "fr_FR",
+    url: siteConfig.url,
+    siteName: siteConfig.name,
+    title,
+    description: siteConfig.description,
+    images: [
+      {
+        url: "/image_nuisible.jpeg",
+        width: 1536,
+        height: 1024,
+        alt: siteConfig.name,
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title,
+    description: siteConfig.description,
+    images: ["/image_nuisible.jpeg"],
+  },
 };
 
 export default function RootLayout({
@@ -32,6 +65,7 @@ export default function RootLayout({
 }>) {
   const content = (
     <>
+      <LocalBusinessJsonLd />
       <PhoneClickTracker />
       <Header />
       <main className="flex-1 pb-20 md:pb-0">{children}</main>
