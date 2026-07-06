@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
+import { usePlausible } from "next-plausible";
 import { AlertCircle, Clock, Loader2, Mail, MapPin, Phone, Send } from "lucide-react";
 import { Section } from "@/components/ui/Section";
 import { Card } from "@/components/ui/Card";
@@ -9,12 +10,14 @@ import { Reveal } from "@/components/ui/Reveal";
 import { cn } from "@/lib/utils";
 import { siteConfig } from "@/config/site";
 import { services } from "@/data/services";
+import type { PlausibleEvents } from "@/lib/analytics";
 
 const inputStyles =
   "w-full rounded-lg border border-border bg-background px-3.5 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-accent";
 
 function ContactForm() {
   const [status, setStatus] = useState<"idle" | "loading" | "submitted" | "error">("idle");
+  const plausible = usePlausible<PlausibleEvents>();
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -22,6 +25,7 @@ function ContactForm() {
 
     const form = event.currentTarget;
     const data = new FormData(form);
+    const service = String(data.get("service") ?? "");
 
     try {
       const response = await fetch("/api/contact", {
@@ -31,12 +35,13 @@ function ContactForm() {
           name: data.get("name"),
           phone: data.get("phone"),
           email: data.get("email"),
-          service: data.get("service"),
+          service,
           message: data.get("message"),
         }),
       });
 
       if (!response.ok) throw new Error("request failed");
+      plausible("Contact Form Submitted", { props: { service } });
       setStatus("submitted");
     } catch {
       setStatus("error");
