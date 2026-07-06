@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
-import { Clock, Mail, MapPin, Phone, Send } from "lucide-react";
+import { AlertCircle, Clock, Loader2, Mail, MapPin, Phone, Send } from "lucide-react";
 import { Section } from "@/components/ui/Section";
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
@@ -14,11 +14,33 @@ const inputStyles =
   "w-full rounded-lg border border-border bg-background px-3.5 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-accent";
 
 function ContactForm() {
-  const [status, setStatus] = useState<"idle" | "submitted">("idle");
+  const [status, setStatus] = useState<"idle" | "loading" | "submitted" | "error">("idle");
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    setStatus("submitted");
+    setStatus("loading");
+
+    const form = event.currentTarget;
+    const data = new FormData(form);
+
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: data.get("name"),
+          phone: data.get("phone"),
+          email: data.get("email"),
+          service: data.get("service"),
+          message: data.get("message"),
+        }),
+      });
+
+      if (!response.ok) throw new Error("request failed");
+      setStatus("submitted");
+    } catch {
+      setStatus("error");
+    }
   }
 
   if (status === "submitted") {
@@ -95,9 +117,24 @@ function ContactForm() {
           />
         </div>
 
-        <Button type="submit" size="lg" className="w-full">
-          <Send className="size-4" />
-          Demander un devis gratuit
+        {status === "error" && (
+          <p className="flex items-center gap-2 rounded-lg bg-red-50 px-3.5 py-2.5 text-sm text-red-700">
+            <AlertCircle className="size-4 shrink-0" />
+            L&apos;envoi a échoué. Réessayez ou appelez directement le{" "}
+            <a href={siteConfig.phone.href} className="font-medium underline">
+              {siteConfig.phone.display}
+            </a>
+            .
+          </p>
+        )}
+
+        <Button type="submit" size="lg" disabled={status === "loading"} className="w-full">
+          {status === "loading" ? (
+            <Loader2 className="size-4 animate-spin" />
+          ) : (
+            <Send className="size-4" />
+          )}
+          {status === "loading" ? "Envoi en cours..." : "Demander un devis gratuit"}
         </Button>
       </form>
     </Card>
