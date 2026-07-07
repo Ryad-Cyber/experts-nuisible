@@ -21,7 +21,10 @@ export function Hero() {
         <StaggerGroup className="flex flex-col items-center gap-8 text-center lg:items-start lg:text-left">
           <StaggerItem>
             <span className="inline-flex items-center gap-2 rounded-full border border-border bg-muted px-4 py-1.5 text-sm font-medium text-muted-foreground">
-              <span className="size-2 rounded-full bg-accent" />
+              <span className="relative flex size-2">
+                <span className="absolute inline-flex size-full animate-ping rounded-full bg-accent opacity-75" />
+                <span className="relative inline-flex size-2 rounded-full bg-accent" />
+              </span>
               Urgence 24h/24 — 7j/7
             </span>
           </StaggerItem>
@@ -41,7 +44,7 @@ export function Hero() {
           </StaggerItem>
 
           <StaggerItem className="flex flex-col items-center gap-4 sm:flex-row">
-            <Button href={siteConfig.phone.href} size="lg">
+            <Button href={siteConfig.phone.href} size="lg" className="cta-pulse">
               <Phone className="size-5" />
               {siteConfig.cta.callNow} — {siteConfig.phone.display}
             </Button>
