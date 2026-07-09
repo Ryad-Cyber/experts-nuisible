@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import PlausibleProvider from "next-plausible";
 import { Header } from "@/components/layout/Header";
@@ -23,6 +23,11 @@ const geistMono = Geist_Mono({
 });
 
 const title = `${siteConfig.name} — ${siteConfig.tagline}`;
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+};
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),

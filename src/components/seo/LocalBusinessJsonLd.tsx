@@ -38,16 +38,6 @@ function parseHours(label: string): { opens: string; closes: string } | null {
   return { opens: `${oh.padStart(2, "0")}:${om}`, closes: `${ch.padStart(2, "0")}:${cm}` };
 }
 
-function parseAddress(address: string) {
-  const [streetAddress, cityPart] = address.split(",").map((part) => part.trim());
-  const match = cityPart?.match(/^(\d{5})\s+(.+)$/);
-  return {
-    streetAddress: streetAddress ?? address,
-    postalCode: match?.[1] ?? "",
-    addressLocality: match?.[2] ?? "",
-  };
-}
-
 export function LocalBusinessJsonLd() {
   const openingHoursSpecification = siteConfig.hours
     .map((slot) => {
@@ -73,11 +63,7 @@ export function LocalBusinessJsonLd() {
     telephone: siteConfig.phone.href.replace("tel:", ""),
     email: siteConfig.email,
     image: `${siteConfig.url}/logo_nuisible.jpeg`,
-    address: {
-      "@type": "PostalAddress",
-      ...parseAddress(siteConfig.address),
-      addressCountry: "FR",
-    },
+    // No fixed premises: service area only, no fabricated street address.
     areaServed: ["Centre-Val de Loire", "Bourgogne-Franche-Comté", "Île-de-France"],
     openingHoursSpecification,
     sameAs: Object.values(siteConfig.social).map((entry) => entry.href),

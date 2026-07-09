@@ -6,14 +6,14 @@ export const siteConfig = {
   name: "Experts Nuisible",
   tagline: "Intervention rapide contre les nuisibles, 24h/24 et 7j/7",
   description:
-    "Experts Nuisible intervient en urgence pour la dératisation, la désinsectisation et la désinfection en Centre-Val de Loire, en Bourgogne-Franche-Comté, en Île-de-France et dans de nombreuses autres régions sur demande.",
+    "Experts Nuisible intervient en urgence pour la dératisation, la désinsectisation et la désinfection. Basés au cœur du Centre de la France, nous nous déplaçons dans une large partie du territoire, au fil des besoins de nos clients.",
   url: "https://www.experts-nuisible.fr",
   phone: {
     display: "07 66 90 90 33",
     href: `tel:+33${phoneDigits.slice(1)}`,
   },
   email: "Contact@expertsnuisible.com",
-  address: "12 rue de la République, 75011 Paris",
+  serviceArea: "Centre de la France",
   hours: [
     { days: "Disponibilité", hours: "24h/24 · 7j/7 · week-ends et jours fériés inclus" },
   ] as BusinessHours[],

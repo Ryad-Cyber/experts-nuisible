@@ -1,10 +1,11 @@
 "use client";
 
 import { useEffect, useRef, useState, type FormEvent } from "react";
+import Image from "next/image";
 import { usePlausible } from "next-plausible";
 import { AlertCircle, Clock, Loader2, Mail, MapPin, Phone, Send } from "lucide-react";
-import { Section } from "@/components/ui/Section";
 import { Card } from "@/components/ui/Card";
+import { Container } from "@/components/ui/Container";
 import { Button } from "@/components/ui/Button";
 import { Reveal } from "@/components/ui/Reveal";
 import { cn } from "@/lib/utils";
@@ -15,7 +16,21 @@ import { QUOTE_CITY_EVENT, QUOTE_ZONE_EVENT, type QuoteCityDetail, type QuoteZon
 import type { PlausibleEvents } from "@/lib/analytics";
 
 const inputStyles =
-  "w-full rounded-lg border border-border bg-background px-3.5 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-accent";
+  "w-full rounded-lg border border-border bg-background/95 px-3.5 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-accent shadow-sm transition-shadow";
+
+const selectStyles = cn(inputStyles, "appearance-none bg-no-repeat pr-9");
+
+// Custom chevron for <select> — kept as a plain style object rather than a Tailwind
+// arbitrary-value class, since the SVG data URI's literal spaces don't survive Tailwind's
+// class-name parsing.
+const selectChevronStyle = {
+  backgroundImage:
+    "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2355614c' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E\")",
+  backgroundPosition: "right 0.9rem center",
+  backgroundSize: "16px 16px",
+};
+
+const labelStyles = "text-xs font-medium uppercase tracking-wide text-muted-foreground";
 
 type QuoteData = {
   name: string;
@@ -136,40 +151,43 @@ function ContactForm() {
         </span>
         <h3 className="text-lg font-semibold">Demande envoyée</h3>
         <p className="text-sm text-muted-foreground">
-          Merci, votre demande de devis a bien été enregistrée. Un technicien vous
-          recontacte rapidement — pour aller plus vite, appelez directement le{" "}
-          <a href={siteConfig.phone.href} className="font-medium text-foreground hover:underline">
-            {siteConfig.phone.display}
-          </a>
-          .
+          Merci, votre demande a bien été envoyée. Notre équipe l&apos;étudiera dans les
+          plus brefs délais et vous recontactera très rapidement.
         </p>
       </Card>
     );
   }
 
   return (
-    <Card
+    <div
       className={cn(
-        "transition-shadow duration-500",
+        "glass relative overflow-hidden rounded-2xl border border-white/50 p-6 shadow-xl backdrop-blur-xl transition-shadow duration-500 sm:p-8",
         justPrefilled && "ring-2 ring-accent shadow-glow-accent"
       )}
     >
-      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-        <div className="grid gap-4 sm:grid-cols-2">
+      <form onSubmit={handleSubmit} className="relative flex flex-col gap-5">
+        <div className="grid gap-5 sm:grid-cols-2">
           <div className="flex flex-col gap-1.5">
-            <label htmlFor="name" className="text-sm font-medium">
-              Nom <span className="font-normal text-muted-foreground">(facultatif)</span>
+            <label htmlFor="name" className={labelStyles}>
+              Nom
             </label>
-            <input id="name" name="name" type="text" className={cn(inputStyles)} />
+            <input
+              id="name"
+              name="name"
+              type="text"
+              placeholder="Votre nom"
+              className={cn(inputStyles)}
+            />
           </div>
           <div className="flex flex-col gap-1.5">
-            <label htmlFor="phone" className="text-sm font-medium">
+            <label htmlFor="phone" className={labelStyles}>
               Téléphone
             </label>
             <input
               id="phone"
               name="phone"
               type="tel"
+              placeholder="06 12 34 56 78"
               onChange={() => setValidationError(null)}
               className={cn(inputStyles)}
             />
@@ -177,74 +195,86 @@ function ContactForm() {
         </div>
 
         <div className="flex flex-col gap-1.5">
-          <label htmlFor="email" className="text-sm font-medium">
+          <label htmlFor="email" className={labelStyles}>
             Email
           </label>
           <input
             id="email"
             name="email"
             type="email"
+            placeholder="vous@exemple.com"
             onChange={() => setValidationError(null)}
             className={cn(inputStyles)}
           />
-          <p className="text-xs text-muted-foreground">
-            Indiquez au moins un moyen de contact : téléphone ou e-mail.
-          </p>
         </div>
 
-        <div className="flex flex-col gap-1.5">
-          <label htmlFor="service" className="text-sm font-medium">
-            Type de nuisible <span className="font-normal text-muted-foreground">(facultatif)</span>
-          </label>
-          <select id="service" name="service" defaultValue="" className={cn(inputStyles)}>
-            <option value="">Sélectionnez une option</option>
-            {services.map((service) => (
-              <option key={service.id} value={service.id}>
-                {service.title}
-              </option>
-            ))}
-            <option value="autre">Autre</option>
-          </select>
+        <p className="-mt-2 text-xs text-muted-foreground">
+          Téléphone ou e-mail : un seul des deux suffit.
+        </p>
+
+        <div className="grid gap-5 sm:grid-cols-2">
+          <div className="flex flex-col gap-1.5">
+            <label htmlFor="service" className={labelStyles}>
+              Type de nuisible
+            </label>
+            <select
+              id="service"
+              name="service"
+              defaultValue=""
+              className={selectStyles}
+              style={selectChevronStyle}
+            >
+              <option value="">Non précisé</option>
+              {services.map((service) => (
+                <option key={service.id} value={service.id}>
+                  {service.title}
+                </option>
+              ))}
+              <option value="autre">Autre</option>
+            </select>
+          </div>
+
+          <div className="flex flex-col gap-1.5">
+            <label htmlFor="zoneSeen" className={labelStyles}>
+              Emplacement
+            </label>
+            <select
+              id="zoneSeen"
+              name="zoneSeen"
+              value={zoneSeen}
+              onChange={(event) => setZoneSeen(event.target.value)}
+              className={selectStyles}
+              style={selectChevronStyle}
+            >
+              <option value="">Non précisé</option>
+              {NUISIBLE_ZONE_OPTIONS.map((option) => (
+                <option key={option} value={option}>
+                  {option}
+                </option>
+              ))}
+            </select>
+          </div>
         </div>
 
-        <div className="flex flex-col gap-1.5">
-          <label htmlFor="zoneSeen" className="text-sm font-medium">
-            Où avez-vous aperçu le nuisible ?
-          </label>
-          <select
-            id="zoneSeen"
-            name="zoneSeen"
-            value={zoneSeen}
-            onChange={(event) => setZoneSeen(event.target.value)}
-            className={cn(inputStyles)}
-          >
-            <option value="">Sélectionnez une option (facultatif)</option>
-            {NUISIBLE_ZONE_OPTIONS.map((option) => (
-              <option key={option} value={option}>
-                {option}
-              </option>
-            ))}
-          </select>
-          {zoneSeen === "Autre" && (
-            <input
-              type="text"
-              value={zoneOther}
-              onChange={(event) => setZoneOther(event.target.value)}
-              placeholder="Précisez l'endroit..."
-              className={cn(inputStyles, "mt-1.5")}
-            />
-          )}
-        </div>
+        {zoneSeen === "Autre" && (
+          <input
+            type="text"
+            value={zoneOther}
+            onChange={(event) => setZoneOther(event.target.value)}
+            placeholder="Précisez l'endroit..."
+            className={cn(inputStyles, "-mt-2")}
+          />
+        )}
 
         <div className="flex flex-col gap-1.5">
-          <label htmlFor="message" className="text-sm font-medium">
-            Message <span className="font-normal text-muted-foreground">(facultatif)</span>
+          <label htmlFor="message" className={labelStyles}>
+            Message
           </label>
           <textarea
             ref={messageRef}
             id="message"
             name="message"
-            rows={4}
+            rows={3}
             placeholder="Décrivez votre situation en quelques mots..."
             className={cn(inputStyles, "resize-none")}
           />
@@ -294,77 +324,95 @@ function ContactForm() {
           {status === "loading" ? "Envoi en cours..." : "Demander un devis gratuit"}
         </Button>
       </form>
-    </Card>
+    </div>
   );
 }
 
 export function Contact() {
   return (
-    <Section id="contact" variant="muted" className="relative overflow-hidden">
+    <section id="contact" className="relative isolate overflow-hidden py-20 md:py-28">
+      {/* Full-bleed photo — a real design element, not a faint backdrop. */}
+      <Image
+        src="/technicien_ia.jpg"
+        alt="Technicien Experts Nuisible en intervention devant une habitation"
+        fill
+        sizes="100vw"
+        className="-z-20 object-cover object-[62%_18%] sm:object-[58%_top]"
+        priority={false}
+      />
+      {/* Light veil for legibility, stronger where the cards sit, sheer over the technician's face. */}
+      <div className="absolute inset-0 -z-10 bg-gradient-to-r from-white/90 via-white/40 to-white/10" />
+      <div className="absolute inset-0 -z-10 bg-gradient-to-t from-white/65 via-transparent to-white/25" />
       <div
         aria-hidden
-        className="pointer-events-none absolute -bottom-40 right-[-8rem] h-[30rem] w-[30rem] rounded-full bg-secondary/10 blur-3xl"
+        className="pointer-events-none absolute -bottom-40 right-[-8rem] -z-10 h-[30rem] w-[30rem] rounded-full bg-secondary/15 blur-3xl"
+      />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -top-24 left-[-6rem] -z-10 h-[24rem] w-[24rem] rounded-full bg-accent/15 blur-3xl"
       />
 
-      <Reveal className="relative mx-auto max-w-2xl text-center">
-        <span className="text-sm font-semibold uppercase tracking-wider text-secondary">
-          Contact
-        </span>
-        <h2 className="mt-3 text-3xl font-semibold tracking-tight text-balance md:text-4xl">
-          Parlons de votre intervention
-        </h2>
-        <p className="mt-4 text-lg text-muted-foreground">
-          Par téléphone pour une réponse immédiate, ou via le formulaire pour un devis
-          gratuit et sans engagement.
-        </p>
-      </Reveal>
+      <Container className="relative">
+        <Reveal className="mx-auto max-w-2xl text-center">
+          <span className="text-sm font-semibold uppercase tracking-wider text-secondary">
+            Contact
+          </span>
+          <h2 className="mt-3 text-3xl font-semibold tracking-tight text-balance md:text-4xl">
+            Parlons de votre intervention
+          </h2>
+          <p className="mt-4 text-lg text-muted-foreground">
+            Par téléphone pour une réponse immédiate, ou via le formulaire pour un devis
+            gratuit et sans engagement.
+          </p>
+        </Reveal>
 
-      <div className="relative mt-12 grid gap-8 lg:grid-cols-2 lg:gap-12">
-        <Reveal className="flex flex-col gap-6">
-          <Card className="flex flex-col gap-5">
-            <a
-              href={siteConfig.phone.href}
-              className="flex items-center gap-3 rounded-xl bg-accent px-4 py-3.5 text-accent-foreground transition-colors hover:bg-accent/90"
-            >
-              <Phone className="size-5" />
-              <div>
-                <p className="text-xs font-medium uppercase tracking-wide opacity-80">
-                  Appel immédiat
-                </p>
-                <p className="text-lg font-semibold">{siteConfig.phone.display}</p>
+        <div className="mt-12 grid gap-8 lg:grid-cols-2 lg:gap-12">
+          <Reveal className="flex flex-col gap-6">
+            <div className="glass flex flex-col gap-5 rounded-2xl border border-white/50 p-6 shadow-xl backdrop-blur-xl">
+              <a
+                href={siteConfig.phone.href}
+                className="flex items-center gap-3 rounded-xl bg-accent px-4 py-3.5 text-accent-foreground transition-colors hover:bg-accent/90"
+              >
+                <Phone className="size-5" />
+                <div>
+                  <p className="text-xs font-medium uppercase tracking-wide opacity-80">
+                    Appel immédiat
+                  </p>
+                  <p className="text-lg font-semibold">{siteConfig.phone.display}</p>
+                </div>
+              </a>
+
+              <a
+                href={`mailto:${siteConfig.email}`}
+                className="flex items-center gap-3 text-sm hover:underline"
+              >
+                <Mail className="size-4 text-secondary" />
+                {siteConfig.email}
+              </a>
+
+              <p className="flex items-center gap-3 text-sm">
+                <MapPin className="size-4 shrink-0 text-secondary" />
+                {siteConfig.serviceArea}
+              </p>
+
+              <div className="flex flex-col gap-1.5 border-t border-border pt-4">
+                {siteConfig.hours.map((slot) => (
+                  <p key={slot.days} className="flex items-center gap-3 text-sm text-muted-foreground">
+                    <Clock className="size-4 shrink-0" />
+                    <span>
+                      {slot.days} — {slot.hours}
+                    </span>
+                  </p>
+                ))}
               </div>
-            </a>
-
-            <a
-              href={`mailto:${siteConfig.email}`}
-              className="flex items-center gap-3 text-sm hover:underline"
-            >
-              <Mail className="size-4 text-secondary" />
-              {siteConfig.email}
-            </a>
-
-            <p className="flex items-center gap-3 text-sm">
-              <MapPin className="size-4 shrink-0 text-secondary" />
-              {siteConfig.address}
-            </p>
-
-            <div className="flex flex-col gap-1.5 border-t border-border pt-4">
-              {siteConfig.hours.map((slot) => (
-                <p key={slot.days} className="flex items-center gap-3 text-sm text-muted-foreground">
-                  <Clock className="size-4 shrink-0" />
-                  <span>
-                    {slot.days} — {slot.hours}
-                  </span>
-                </p>
-              ))}
             </div>
-          </Card>
-        </Reveal>
+          </Reveal>
 
-        <Reveal delay={0.12}>
-          <ContactForm />
-        </Reveal>
-      </div>
-    </Section>
+          <Reveal delay={0.12}>
+            <ContactForm />
+          </Reveal>
+        </div>
+      </Container>
+    </section>
   );
 }

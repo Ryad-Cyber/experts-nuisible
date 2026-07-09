@@ -136,7 +136,7 @@ export function Footer() {
             </a>
             <p className="flex items-center gap-2.5">
               <MapPin className="size-4 shrink-0 text-accent-light" />
-              {siteConfig.address}
+              {siteConfig.serviceArea}
             </p>
           </div>
         </div>
