@@ -1,14 +1,152 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { Phone } from "lucide-react";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { ArrowRight, ChevronDown, Phone } from "lucide-react";
 import { siteConfig } from "@/config/site";
 import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
 import { cn } from "@/lib/utils";
 import { Logo } from "./Logo";
 import { MobileNav } from "./MobileNav";
+
+function ServicesDropdown() {
+  const [open, setOpen] = useState(false);
+  const prefersReducedMotion = useReducedMotion();
+  const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  function handleEnter() {
+    if (closeTimer.current) clearTimeout(closeTimer.current);
+    setOpen(true);
+  }
+  function handleLeave() {
+    closeTimer.current = setTimeout(() => setOpen(false), 120);
+  }
+
+  useEffect(() => {
+    if (!open) return;
+    function onKeyDown(event: KeyboardEvent) {
+      if (event.key === "Escape") setOpen(false);
+    }
+    document.addEventListener("keydown", onKeyDown);
+    return () => document.removeEventListener("keydown", onKeyDown);
+  }, [open]);
+
+  const transition = prefersReducedMotion
+    ? { duration: 0.01 }
+    : { duration: 0.18, ease: [0.16, 1, 0.3, 1] as const };
+
+  return (
+    <div className="relative" onMouseEnter={handleEnter} onMouseLeave={handleLeave}>
+      <button
+        type="button"
+        aria-haspopup="menu"
+        aria-expanded={open}
+        onClick={() => setOpen((prev) => !prev)}
+        className="group relative flex items-center gap-1 py-1 text-base font-medium text-muted-foreground transition-colors hover:text-foreground"
+      >
+        Services
+        <ChevronDown
+          className={`size-4 transition-transform duration-200 ${open ? "rotate-180" : ""}`}
+        />
+        <span className="absolute inset-x-0 -bottom-0.5 h-px origin-left scale-x-0 bg-foreground transition-transform duration-200 ease-out group-hover:scale-x-100" />
+      </button>
+
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            role="menu"
+            initial={{ opacity: 0, y: -8, scale: 0.98 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -8, scale: 0.98 }}
+            transition={transition}
+            className="absolute left-1/2 top-full z-50 -translate-x-1/2 pt-3"
+          >
+            <div className="glass min-w-[248px] rounded-2xl border border-border/70 p-2 shadow-lg">
+              {siteConfig.servicesMenu.map((item) => (
+                <a
+                  key={item.label}
+                  href={item.href}
+                  role="menuitem"
+                  onClick={() => setOpen(false)}
+                  className="group/item flex items-center justify-between gap-3 rounded-xl px-3.5 py-2.5 text-sm font-medium text-foreground/85 transition-colors hover:bg-muted hover:text-foreground"
+                >
+                  {item.label}
+                  <ArrowRight className="size-3.5 -translate-x-1 text-secondary opacity-0 transition-all duration-200 group-hover/item:translate-x-0 group-hover/item:opacity-100" />
+                </a>
+              ))}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
+
+function HeaderCtas() {
+  return (
+    <div className="hidden items-center gap-2.5 md:flex">
+      {/* Call — dark green, "live" pulsing dot to signal immediate availability. */}
+      <Button
+        href={siteConfig.phone.href}
+        variant="secondary"
+        size="sm"
+        className="group relative gap-2.5 pl-3.5 hover:bg-primary-light"
+      >
+        <span className="relative flex size-2.5 items-center justify-center">
+          <span className="absolute inline-flex size-2.5 animate-ping rounded-full bg-accent-light/80" />
+          <span className="relative inline-flex size-2 rounded-full bg-accent-light" />
+        </span>
+        <Phone className="size-4 transition-transform duration-300 group-hover:-rotate-12" />
+        <span className="hidden lg:inline">Appelez-nous</span>
+        <span className="lg:hidden">Appeler</span>
+      </Button>
+
+      {/* Devis gratuit — primary action: gold gradient, shine sweep, arrow slide, hover glow. */}
+      <Button
+        href="#contact"
+        size="sm"
+        className="group relative overflow-hidden bg-gradient-to-r from-accent-light via-accent to-accent-dark shadow-md hover:shadow-[0_0_30px_6px_rgb(245_196_51_/_0.55)]"
+      >
+        <span
+          aria-hidden
+          className="pointer-events-none absolute inset-0 -translate-x-full skew-x-12 bg-gradient-to-r from-transparent via-white/40 to-transparent transition-transform duration-700 ease-out group-hover:translate-x-full"
+        />
+        <span className="relative z-10 flex items-center gap-2">
+          {siteConfig.cta.freeQuote}
+          <ArrowRight className="size-4 transition-transform duration-300 group-hover:translate-x-0.5" />
+        </span>
+      </Button>
+    </div>
+  );
+}
+
+function CallTicker() {
+  const item = (
+    <span className="mx-6 inline-flex shrink-0 items-center gap-2 text-xs font-semibold uppercase tracking-widest text-accent-light">
+      <Phone className="size-3.5" />
+      Appelez-nous — {siteConfig.phone.display}
+      <span className="ml-6 text-accent-light/40">•</span>
+    </span>
+  );
+
+  return (
+    <a
+      href={siteConfig.phone.href}
+      aria-label={`${siteConfig.cta.callNow} — ${siteConfig.phone.display}`}
+      className="block overflow-hidden border-t border-white/10 bg-primary-dark py-1.5"
+    >
+      <div className="flex w-max animate-marquee hover:[animation-play-state:paused]">
+        {Array.from({ length: 8 }).map((_, index) => (
+          <span key={index} className="flex shrink-0">
+            {item}
+          </span>
+        ))}
+      </div>
+    </a>
+  );
+}
 
 function useScrolled(threshold = 8) {
   const [scrolled, setScrolled] = useState(false);
@@ -31,40 +169,42 @@ export function Header() {
   return (
     <header
       className={cn(
-        "glass sticky top-0 z-50 border-b transition-shadow duration-300",
+        "glass nav-aurora sticky top-0 z-50 border-b transition-shadow duration-300",
         scrolled ? "border-border/60 shadow-sm" : "border-transparent"
       )}
     >
-      <Container className="flex h-16 items-center justify-between md:h-20">
-        <Link href="/" className="flex items-center gap-2.5">
+      <Container className="grid h-16 grid-cols-[1fr_auto] items-center md:h-20 md:grid-cols-[1fr_auto_1fr]">
+        <Link href="/" className="flex items-center gap-2.5 justify-self-start">
           <Logo size="md" />
-          <span className="text-lg font-semibold tracking-tight md:text-xl">
+          <span className="bg-gradient-to-r from-primary to-primary-light bg-clip-text text-lg font-semibold tracking-tight text-transparent drop-shadow-[0_1px_4px_rgb(30_122_76_/_0.12)] md:text-xl">
             {siteConfig.name}
           </span>
         </Link>
 
-        <nav aria-label="Navigation principale" className="hidden items-center gap-6 lg:gap-8 md:flex">
-          {siteConfig.nav.map((link) => (
-            <a
-              key={link.href}
-              href={link.href}
-              className="group relative py-1 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
-            >
-              {link.label}
-              <span className="absolute inset-x-0 -bottom-0.5 h-px origin-left scale-x-0 bg-foreground transition-transform duration-200 ease-out group-hover:scale-x-100" />
-            </a>
-          ))}
+        <nav aria-label="Navigation principale" className="hidden items-center gap-6 lg:gap-8 md:flex md:justify-self-center">
+          {siteConfig.nav.map((link) =>
+            link.href === "#services" ? (
+              <ServicesDropdown key={link.href} />
+            ) : (
+              <a
+                key={link.href}
+                href={link.href}
+                className="group relative py-1 text-base font-medium text-muted-foreground transition-colors hover:text-foreground"
+              >
+                {link.label}
+                <span className="absolute inset-x-0 -bottom-0.5 h-px origin-left scale-x-0 bg-foreground transition-transform duration-200 ease-out group-hover:scale-x-100" />
+              </a>
+            )
+          )}
         </nav>
 
-        <div className="hidden md:block">
-          <Button href={siteConfig.phone.href} size="sm">
-            <Phone className="size-4" />
-            {siteConfig.cta.callNow}
-          </Button>
+        <div className="flex items-center gap-2 justify-self-end">
+          <HeaderCtas />
+          <MobileNav />
         </div>
-
-        <MobileNav />
       </Container>
+
+      <CallTicker />
     </header>
   );
 }

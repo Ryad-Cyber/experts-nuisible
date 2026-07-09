@@ -1,225 +1,121 @@
 "use client";
 
-import { useEffect, useRef, useState, type ReactNode, type RefObject } from "react";
-import { Canvas, useFrame, useThree, type ThreeElements, type ThreeEvent } from "@react-three/fiber";
-import { Html, OrbitControls, ContactShadows, Environment, Lightformer } from "@react-three/drei";
+import { Suspense, useCallback, useEffect, useMemo, useRef, useState, type RefObject } from "react";
+import { Canvas, useFrame, useThree, type ThreeEvent } from "@react-three/fiber";
+import { Html, OrbitControls, ContactShadows, Environment, Lightformer, useGLTF } from "@react-three/drei";
 import type { OrbitControls as OrbitControlsImpl } from "three-stdlib";
 import gsap from "gsap";
 import * as THREE from "three";
-import { houseZones } from "@/data/zones";
-import type { HouseZoneId } from "@/types";
+import { classifyMeshToZone, FADES_IN_INTERIOR, HOUSE_ZONE_BY_ID } from "@/data/houseZones";
 
 export type HouseView = "exterior" | "interior";
 
-const CAMERA_EXTERIOR: [number, number, number] = [7.9, 5.2, 8.9];
-const CAMERA_INTERIOR: [number, number, number] = [4.6, 10.8, 5.3];
+const MODEL_URL = "/maquette_Villa.glb";
 
-const PALETTE = {
-  plinth: "#12201a",
-  render: "#eeeae0",
-  stonePier: "#2b2f2a",
-  slab: "#182a1f",
-  wood: "#7a5230",
-  woodDark: "#5c3d22",
-  facia: "#13281c",
-  roof: "#0c1a13",
-  parapet: "#0a1610",
-  garage: "#e9e5d8",
-  garageDoor: "#252f27",
-  garageGroove: "#181f1a",
-  glass: "#2e484a",
-  glassWarm: "#3a3020",
-  mullion: "#171e19",
-  door: "#1b1d18",
-  balustrade: "#89ad9f",
-  lawnOuter: "#7c9a49",
-  lawnInner: "#8cae55",
-  path: "#dad5c5",
-  terrace: "#c9c3ae",
-  hedge: "#4c6832",
-  hedgeDark: "#3d5629",
-  trunk: "#4a3728",
-  canopy: "#3f6b3d",
-  lampPole: "#20241f",
-  lampGlow: "#ffdd7a",
-};
+const HOVER_GLOW = new THREE.Color("#f5c433");
+const SELECT_GLOW = new THREE.Color("#1e7a4c");
+const BLACK = new THREE.Color("#000000");
 
-const HOVER_GLOW = "#f5c433";
-
-type ZoneMeshProps = {
-  zoneId: HouseZoneId;
-  color: string;
-  position?: [number, number, number];
-  rotation?: [number, number, number];
+type MaterialStyle = {
+  color?: string;
   roughness?: number;
   metalness?: number;
-  hovered: HouseZoneId | null;
-  selected: HouseZoneId | null;
-  onHover: (id: HouseZoneId | null) => void;
-  onSelect: (id: HouseZoneId) => void;
-  view?: HouseView;
-  fadeInInterior?: boolean;
-  children: ReactNode;
+  transparent?: boolean;
+  opacity?: number;
+  emissive?: string;
+  emissiveIntensity?: number;
+  flatShading?: boolean;
 };
 
-function ZoneMesh({
-  zoneId,
-  color,
-  position,
-  rotation,
-  roughness = 0.75,
-  metalness = 0.05,
-  hovered,
-  selected,
-  onHover,
-  onSelect,
-  view = "exterior",
-  fadeInInterior = false,
-  children,
-}: ZoneMeshProps) {
-  const meshRef = useRef<THREE.Mesh>(null);
-  const materialRef = useRef<THREE.MeshStandardMaterial>(null);
-  const isActive = hovered === zoneId || selected === zoneId;
-  const isHiddenForInterior = fadeInInterior && view === "interior";
+// Realistic, premium finish applied by glTF material name. The source .glb exports every
+// material as flat placeholder grey (no textures), so color/finish is authored here instead
+// of re-exporting from Blender.
+const MATERIAL_STYLES: Record<string, MaterialStyle> = {
+  Enduit_Blanc: { color: "#ece6d8", roughness: 0.88, metalness: 0 },
+  Bardage_Bois: { color: "#6b4a31", roughness: 0.75, metalness: 0 },
+  Bardage_Bois_Clair: { color: "#c9a876", roughness: 0.7, metalness: 0 },
+  Brique_Moderne: { color: "#8a5a48", roughness: 0.82, metalness: 0 },
+  Tuile_Terre_Cuite: { color: "#a8532e", roughness: 0.68, metalness: 0 },
+  Alu_Noir: { color: "#1c1c1c", roughness: 0.35, metalness: 0.85 },
+  Garage_Metal: { color: "#d8d4c7", roughness: 0.45, metalness: 0.55 },
+  Verre: { color: "#a9c9d6", roughness: 0.05, metalness: 0.1, transparent: true, opacity: 0.35 },
+  Verre_Garde_Corps: { color: "#a9c9d6", roughness: 0.05, metalness: 0.1, transparent: true, opacity: 0.3 },
+  Pelouse: { color: "#5f8a3f", roughness: 0.95, metalness: 0 },
+  Terre: { color: "#4a3c2c", roughness: 0.95, metalness: 0 },
+  Eau_Piscine: { color: "#1f8fae", roughness: 0.08, metalness: 0, transparent: true, opacity: 0.88 },
+  Eau_Piscine_Surface: { color: "#5fc3d8", roughness: 0.05, metalness: 0, transparent: true, opacity: 0.7 },
+  Pierre_Claire: { color: "#cfc7b4", roughness: 0.8, metalness: 0 },
+  Deck_Teck: { color: "#9c6b3e", roughness: 0.55, metalness: 0 },
+  Feuillage: { color: "#3e6b3a", roughness: 1, metalness: 0, flatShading: true },
+  Tronc: { color: "#4a3728", roughness: 0.9, metalness: 0 },
+  Coussin: { color: "#c9b79a", roughness: 0.9, metalness: 0 },
+  Porte_Noire: { color: "#1b1d18", roughness: 0.4, metalness: 0.1 },
+  Nid_Guepes: { color: "#d8c9a3", roughness: 0.95, metalness: 0 },
+  Interieur_Suggere: { color: "#7a6a55", roughness: 0.75, metalness: 0 },
+  Mobilier: { color: "#6b6558", roughness: 0.6, metalness: 0.05 },
+  Lampe_Diffuseur: { color: "#fff8e8", roughness: 0.3, metalness: 0, transparent: true, opacity: 0.55 },
+  LED_Chaude: { color: "#ffdd7a", roughness: 0.4, metalness: 0, emissive: "#ffdd7a", emissiveIntensity: 1.4 },
+  Glow_Lampadaire: {
+    color: "#ffe6a8",
+    roughness: 0.5,
+    metalness: 0,
+    transparent: true,
+    opacity: 0.4,
+    emissive: "#ffdd7a",
+    emissiveIntensity: 0.8,
+  },
+  LED_Piscine: { color: "#bfefff", roughness: 0.3, metalness: 0, emissive: "#bfefff", emissiveIntensity: 1.1 },
+};
 
-  useFrame((_, delta) => {
-    if (materialRef.current) {
-      materialRef.current.emissiveIntensity = THREE.MathUtils.damp(
-        materialRef.current.emissiveIntensity,
-        isActive ? 0.14 : 0,
-        6,
-        delta
-      );
-      if (fadeInInterior) {
-        materialRef.current.opacity = THREE.MathUtils.damp(
-          materialRef.current.opacity,
-          isHiddenForInterior ? 0.08 : 1,
-          5,
-          delta
-        );
-      }
-    }
-    if (meshRef.current) {
-      const targetScale = isActive ? 1.018 : 1;
-      meshRef.current.scale.x = THREE.MathUtils.damp(meshRef.current.scale.x, targetScale, 7, delta);
-      meshRef.current.scale.y = THREE.MathUtils.damp(meshRef.current.scale.y, targetScale, 7, delta);
-      meshRef.current.scale.z = THREE.MathUtils.damp(meshRef.current.scale.z, targetScale, 7, delta);
-    }
-  });
+type GlowMesh = {
+  mesh: THREE.Mesh;
+  materials: THREE.MeshStandardMaterial[];
+  zoneId: string;
+  fades: boolean;
+  restY: number;
+  origRaycast: THREE.Mesh["raycast"];
+};
 
-  return (
-    <mesh
-      ref={meshRef}
-      position={position}
-      rotation={rotation}
-      castShadow={!isHiddenForInterior}
-      receiveShadow
-      onPointerOver={(event: ThreeEvent<PointerEvent>) => {
-        event.stopPropagation();
-        onHover(zoneId);
-      }}
-      onPointerOut={(event: ThreeEvent<PointerEvent>) => {
-        event.stopPropagation();
-        onHover(null);
-      }}
-      onClick={(event: ThreeEvent<MouseEvent>) => {
-        event.stopPropagation();
-        onSelect(zoneId);
-      }}
-    >
-      {children}
-      <meshStandardMaterial
-        ref={materialRef}
-        color={color}
-        roughness={roughness}
-        metalness={metalness}
-        flatShading
-        transparent={fadeInInterior}
-        emissive={HOVER_GLOW}
-        emissiveIntensity={0}
-      />
-    </mesh>
-  );
-}
+// A no-op raycast makes a mesh transparent to clicks/hovers — used on faded roof/attic
+// elements in interior view so the visitor can reach the rooms behind them.
+const NOOP_RAYCAST: THREE.Mesh["raycast"] = () => {};
 
-function Prop({
-  children,
-  ...props
-}: { children: ReactNode } & ThreeElements["mesh"]) {
-  return (
-    <mesh raycast={() => null} {...props}>
-      {children}
-    </mesh>
-  );
-}
+useGLTF.preload(MODEL_URL);
 
-/** A decorative (non-interactive) prop that fades out alongside the roof in interior view. */
-function FadingProp({
-  view,
-  position,
-  color,
-  roughness = 0.6,
-  metalness = 0,
-  children,
-}: {
-  view: HouseView;
-  position: [number, number, number];
-  color: string;
-  roughness?: number;
-  metalness?: number;
-  children: ReactNode;
-}) {
-  const materialRef = useRef<THREE.MeshStandardMaterial>(null);
-
-  useFrame((_, delta) => {
-    if (!materialRef.current) return;
-    materialRef.current.opacity = THREE.MathUtils.damp(
-      materialRef.current.opacity,
-      view === "interior" ? 0.08 : 1,
-      5,
-      delta
-    );
-  });
-
-  return (
-    <mesh raycast={() => null} position={position}>
-      {children}
-      <meshStandardMaterial ref={materialRef} color={color} roughness={roughness} metalness={metalness} transparent />
-    </mesh>
-  );
-}
-
-function HotspotDot({
-  zoneId,
+function FloatingLabel({
   position,
   label,
-  active,
-  onHover,
-  onSelect,
+  variant,
 }: {
-  zoneId: HouseZoneId;
   position: [number, number, number];
   label: string;
-  active: boolean;
-  onHover: (id: HouseZoneId | null) => void;
-  onSelect: (id: HouseZoneId) => void;
+  variant: "hover" | "selected";
 }) {
   return (
-    <Html position={position} center distanceFactor={9} zIndexRange={[10, 0]}>
-      <button
-        type="button"
-        onClick={() => onSelect(zoneId)}
-        onMouseEnter={() => onHover(zoneId)}
-        onMouseLeave={() => onHover(null)}
-        className={`flex cursor-pointer items-center gap-1.5 rounded-full border px-2 py-1 text-[10px] font-medium whitespace-nowrap shadow-sm transition-all duration-200 ${
-          active
-            ? "scale-105 border-accent bg-accent text-accent-foreground"
-            : "border-border bg-background/90 text-foreground hover:border-secondary/50"
+    <Html position={position} center distanceFactor={10} zIndexRange={[30, 0]} pointerEvents="none">
+      <div
+        className={`pointer-events-none flex items-center gap-1.5 whitespace-nowrap rounded-full border px-3 py-1.5 text-xs font-semibold shadow-lg backdrop-blur-sm ${
+          variant === "selected"
+            ? "border-white bg-primary-dark text-white"
+            : "border-white bg-accent text-accent-foreground"
         }`}
       >
-        <span className={`size-1.5 rounded-full ${active ? "bg-accent-foreground" : "bg-accent"}`} />
+        {variant === "selected" && (
+          <span className="flex size-3.5 items-center justify-center rounded-full bg-white/25 text-[9px]">✓</span>
+        )}
         {label}
-      </button>
+      </div>
+    </Html>
+  );
+}
+
+function ModelLoader() {
+  return (
+    <Html center>
+      <div className="flex flex-col items-center gap-3">
+        <div className="size-10 animate-spin rounded-full border-2 border-border border-t-secondary" />
+        <span className="text-xs font-medium text-muted-foreground">Chargement de la villa…</span>
+      </div>
     </Html>
   );
 }
@@ -235,57 +131,221 @@ function SceneEnvironment() {
   );
 }
 
+// Exterior/interior framing, expressed as spherical offsets (distance + polar angle) around
+// the model's center. It only runs a one-off GSAP tween when `view` changes, preserving
+// whatever azimuth (horizontal angle) the visitor last chose; OrbitControls keeps full
+// control the rest of the time.
 function CameraRig({
   view,
   controlsRef,
+  center,
+  radius,
 }: {
   view: HouseView;
   controlsRef: RefObject<OrbitControlsImpl | null>;
+  center: THREE.Vector3;
+  radius: number;
 }) {
   const { camera } = useThree();
-  const target = useRef(new THREE.Vector3(...CAMERA_EXTERIOR));
+  const hasMounted = useRef(false);
+  const tweenRef = useRef<gsap.core.Tween | null>(null);
 
   useEffect(() => {
-    target.current.set(...(view === "interior" ? CAMERA_INTERIOR : CAMERA_EXTERIOR));
-  }, [view]);
+    const controls = controlsRef.current;
+    if (!controls) return;
 
-  // Mutating the camera transform in-place every frame is the standard react-three-fiber
-  // pattern (avoids re-render churn); the immutability rule doesn't model this paradigm.
-  /* eslint-disable react-hooks/immutability */
-  useFrame((_, delta) => {
-    camera.position.x = THREE.MathUtils.damp(camera.position.x, target.current.x, 2.6, delta);
-    camera.position.y = THREE.MathUtils.damp(camera.position.y, target.current.y, 2.6, delta);
-    camera.position.z = THREE.MathUtils.damp(camera.position.z, target.current.z, 2.6, delta);
+    const targetPolar = view === "interior" ? Math.PI / 9 : Math.PI / 2.9;
+    const targetDistance = radius * (view === "interior" ? 0.95 : 1.05);
+
+    const currentOffset = camera.position.clone().sub(controls.target);
+    const currentSpherical = new THREE.Spherical().setFromVector3(currentOffset);
+
+    const theta = hasMounted.current ? currentSpherical.theta : Math.PI / 4;
+    const state = hasMounted.current
+      ? { radius: currentSpherical.radius, phi: currentSpherical.phi }
+      : { radius: targetDistance * 1.5, phi: targetPolar + 0.3 };
+
+    tweenRef.current?.kill();
+    tweenRef.current = gsap.to(state, {
+      radius: targetDistance,
+      phi: targetPolar,
+      duration: hasMounted.current ? 1.7 : 2,
+      ease: hasMounted.current ? "power2.inOut" : "power3.out",
+      onUpdate: () => {
+        const offset = new THREE.Vector3().setFromSphericalCoords(state.radius, state.phi, theta);
+        camera.position.copy(center).add(offset);
+        controls.target.copy(center);
+        controls.update();
+      },
+    });
+
+    controls.minDistance = radius * 0.4;
+    controls.maxDistance = radius * 2.3;
+
+    hasMounted.current = true;
+
+    return () => {
+      tweenRef.current?.kill();
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- `camera` is a stable r3f singleton
+  }, [view, center, radius, controlsRef]);
+
+  useFrame(() => {
     controlsRef.current?.update();
   });
-  /* eslint-enable react-hooks/immutability */
 
   return null;
 }
 
-function House({
-  hovered,
+function Villa({
   selected,
-  onHover,
   onSelect,
   autoRotate,
   reducedMotion,
   view,
+  controlsRef,
 }: {
-  hovered: HouseZoneId | null;
-  selected: HouseZoneId | null;
-  onHover: (id: HouseZoneId | null) => void;
-  onSelect: (id: HouseZoneId) => void;
+  selected: string | null;
+  onSelect: (id: string | null) => void;
   autoRotate: boolean;
   reducedMotion: boolean;
   view: HouseView;
+  controlsRef: RefObject<OrbitControlsImpl | null>;
 }) {
+  const { scene } = useGLTF(MODEL_URL);
+  const { gl } = useThree();
+  // Clone so we can safely mutate materials/shadow flags without corrupting drei's cached GLTF.
+  const model = useMemo(() => scene.clone(true), [scene]);
   const group = useRef<THREE.Group>(null);
+  const glowMeshes = useRef<GlowMesh[]>([]);
+  const hoveredMesh = useRef<THREE.Mesh | null>(null);
+  const selectedMesh = useRef<THREE.Mesh | null>(null);
 
+  const [hoverZone, setHoverZone] = useState<string | null>(null);
+  const [hoverAnchor, setHoverAnchor] = useState<[number, number, number] | null>(null);
+  const [selectAnchor, setSelectAnchor] = useState<[number, number, number] | null>(null);
+
+  const { center, radius } = useMemo(() => {
+    const box = new THREE.Box3().setFromObject(model);
+    const size = new THREE.Vector3();
+    const c = new THREE.Vector3();
+    box.getSize(size);
+    box.getCenter(c);
+    return { center: c, radius: Math.max(size.x, size.y, size.z, 1) / 2 };
+  }, [model]);
+
+  useEffect(() => {
+    const list: GlowMesh[] = [];
+
+    model.traverse((child) => {
+      if (!(child as THREE.Mesh).isMesh) return;
+      const mesh = child as THREE.Mesh;
+      mesh.castShadow = true;
+      mesh.receiveShadow = true;
+      if (!mesh.material) return;
+
+      // Clone each mesh's material so it can get its own realistic finish + independent glow
+      // without mutating drei's shared cached GLTF.
+      const sourceMaterials = Array.isArray(mesh.material) ? mesh.material : [mesh.material];
+      const styledMaterials = sourceMaterials.map((source) => {
+        const next = source.clone() as THREE.MeshStandardMaterial;
+        const style = MATERIAL_STYLES[source.name];
+        if (style) {
+          if (style.color) next.color.set(style.color);
+          if (style.roughness !== undefined) next.roughness = style.roughness;
+          if (style.metalness !== undefined) next.metalness = style.metalness;
+          if (style.flatShading !== undefined) next.flatShading = style.flatShading;
+          if (style.transparent) {
+            next.transparent = true;
+            next.opacity = style.opacity ?? next.opacity;
+          }
+          if (style.emissive) {
+            next.emissive.set(style.emissive);
+            next.emissiveIntensity = style.emissiveIntensity ?? 1;
+          }
+          next.needsUpdate = true;
+        }
+        return next;
+      });
+      mesh.material = Array.isArray(mesh.material) ? styledMaterials : styledMaterials[0];
+
+      const zoneId = classifyMeshToZone(mesh.name);
+      list.push({
+        mesh,
+        materials: styledMaterials,
+        zoneId,
+        fades: FADES_IN_INTERIOR.has(zoneId),
+        restY: mesh.position.y,
+        origRaycast: mesh.raycast,
+      });
+    });
+
+    glowMeshes.current = list;
+  }, [model]);
+
+  // Small "lift" applied to the hovered element for a premium, tactile feel — like a card
+  // that rises on hover. Scaled to the model so it reads the same at any size.
+  const liftAmount = radius * 0.02;
+
+  // Setting the canvas cursor is a DOM side-effect on the renderer's element; the
+  // immutability rule flags the `gl` handle from useThree, which this pattern doesn't violate.
+  /* eslint-disable react-hooks/immutability */
+  useEffect(() => {
+    gl.domElement.style.cursor = hoverZone ? "pointer" : "grab";
+    return () => {
+      gl.domElement.style.cursor = "auto";
+    };
+  }, [hoverZone, gl]);
+  /* eslint-enable react-hooks/immutability */
+
+  // Mutating cloned Three.js materials/meshes held in a ref every frame is the standard
+  // react-three-fiber pattern (avoids re-render churn); the immutability rule doesn't model it.
+  /* eslint-disable react-hooks/immutability */
   useFrame((_, delta) => {
-    if (!autoRotate || hovered || !group.current) return;
-    group.current.rotation.y += delta * 0.12;
+    for (const entry of glowMeshes.current) {
+      const activeByZone =
+        entry.zoneId !== "autre" && (entry.zoneId === hoverZone || entry.zoneId === selected);
+      const activeByMesh = entry.mesh === hoveredMesh.current || entry.mesh === selectedMesh.current;
+      const isSelected = entry.zoneId !== "autre" ? entry.zoneId === selected : entry.mesh === selectedMesh.current;
+      const active = activeByZone || activeByMesh;
+      const targetGlow = active ? (isSelected ? SELECT_GLOW : HOVER_GLOW) : BLACK;
+      const targetOpacity = entry.fades && view === "interior" ? 0.08 : 1;
+
+      for (const material of entry.materials) {
+        material.emissive.lerp(targetGlow, Math.min(1, delta * 8));
+        material.emissiveIntensity = THREE.MathUtils.damp(
+          material.emissiveIntensity ?? 0,
+          active ? (isSelected ? 0.5 : 0.32) : 0,
+          8,
+          delta
+        );
+        if (entry.fades) {
+          material.transparent = true;
+          material.opacity = THREE.MathUtils.damp(material.opacity, targetOpacity, 5, delta);
+        }
+      }
+      if (entry.fades) {
+        entry.mesh.castShadow = targetOpacity > 0.5;
+        // Let clicks pass through faded roof/attic elements to reach the interior.
+        entry.mesh.raycast = view === "interior" ? NOOP_RAYCAST : entry.origRaycast;
+      }
+
+      // Premium hover lift: the hovered zone/element rises slightly, like a card.
+      const hoverActive =
+        entry.zoneId !== "autre" ? entry.zoneId === hoverZone : entry.mesh === hoveredMesh.current;
+      entry.mesh.position.y = THREE.MathUtils.damp(
+        entry.mesh.position.y,
+        entry.restY + (hoverActive ? liftAmount : 0),
+        9,
+        delta
+      );
+    }
+
+    if (autoRotate && !hoverZone && group.current) {
+      group.current.rotation.y += delta * 0.06;
+    }
   });
+  /* eslint-enable react-hooks/immutability */
 
   useEffect(() => {
     if (!group.current) return;
@@ -299,297 +359,95 @@ function House({
     const ctx = gsap.context(() => {
       gsap.fromTo(
         group.current!.scale,
-        { x: 0.82, y: 0.82, z: 0.82 },
+        { x: 0.86, y: 0.86, z: 0.86 },
         { x: 1, y: 1, z: 1, duration: 1.3, ease: "back.out(1.5)" }
       );
       gsap.fromTo(
         group.current!.position,
-        { y: -0.6 },
+        { y: -radius * 0.12 },
         { y: 0, duration: 1.3, ease: "back.out(1.5)" }
       );
     });
 
     return () => ctx.revert();
-  }, [reducedMotion]);
+  }, [reducedMotion, radius]);
 
-  const zoneProps = { hovered, selected, onHover, onSelect, view };
+  const toLocal = useCallback((point: THREE.Vector3): [number, number, number] => {
+    const local = group.current ? group.current.worldToLocal(point.clone()) : point;
+    return [local.x, local.y, local.z];
+  }, []);
+
+  const handlePointerMove = useCallback(
+    (event: ThreeEvent<PointerEvent>) => {
+      event.stopPropagation();
+      const mesh = event.object as THREE.Mesh;
+      if (!mesh.isMesh) return;
+      const zoneId = classifyMeshToZone(mesh.name);
+      hoveredMesh.current = mesh;
+      setHoverZone(zoneId);
+      setHoverAnchor(toLocal(event.point));
+    },
+    [toLocal]
+  );
+
+  const handlePointerOut = useCallback((event: ThreeEvent<PointerEvent>) => {
+    event.stopPropagation();
+    hoveredMesh.current = null;
+    setHoverZone(null);
+    setHoverAnchor(null);
+  }, []);
+
+  const handleClick = useCallback(
+    (event: ThreeEvent<MouseEvent>) => {
+      event.stopPropagation();
+      const mesh = event.object as THREE.Mesh;
+      if (!mesh.isMesh) return;
+      const zoneId = classifyMeshToZone(mesh.name);
+      selectedMesh.current = mesh;
+      setSelectAnchor(toLocal(event.point));
+      onSelect(zoneId);
+    },
+    [onSelect, toLocal]
+  );
+
+  // When the selection is cleared (e.g. clicking empty space), drop the mesh reference so it
+  // stops glowing. The label itself is gated on `selectedLabel` below, so leaving the stale
+  // anchor is harmless and avoids a cascading state update here.
+  useEffect(() => {
+    if (!selected) selectedMesh.current = null;
+  }, [selected]);
+
+  const hoverLabel = hoverZone ? HOUSE_ZONE_BY_ID[hoverZone]?.label : null;
+  const selectedLabel = selected ? HOUSE_ZONE_BY_ID[selected]?.label : null;
 
   return (
-    <group ref={group}>
-      {/* jardin — pelouse + terrasse */}
-      <ZoneMesh
-        zoneId="jardin"
-        color={PALETTE.lawnOuter}
-        position={[0, -0.61, 0]}
-        rotation={[-Math.PI / 2, 0, 0]}
-        roughness={1}
-        metalness={0}
-        {...zoneProps}
-      >
-        <circleGeometry args={[5.4, 40]} />
-      </ZoneMesh>
-      <Prop position={[-0.3, -0.598, 0.4]} rotation={[-Math.PI / 2, 0, 0]}>
-        <circleGeometry args={[2.6, 32]} />
-        <meshStandardMaterial color={PALETTE.lawnInner} roughness={1} />
-      </Prop>
-      <Prop position={[-3.15, -0.595, -0.9]}>
-        <boxGeometry args={[1.7, 0.02, 2.6]} />
-        <meshStandardMaterial color={PALETTE.terrace} roughness={0.85} />
-      </Prop>
-      {/* haie basse en bordure */}
-      {[-1.6, -0.6, 0.4, 1.4].map((x) => (
-        <Prop key={x} position={[x, -0.44, 3.55]} scale={[1, 0.4, 1]}>
-          <sphereGeometry args={[0.42, 10, 8]} />
-          <meshStandardMaterial color={PALETTE.hedgeDark} roughness={0.95} flatShading />
-        </Prop>
-      ))}
-
-      {/* soubassement + garage — cave */}
-      <ZoneMesh
-        zoneId="cave"
-        color={PALETTE.plinth}
-        position={[-0.2, -0.3, 0]}
-        roughness={0.9}
-        {...zoneProps}
-      >
-        <boxGeometry args={[4.4, 0.6, 3.4]} />
-      </ZoneMesh>
-      <ZoneMesh
-        zoneId="cave"
-        color={PALETTE.garage}
-        position={[2.85, 0.675, 0.4]}
-        roughness={0.6}
-        {...zoneProps}
-      >
-        <boxGeometry args={[1.7, 1.35, 2.4]} />
-      </ZoneMesh>
-      <Prop position={[2.85, 0.6, 1.61]}>
-        <boxGeometry args={[1.3, 1.05, 0.04]} />
-        <meshStandardMaterial color={PALETTE.garageDoor} roughness={0.5} metalness={0.25} />
-      </Prop>
-      {[-0.28, 0, 0.28].map((y) => (
-        <Prop key={y} position={[2.85, 0.6 + y, 1.635]}>
-          <boxGeometry args={[1.28, 0.02, 0.01]} />
-          <meshStandardMaterial color={PALETTE.garageGroove} roughness={0.6} />
-        </Prop>
-      ))}
-
-      {/* rez-de-chaussée — cuisine */}
-      <ZoneMesh
-        zoneId="cuisine"
-        color={PALETTE.render}
-        position={[-0.2, 0.8, 0]}
-        roughness={0.5}
-        {...zoneProps}
-      >
-        <boxGeometry args={[4, 1.6, 3]} />
-      </ZoneMesh>
-      {/* pilier d'accent pierre près de l'entrée */}
-      <Prop position={[1.0, 0.8, 1.56]}>
-        <boxGeometry args={[0.32, 1.62, 0.1]} />
-        <meshStandardMaterial color={PALETTE.stonePier} roughness={0.8} />
-      </Prop>
-      <Prop position={[-0.9, 0.85, 1.53]}>
-        <boxGeometry args={[2.2, 0.85, 0.05]} />
-        <meshPhysicalMaterial
-          color={PALETTE.glass}
-          roughness={0.05}
-          metalness={0.4}
-          transparent
-          opacity={0.62}
-          emissive={PALETTE.glassWarm}
-          emissiveIntensity={0.12}
+    <>
+      <CameraRig view={view} controlsRef={controlsRef} center={center} radius={radius} />
+      <group ref={group}>
+        <primitive
+          object={model}
+          onPointerMove={handlePointerMove}
+          onPointerOut={handlePointerOut}
+          onClick={handleClick}
         />
-      </Prop>
-      <Prop position={[-0.9, 0.85, 1.555]}>
-        <boxGeometry args={[0.03, 0.85, 0.02]} />
-        <meshStandardMaterial color={PALETTE.mullion} roughness={0.5} metalness={0.3} />
-      </Prop>
-      <Prop position={[1.35, 0.56, 1.53]}>
-        <boxGeometry args={[0.55, 1.12, 0.05]} />
-        <meshStandardMaterial color={PALETTE.door} roughness={0.45} metalness={0.2} />
-      </Prop>
-      {/* auvent d'entrée */}
-      <Prop position={[1.35, 1.42, 1.85]}>
-        <boxGeometry args={[0.9, 0.05, 0.7]} />
-        <meshStandardMaterial color={PALETTE.parapet} roughness={0.5} metalness={0.2} />
-      </Prop>
-      <Prop position={[1.65, 1.05, 2.1]}>
-        <cylinderGeometry args={[0.035, 0.035, 0.75, 8]} />
-        <meshStandardMaterial color={PALETTE.mullion} roughness={0.4} metalness={0.5} />
-      </Prop>
 
-      {/* liseré de dalle */}
-      <Prop position={[-0.2, 1.66, 0]}>
-        <boxGeometry args={[4.05, 0.12, 3.05]} />
-        <meshStandardMaterial color={PALETTE.slab} roughness={0.6} />
-      </Prop>
+        {/* Lamppost fixture light, placed at the model's real "Lampadaire_source" coordinates. */}
+        <pointLight position={[-9.85, 2.9, 6.5]} color="#ffdd7a" intensity={0.7} distance={6} decay={2} />
 
-      {/* garde-corps de la terrasse */}
-      <Prop position={[-0.2, 1.9, 1.02]}>
-        <boxGeometry args={[3.1, 0.34, 0.05]} />
-        <meshPhysicalMaterial
-          color={PALETTE.balustrade}
-          roughness={0.08}
-          metalness={0.15}
-          transparent
-          opacity={0.4}
-        />
-      </Prop>
-
-      {/* étage bois — fait partie de la zone cuisine */}
-      <ZoneMesh
-        zoneId="cuisine"
-        color={PALETTE.wood}
-        position={[-0.2, 2.37, -0.1]}
-        roughness={0.55}
-        {...zoneProps}
-      >
-        <boxGeometry args={[3.2, 1.3, 2.3]} />
-      </ZoneMesh>
-      {[1.97, 2.37, 2.77].map((y) => (
-        <Prop key={y} position={[-0.2, y, 1.056]}>
-          <boxGeometry args={[3.2, 0.015, 0.01]} />
-          <meshStandardMaterial color={PALETTE.woodDark} roughness={0.7} />
-        </Prop>
-      ))}
-      <Prop position={[-0.2, 2.4, 1.06]}>
-        <boxGeometry args={[1.9, 0.6, 0.05]} />
-        <meshPhysicalMaterial
-          color={PALETTE.glass}
-          roughness={0.05}
-          metalness={0.4}
-          transparent
-          opacity={0.62}
-          emissive={PALETTE.glassWarm}
-          emissiveIntensity={0.12}
-        />
-      </Prop>
-      <Prop position={[-0.2, 2.4, 1.085]}>
-        <boxGeometry args={[0.03, 0.6, 0.02]} />
-        <meshStandardMaterial color={PALETTE.mullion} roughness={0.5} metalness={0.3} />
-      </Prop>
-
-      {/* combles */}
-      <ZoneMesh
-        zoneId="combles"
-        color={PALETTE.facia}
-        position={[-0.2, 3.16, -0.1]}
-        roughness={0.65}
-        fadeInInterior
-        {...zoneProps}
-      >
-        <boxGeometry args={[3.4, 0.28, 2.5]} />
-      </ZoneMesh>
-
-      {/* toiture */}
-      <ZoneMesh
-        zoneId="toiture"
-        color={PALETTE.roof}
-        position={[-0.2, 3.38, -0.1]}
-        roughness={0.45}
-        metalness={0.2}
-        fadeInInterior
-        {...zoneProps}
-      >
-        <boxGeometry args={[3.7, 0.16, 2.7]} />
-      </ZoneMesh>
-      <FadingProp view={view} position={[-0.2, 3.55, -0.1]} color={PALETTE.parapet} roughness={0.5} metalness={0.15}>
-        <boxGeometry args={[3.3, 0.16, 2.3]} />
-      </FadingProp>
-      <FadingProp view={view} position={[0.7, 3.78, -0.6]} color={PALETTE.facia} roughness={0.6}>
-        <boxGeometry args={[0.7, 0.32, 0.6]} />
-      </FadingProp>
-
-      {/* allée */}
-      {[0.35, 0.95, 1.55, 2.15].map((z, i) => (
-        <Prop key={z} position={[-1.0 + (i % 2 === 0 ? 0.05 : -0.08), -0.585, z + 1.3]}>
-          <boxGeometry args={[0.42, 0.04, 0.3]} />
-          <meshStandardMaterial color={PALETTE.path} roughness={0.9} />
-        </Prop>
-      ))}
-
-      {/* haies d'accompagnement */}
-      <Prop position={[-2.1, -0.35, 1.85]} scale={[1, 0.6, 1]}>
-        <sphereGeometry args={[0.4, 12, 10]} />
-        <meshStandardMaterial color={PALETTE.hedge} roughness={0.95} flatShading />
-      </Prop>
-      <Prop position={[-2.35, -0.35, 1.15]} scale={[1, 0.55, 1]}>
-        <sphereGeometry args={[0.34, 12, 10]} />
-        <meshStandardMaterial color={PALETTE.hedge} roughness={0.95} flatShading />
-      </Prop>
-      <Prop position={[1.95, -0.35, 1.75]} scale={[1, 0.6, 1]}>
-        <sphereGeometry args={[0.38, 12, 10]} />
-        <meshStandardMaterial color={PALETTE.hedge} roughness={0.95} flatShading />
-      </Prop>
-
-      {/* arbres */}
-      <group position={[-3.7, -0.6, 2.3]}>
-        <Prop position={[0, 0.35, 0]}>
-          <cylinderGeometry args={[0.07, 0.09, 0.7, 8]} />
-          <meshStandardMaterial color={PALETTE.trunk} roughness={0.9} />
-        </Prop>
-        <Prop position={[0, 0.95, 0]}>
-          <icosahedronGeometry args={[0.55, 0]} />
-          <meshStandardMaterial color={PALETTE.canopy} roughness={0.9} flatShading />
-        </Prop>
+        {selectAnchor && selectedLabel && (
+          <FloatingLabel position={selectAnchor} label={selectedLabel} variant="selected" />
+        )}
+        {hoverAnchor && hoverLabel && hoverZone !== selected && (
+          <FloatingLabel position={hoverAnchor} label={hoverLabel} variant="hover" />
+        )}
       </group>
-      <group position={[3.9, -0.6, -1.6]}>
-        <Prop position={[0, 0.3, 0]}>
-          <cylinderGeometry args={[0.06, 0.08, 0.6, 8]} />
-          <meshStandardMaterial color={PALETTE.trunk} roughness={0.9} />
-        </Prop>
-        <Prop position={[0, 0.82, 0]}>
-          <icosahedronGeometry args={[0.46, 0]} />
-          <meshStandardMaterial color={PALETTE.canopy} roughness={0.9} flatShading />
-        </Prop>
-      </group>
-
-      {/* lampadaire d'allée */}
-      <group position={[-2.3, -0.6, 3.05]}>
-        <Prop position={[0, 0.45, 0]}>
-          <cylinderGeometry args={[0.03, 0.03, 0.9, 8]} />
-          <meshStandardMaterial color={PALETTE.lampPole} roughness={0.6} metalness={0.4} />
-        </Prop>
-        <Prop position={[0, 0.92, 0]}>
-          <sphereGeometry args={[0.08, 12, 12]} />
-          <meshStandardMaterial
-            color={PALETTE.lampGlow}
-            emissive={PALETTE.lampGlow}
-            emissiveIntensity={0.9}
-          />
-        </Prop>
-        <pointLight
-          position={[0, 0.92, 0]}
-          color={PALETTE.lampGlow}
-          intensity={0.6}
-          distance={2.4}
-          decay={2}
-        />
-      </group>
-
-      {/* éclairage d'accentuation de façade */}
-      <pointLight position={[1.2, 0.1, 1.9]} color="#ffdf9e" intensity={0.35} distance={2.2} decay={2} />
-      <pointLight position={[-1.2, 0.1, 1.9]} color="#ffdf9e" intensity={0.25} distance={2} decay={2} />
-
-      {houseZones.map((zone) => (
-        <HotspotDot
-          key={zone.id}
-          zoneId={zone.id}
-          position={zone.position}
-          label={zone.label}
-          active={hovered === zone.id || selected === zone.id}
-          onHover={onHover}
-          onSelect={onSelect}
-        />
-      ))}
-    </group>
+    </>
   );
 }
 
 type HouseSceneProps = {
-  selected: HouseZoneId | null;
-  onSelect: (id: HouseZoneId) => void;
+  selected: string | null;
+  onSelect: (id: string | null) => void;
   reducedMotion: boolean;
   view?: HouseView;
 };
@@ -600,58 +458,62 @@ export default function HouseScene({
   reducedMotion,
   view = "exterior",
 }: HouseSceneProps) {
-  const [hovered, setHovered] = useState<HouseZoneId | null>(null);
+  const [interacting, setInteracting] = useState(false);
   const controlsRef = useRef<OrbitControlsImpl>(null);
 
   return (
     <Canvas
       shadows
       dpr={[1, 1.5]}
-      camera={{ position: CAMERA_EXTERIOR, fov: 35 }}
+      camera={{ position: [22, 16, 26], fov: 35, near: 0.5, far: 200 }}
       gl={{ antialias: true, powerPreference: "low-power" }}
+      onPointerMissed={() => onSelect(null)}
     >
-      <fog attach="fog" args={["#eef1ea", 14, 26]} />
+      <fog attach="fog" args={["#eef1ea", 34, 95]} />
       <ambientLight intensity={0.5} />
       <directionalLight
-        position={[5, 7, 4]}
+        position={[16, 20, 12]}
         intensity={1.35}
         castShadow
         shadow-mapSize-width={512}
         shadow-mapSize-height={512}
-        shadow-camera-left={-6}
-        shadow-camera-right={6}
-        shadow-camera-top={6}
-        shadow-camera-bottom={-6}
+        shadow-camera-left={-26}
+        shadow-camera-right={26}
+        shadow-camera-top={26}
+        shadow-camera-bottom={-26}
         shadow-camera-near={1}
-        shadow-camera-far={20}
+        shadow-camera-far={80}
         shadow-bias={-0.0015}
       />
-      <directionalLight position={[-5, 3, -4]} intensity={0.28} color="#dce8ff" />
+      <directionalLight position={[-14, 8, -10]} intensity={0.28} color="#dce8ff" />
 
       <SceneEnvironment />
 
-      <CameraRig view={view} controlsRef={controlsRef} />
+      <Suspense fallback={<ModelLoader />}>
+        <Villa
+          selected={selected}
+          onSelect={onSelect}
+          autoRotate={!reducedMotion && view === "exterior" && !interacting}
+          reducedMotion={reducedMotion}
+          view={view}
+          controlsRef={controlsRef}
+        />
+      </Suspense>
 
-      <House
-        hovered={hovered}
-        selected={selected}
-        onHover={setHovered}
-        onSelect={onSelect}
-        autoRotate={!reducedMotion && view === "exterior"}
-        reducedMotion={reducedMotion}
-        view={view}
-      />
-
-      <ContactShadows position={[0, -0.6, 0]} opacity={0.4} scale={12} blur={2.2} far={2.5} />
+      <ContactShadows position={[0, -0.05, 0]} opacity={0.4} scale={46} blur={2.2} far={6} />
 
       <OrbitControls
         ref={controlsRef}
         enablePan={false}
-        enableZoom={false}
-        autoRotate={false}
-        minPolarAngle={view === "interior" ? 0.2 : Math.PI / 3.6}
-        maxPolarAngle={view === "interior" ? Math.PI / 2.5 : Math.PI / 2.15}
-        rotateSpeed={0.5}
+        enableZoom
+        enableDamping
+        dampingFactor={0.05}
+        rotateSpeed={0.38}
+        zoomSpeed={0.5}
+        minPolarAngle={0.12}
+        maxPolarAngle={1.5}
+        onStart={() => setInteracting(true)}
+        onEnd={() => setInteracting(false)}
       />
     </Canvas>
   );

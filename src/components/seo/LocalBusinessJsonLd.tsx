@@ -12,10 +12,15 @@ const DAY_EN: Record<(typeof DAY_ORDER)[number], string> = {
   dimanche: "Sunday",
 };
 
-// Derives a schema.org day list from the "Lundi - Vendredi" / "Week-ends & jours fériés"
-// phrasing used in siteConfig.hours, instead of hardcoding a duplicate schedule here.
-function parseDays(label: string): string[] {
-  const normalized = label.toLowerCase();
+// Derives a schema.org day list from siteConfig.hours, instead of hardcoding a duplicate
+// schedule here. Handles the "always available" phrasing ("Disponibilité" / "7j/7") as well
+// as the more granular "Lundi - Vendredi" / "Week-ends & jours fériés" formats.
+function parseDays(slot: { days: string; hours: string }): string[] {
+  const normalized = slot.days.toLowerCase();
+
+  if (slot.hours.toLowerCase().includes("7j/7") || normalized.includes("disponibilit")) {
+    return DAY_ORDER.map((day) => DAY_EN[day]);
+  }
   if (normalized.includes("week-end")) return [DAY_EN.samedi, DAY_EN.dimanche];
 
   const [start, end] = normalized.split("-").map((part) => part.trim());
@@ -46,7 +51,7 @@ function parseAddress(address: string) {
 export function LocalBusinessJsonLd() {
   const openingHoursSpecification = siteConfig.hours
     .map((slot) => {
-      const days = parseDays(slot.days);
+      const days = parseDays(slot);
       const hours = parseHours(slot.hours);
       if (!days.length || !hours) return null;
       return {
@@ -73,7 +78,7 @@ export function LocalBusinessJsonLd() {
       ...parseAddress(siteConfig.address),
       addressCountry: "FR",
     },
-    areaServed: "Île-de-France",
+    areaServed: ["Centre-Val de Loire", "Bourgogne-Franche-Comté", "Île-de-France"],
     openingHoursSpecification,
     sameAs: Object.values(siteConfig.social).map((entry) => entry.href),
   };

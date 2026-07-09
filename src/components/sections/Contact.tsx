@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
+import { useEffect, useRef, useState, type FormEvent } from "react";
 import { usePlausible } from "next-plausible";
 import { AlertCircle, Clock, Loader2, Mail, MapPin, Phone, Send } from "lucide-react";
 import { Section } from "@/components/ui/Section";
@@ -10,34 +10,114 @@ import { Reveal } from "@/components/ui/Reveal";
 import { cn } from "@/lib/utils";
 import { siteConfig } from "@/config/site";
 import { services } from "@/data/services";
+import { NUISIBLE_ZONE_OPTIONS } from "@/data/nuisibleZoneOptions";
+import { QUOTE_CITY_EVENT, QUOTE_ZONE_EVENT, type QuoteCityDetail, type QuoteZoneDetail } from "@/lib/quoteEvents";
 import type { PlausibleEvents } from "@/lib/analytics";
 
 const inputStyles =
   "w-full rounded-lg border border-border bg-background px-3.5 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-accent";
 
+type QuoteData = {
+  name: string;
+  phone: string;
+  email: string;
+  service: string;
+  location: string;
+  message: string;
+};
+
+// Guaranteed fallback: build a pre-filled email to the business address so a submission is
+// never lost even if the automatic email service is down or not yet configured.
+function buildMailtoHref(data: QuoteData): string {
+  const serviceTitle =
+    data.service === "autre"
+      ? "Autre"
+      : data.service
+        ? services.find((s) => s.id === data.service)?.title ?? data.service
+        : "";
+
+  const subject = serviceTitle ? `Demande de devis — ${serviceTitle}` : "Demande de devis";
+  const lines = [
+    data.name && `Nom : ${data.name}`,
+    data.phone && `Téléphone : ${data.phone}`,
+    data.email && `Email : ${data.email}`,
+    serviceTitle && `Type de nuisible : ${serviceTitle}`,
+    data.location && `Zone concernée : ${data.location}`,
+    data.message && `Message : ${data.message}`,
+  ].filter(Boolean);
+
+  return `mailto:${siteConfig.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(
+    lines.join("\n")
+  )}`;
+}
+
 function ContactForm() {
   const [status, setStatus] = useState<"idle" | "loading" | "submitted" | "error">("idle");
+  const [validationError, setValidationError] = useState<string | null>(null);
+  const [mailtoHref, setMailtoHref] = useState(`mailto:${siteConfig.email}`);
+  const [zoneSeen, setZoneSeen] = useState("");
+  const [zoneOther, setZoneOther] = useState("");
+  const [justPrefilled, setJustPrefilled] = useState(false);
+  const messageRef = useRef<HTMLTextAreaElement>(null);
   const plausible = usePlausible<PlausibleEvents>();
+
+  useEffect(() => {
+    function flashPrefilled() {
+      setJustPrefilled(true);
+      window.setTimeout(() => setJustPrefilled(false), 2000);
+    }
+
+    function onZoneSelect(event: Event) {
+      const { label } = (event as CustomEvent<QuoteZoneDetail>).detail;
+      setZoneSeen(label);
+      flashPrefilled();
+    }
+
+    function onCitySelect(event: Event) {
+      const { city } = (event as CustomEvent<QuoteCityDetail>).detail;
+      if (messageRef.current && !messageRef.current.value.trim()) {
+        messageRef.current.value = `Bonjour, j'aimerais un devis pour une intervention à/en ${city}.`;
+      }
+      flashPrefilled();
+    }
+
+    window.addEventListener(QUOTE_ZONE_EVENT, onZoneSelect);
+    window.addEventListener(QUOTE_CITY_EVENT, onCitySelect);
+    return () => {
+      window.removeEventListener(QUOTE_ZONE_EVENT, onZoneSelect);
+      window.removeEventListener(QUOTE_CITY_EVENT, onCitySelect);
+    };
+  }, []);
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    setStatus("loading");
 
     const form = event.currentTarget;
     const data = new FormData(form);
+    const phone = String(data.get("phone") ?? "").trim();
+    const email = String(data.get("email") ?? "").trim();
+
+    // Everything is optional except the contact method: at least one of phone / email.
+    if (!phone && !email) {
+      setValidationError("Merci de renseigner au moins un moyen de contact : téléphone ou e-mail.");
+      return;
+    }
+    setValidationError(null);
+    setStatus("loading");
+
     const service = String(data.get("service") ?? "");
+    const location = zoneSeen === "Autre" ? zoneOther : zoneSeen;
+    const name = String(data.get("name") ?? "").trim();
+    const message = String(data.get("message") ?? "").trim();
+
+    // Prepare the email fallback in case the automatic send fails.
+    setMailtoHref(buildMailtoHref({ name, phone, email, service, location, message }));
 
     try {
       const response = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name: data.get("name"),
-          phone: data.get("phone"),
-          email: data.get("email"),
-          service,
-          message: data.get("message"),
-        }),
+        body: JSON.stringify({ name, phone, email, service, location, message }),
       });
 
       if (!response.ok) throw new Error("request failed");
@@ -68,20 +148,31 @@ function ContactForm() {
   }
 
   return (
-    <Card>
+    <Card
+      className={cn(
+        "transition-shadow duration-500",
+        justPrefilled && "ring-2 ring-accent shadow-glow-accent"
+      )}
+    >
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <div className="grid gap-4 sm:grid-cols-2">
           <div className="flex flex-col gap-1.5">
             <label htmlFor="name" className="text-sm font-medium">
-              Nom
+              Nom <span className="font-normal text-muted-foreground">(facultatif)</span>
             </label>
-            <input id="name" name="name" type="text" required className={cn(inputStyles)} />
+            <input id="name" name="name" type="text" className={cn(inputStyles)} />
           </div>
           <div className="flex flex-col gap-1.5">
             <label htmlFor="phone" className="text-sm font-medium">
               Téléphone
             </label>
-            <input id="phone" name="phone" type="tel" required className={cn(inputStyles)} />
+            <input
+              id="phone"
+              name="phone"
+              type="tel"
+              onChange={() => setValidationError(null)}
+              className={cn(inputStyles)}
+            />
           </div>
         </div>
 
@@ -89,17 +180,24 @@ function ContactForm() {
           <label htmlFor="email" className="text-sm font-medium">
             Email
           </label>
-          <input id="email" name="email" type="email" className={cn(inputStyles)} />
+          <input
+            id="email"
+            name="email"
+            type="email"
+            onChange={() => setValidationError(null)}
+            className={cn(inputStyles)}
+          />
+          <p className="text-xs text-muted-foreground">
+            Indiquez au moins un moyen de contact : téléphone ou e-mail.
+          </p>
         </div>
 
         <div className="flex flex-col gap-1.5">
           <label htmlFor="service" className="text-sm font-medium">
-            Type de nuisible
+            Type de nuisible <span className="font-normal text-muted-foreground">(facultatif)</span>
           </label>
-          <select id="service" name="service" required defaultValue="" className={cn(inputStyles)}>
-            <option value="" disabled>
-              Sélectionnez une option
-            </option>
+          <select id="service" name="service" defaultValue="" className={cn(inputStyles)}>
+            <option value="">Sélectionnez une option</option>
             {services.map((service) => (
               <option key={service.id} value={service.id}>
                 {service.title}
@@ -110,10 +208,40 @@ function ContactForm() {
         </div>
 
         <div className="flex flex-col gap-1.5">
+          <label htmlFor="zoneSeen" className="text-sm font-medium">
+            Où avez-vous aperçu le nuisible ?
+          </label>
+          <select
+            id="zoneSeen"
+            name="zoneSeen"
+            value={zoneSeen}
+            onChange={(event) => setZoneSeen(event.target.value)}
+            className={cn(inputStyles)}
+          >
+            <option value="">Sélectionnez une option (facultatif)</option>
+            {NUISIBLE_ZONE_OPTIONS.map((option) => (
+              <option key={option} value={option}>
+                {option}
+              </option>
+            ))}
+          </select>
+          {zoneSeen === "Autre" && (
+            <input
+              type="text"
+              value={zoneOther}
+              onChange={(event) => setZoneOther(event.target.value)}
+              placeholder="Précisez l'endroit..."
+              className={cn(inputStyles, "mt-1.5")}
+            />
+          )}
+        </div>
+
+        <div className="flex flex-col gap-1.5">
           <label htmlFor="message" className="text-sm font-medium">
-            Message
+            Message <span className="font-normal text-muted-foreground">(facultatif)</span>
           </label>
           <textarea
+            ref={messageRef}
             id="message"
             name="message"
             rows={4}
@@ -122,15 +250,39 @@ function ContactForm() {
           />
         </div>
 
-        {status === "error" && (
-          <p className="flex items-center gap-2 rounded-lg bg-red-50 px-3.5 py-2.5 text-sm text-red-700">
+        {validationError && (
+          <p className="flex items-center gap-2 rounded-lg bg-amber-50 px-3.5 py-2.5 text-sm text-amber-800">
             <AlertCircle className="size-4 shrink-0" />
-            L&apos;envoi a échoué. Réessayez ou appelez directement le{" "}
-            <a href={siteConfig.phone.href} className="font-medium underline">
-              {siteConfig.phone.display}
-            </a>
-            .
+            {validationError}
           </p>
+        )}
+
+        {status === "error" && (
+          <div className="rounded-lg bg-red-50 px-3.5 py-3 text-sm text-red-700">
+            <p className="flex items-start gap-2">
+              <AlertCircle className="mt-0.5 size-4 shrink-0" />
+              <span>
+                L&apos;envoi automatique a rencontré un problème. Envoyez votre demande par
+                e-mail en un clic, ou appelez-nous directement.
+              </span>
+            </p>
+            <div className="mt-3 flex flex-wrap gap-2">
+              <a
+                href={mailtoHref}
+                className="inline-flex items-center gap-2 rounded-full bg-secondary px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-secondary/90"
+              >
+                <Mail className="size-4" />
+                Envoyer par e-mail
+              </a>
+              <a
+                href={siteConfig.phone.href}
+                className="inline-flex items-center gap-2 rounded-full bg-accent px-4 py-2 text-sm font-semibold text-accent-foreground transition-colors hover:bg-accent/90"
+              >
+                <Phone className="size-4" />
+                {siteConfig.phone.display}
+              </a>
+            </div>
+          </div>
         )}
 
         <Button type="submit" size="lg" disabled={status === "loading"} className="w-full">

@@ -9,9 +9,8 @@ import { ArrowRight, Home, MousePointerClick, Sofa } from "lucide-react";
 import { Section } from "@/components/ui/Section";
 import { Button } from "@/components/ui/Button";
 import { Reveal } from "@/components/ui/Reveal";
-import { services } from "@/data/services";
-import { houseZones } from "@/data/zones";
-import type { HouseZoneId } from "@/types";
+import { HOUSE_ZONE_BY_ID, PRIMARY_HOUSE_ZONES } from "@/data/houseZones";
+import { requestQuoteForZone } from "@/lib/quoteEvents";
 import type { HouseView } from "@/components/three/HouseScene";
 
 if (typeof window !== "undefined") {
@@ -80,14 +79,13 @@ function ZoneFallbackGrid({
   selected,
   onSelect,
 }: {
-  selected: HouseZoneId | null;
-  onSelect: (id: HouseZoneId) => void;
+  selected: string | null;
+  onSelect: (id: string) => void;
 }) {
   return (
     <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
-      {houseZones.map((zone) => {
-        const service = services.find((s) => s.id === zone.serviceId);
-        const Icon = service?.icon;
+      {PRIMARY_HOUSE_ZONES.map((zone) => {
+        const Icon = zone.icon;
         const isActive = selected === zone.id;
         return (
           <button
@@ -100,7 +98,7 @@ function ZoneFallbackGrid({
                 : "border-border bg-background text-muted-foreground hover:border-secondary/40"
             }`}
           >
-            {Icon && <Icon className="size-5" />}
+            <Icon className="size-5" />
             {zone.label}
           </button>
         );
@@ -156,19 +154,15 @@ function ViewToggle({
 }
 
 export function Configurateur() {
-  const [selected, setSelected] = useState<HouseZoneId | null>(null);
+  const [selected, setSelected] = useState<string | null>(null);
   const [view, setView] = useState<HouseView>("exterior");
   const prefersReducedMotion = useReducedMotion();
   const webglSupported = useWebglSupport();
   const tiltRef = useScrollTilt(Boolean(prefersReducedMotion));
 
   const activeZone = useMemo(
-    () => houseZones.find((zone) => zone.id === selected) ?? null,
+    () => (selected ? HOUSE_ZONE_BY_ID[selected] ?? null : null),
     [selected]
-  );
-  const activeService = useMemo(
-    () => (activeZone ? services.find((s) => s.id === activeZone.serviceId) ?? null : null),
-    [activeZone]
   );
 
   return (
@@ -181,8 +175,8 @@ export function Configurateur() {
           Où avez-vous aperçu le nuisible ?
         </h2>
         <p className="mt-4 text-lg text-muted-foreground">
-          Explorez la maison en 3D, basculez entre vue extérieure et intérieure, puis
-          cliquez sur une zone pour découvrir le traitement adapté.
+          Explorez la villa en 3D et cliquez directement sur un élément — toit, cheminée,
+          fenêtre, arbre, jardin… — pour indiquer où vous avez repéré le problème.
         </p>
       </Reveal>
 
@@ -198,7 +192,7 @@ export function Configurateur() {
               />
               <div className="pointer-events-none absolute left-4 top-4 hidden items-center gap-1.5 rounded-full border border-border bg-background/90 px-3 py-1.5 text-xs font-medium text-muted-foreground shadow-sm sm:flex">
                 <MousePointerClick className="size-3.5" />
-                Cliquez ou faites glisser
+                Cliquez sur un élément de la villa
               </div>
               <div className="absolute right-4 top-4 z-20">
                 <ViewToggle view={view} onChange={setView} />
@@ -207,7 +201,7 @@ export function Configurateur() {
           ) : (
             <div className="flex h-full flex-col items-center justify-center gap-6 p-8">
               <p className="text-sm text-muted-foreground">
-                Sélectionnez une zone de votre logement :
+                Sélectionnez la zone où vous avez aperçu le nuisible :
               </p>
               <ZoneFallbackGrid selected={selected} onSelect={setSelected} />
             </div>
@@ -216,7 +210,7 @@ export function Configurateur() {
 
         <div className="flex flex-col justify-center rounded-[2rem] border border-border bg-background p-8 shadow-lg">
           <AnimatePresence mode="wait">
-            {activeZone && activeService ? (
+            {activeZone ? (
               <motion.div
                 key={activeZone.id}
                 initial={{ opacity: 0, y: 12 }}
@@ -225,20 +219,39 @@ export function Configurateur() {
                 transition={{ duration: 0.25, ease: "easeOut" }}
                 className="flex flex-col gap-4"
               >
-                <span className="inline-flex size-12 w-fit items-center justify-center rounded-full bg-secondary/10 text-secondary">
-                  <activeService.icon className="size-6" />
+                <span className="inline-flex w-fit items-center gap-1.5 rounded-full bg-secondary/10 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-secondary">
+                  <span className="size-1.5 rounded-full bg-secondary" />
+                  Zone sélectionnée
                 </span>
-                <div>
-                  <p className="text-sm font-medium text-secondary">{activeZone.label}</p>
-                  <h3 className="mt-1 text-2xl font-semibold tracking-tight">
-                    {activeService.title}
-                  </h3>
-                  <p className="mt-2 text-muted-foreground">{activeService.description}</p>
+
+                <div className="flex items-center gap-3">
+                  <span className="inline-flex size-12 shrink-0 items-center justify-center rounded-full bg-accent/15 text-accent-dark">
+                    <activeZone.icon className="size-6" />
+                  </span>
+                  <h3 className="text-2xl font-semibold tracking-tight">{activeZone.label}</h3>
                 </div>
-                <Button href="#contact" size="lg" className="mt-2 w-fit">
+
+                <div className="rounded-2xl border border-border bg-muted/50 p-4">
+                  <p className="text-xs font-semibold uppercase tracking-wide text-secondary">
+                    Problème possible
+                  </p>
+                  <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">
+                    {activeZone.description}
+                  </p>
+                </div>
+
+                <Button
+                  size="lg"
+                  className="w-full"
+                  onClick={() => requestQuoteForZone(activeZone.option)}
+                >
                   Demander un devis pour cette zone
                   <ArrowRight className="size-4" />
                 </Button>
+                <p className="text-center text-xs text-muted-foreground">
+                  Vous avez indiqué <span className="font-medium text-foreground">{activeZone.label}</span> comme
+                  emplacement du nuisible.
+                </p>
               </motion.div>
             ) : (
               <motion.div
@@ -255,8 +268,9 @@ export function Configurateur() {
                   Sélectionnez une zone
                 </h3>
                 <p className="text-muted-foreground">
-                  Toiture, combles, cuisine, cave ou jardin : chaque zone de la maison
-                  correspond à un type d&apos;intervention. Cliquez pour en savoir plus.
+                  Chaque élément de la villa — toiture, cheminée, combles, fenêtres, balcon,
+                  jardin, arbre, clôture… — est cliquable. Sélectionnez l&apos;endroit où vous
+                  avez aperçu le nuisible pour préparer votre demande.
                 </p>
               </motion.div>
             )}

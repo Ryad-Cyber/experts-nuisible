@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { Clock3, FileCheck2, Phone, ShieldCheck } from "lucide-react";
+import { ArrowRight, Clock3, FileCheck2, Phone, ShieldCheck } from "lucide-react";
 import { Section } from "@/components/ui/Section";
 import { Button } from "@/components/ui/Button";
 import { Reveal, StaggerGroup, StaggerItem } from "@/components/ui/Reveal";
@@ -43,14 +43,37 @@ export function Hero() {
             </p>
           </StaggerItem>
 
-          <StaggerItem className="flex flex-col items-center gap-4 sm:flex-row">
-            <Button href={siteConfig.phone.href} size="lg" className="cta-pulse">
-              <Phone className="size-5" />
+          <StaggerItem className="flex w-full flex-col items-stretch gap-4 sm:w-auto sm:flex-row sm:items-center">
+            {/* Call — green, "live" pulsing dot, phone tilts on hover (matches navbar). */}
+            <Button
+              href={siteConfig.phone.href}
+              variant="secondary"
+              size="lg"
+              className="group relative gap-2.5 whitespace-nowrap px-5 text-sm hover:bg-primary-light sm:px-6 sm:text-base lg:text-lg"
+            >
+              <span className="relative flex size-2.5 shrink-0 items-center justify-center">
+                <span className="absolute inline-flex size-2.5 animate-ping rounded-full bg-accent-light/80" />
+                <span className="relative inline-flex size-2 rounded-full bg-accent-light" />
+              </span>
+              <Phone className="size-5 shrink-0 transition-transform duration-300 group-hover:-rotate-12" />
               {siteConfig.cta.callNow} — {siteConfig.phone.display}
             </Button>
-            <Button href="#contact" variant="secondary" size="lg">
-              <FileCheck2 className="size-5" />
-              {siteConfig.cta.freeQuote}
+
+            {/* Devis gratuit — primary action: gold gradient, shine sweep, arrow slide, glow. */}
+            <Button
+              href="#contact"
+              size="lg"
+              className="group relative overflow-hidden whitespace-nowrap bg-gradient-to-r from-accent-light via-accent to-accent-dark shadow-md hover:shadow-[0_0_34px_8px_rgb(245_196_51_/_0.55)]"
+            >
+              <span
+                aria-hidden
+                className="pointer-events-none absolute inset-0 -translate-x-full skew-x-12 bg-gradient-to-r from-transparent via-white/40 to-transparent transition-transform duration-700 ease-out group-hover:translate-x-full"
+              />
+              <span className="relative z-10 flex items-center gap-2">
+                <FileCheck2 className="size-5" />
+                {siteConfig.cta.freeQuote}
+                <ArrowRight className="size-4 transition-transform duration-300 group-hover:translate-x-0.5" />
+              </span>
             </Button>
           </StaggerItem>
 

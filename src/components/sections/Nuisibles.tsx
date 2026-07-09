@@ -4,7 +4,7 @@ import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useReducedMotion } from "framer-motion";
-import { ChevronLeft, ChevronRight, MousePointerClick } from "lucide-react";
+import { ChevronLeft, ChevronRight, MousePointerClick, Sparkles } from "lucide-react";
 import { Section } from "@/components/ui/Section";
 import { Reveal, StaggerGroup } from "@/components/ui/Reveal";
 import { services } from "@/data/services";
@@ -57,11 +57,12 @@ export function Nuisibles() {
             Nos nuisibles
           </span>
           <h2 className="mt-3 text-3xl font-semibold tracking-tight text-balance md:text-4xl">
-            Onze nuisibles. Une seule adresse.
+            Nos nuisibles. Et bien d&apos;autres encore.
           </h2>
           <p className="mt-4 text-lg text-muted-foreground">
             De la punaise de lit au frelon asiatique, nos techniciens identifient et
-            traitent l&apos;ensemble des nuisibles domestiques et professionnels.
+            traitent bien plus de nuisibles domestiques et professionnels que ceux présentés
+            ici.
           </p>
         </Reveal>
 
@@ -113,6 +114,19 @@ export function Nuisibles() {
               />
             );
           })}
+
+          <a
+            href="#contact"
+            className="flex aspect-[3/4] w-[72vw] shrink-0 snap-start flex-col items-center justify-center gap-3 rounded-3xl border border-dashed border-secondary/40 bg-muted/60 p-6 text-center transition-colors hover:border-secondary hover:bg-muted sm:w-[300px] lg:w-[320px]"
+          >
+            <span className="flex size-12 items-center justify-center rounded-full bg-secondary/10 text-secondary">
+              <Sparkles className="size-6" />
+            </span>
+            <p className="text-lg font-semibold tracking-tight">Et bien d&apos;autres nuisibles</p>
+            <p className="text-sm text-muted-foreground">
+              Cette liste n&apos;est pas exhaustive. Contactez-nous pour tout autre nuisible.
+            </p>
+          </a>
         </StaggerGroup>
       </div>
 

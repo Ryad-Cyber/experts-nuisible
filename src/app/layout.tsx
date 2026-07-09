@@ -5,6 +5,7 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { StickyCallBar } from "@/components/layout/StickyCallBar";
 import { PhoneClickTracker } from "@/components/analytics/PhoneClickTracker";
+import { ScrollMotif } from "@/components/layout/ScrollMotif";
 import { LocalBusinessJsonLd } from "@/components/seo/LocalBusinessJsonLd";
 import { siteConfig } from "@/config/site";
 import "./globals.css";
@@ -71,6 +72,7 @@ export default function RootLayout({
       <main className="flex-1 pb-20 md:pb-0">{children}</main>
       <Footer />
       <StickyCallBar />
+      <ScrollMotif />
     </>
   );
 

@@ -4,10 +4,11 @@ import { siteConfig } from "@/config/site";
 import { services } from "@/data/services";
 
 export type ContactPayload = {
-  name: string;
-  phone: string;
+  name?: string;
+  phone?: string;
   email?: string;
-  service: string;
+  service?: string;
+  location?: string;
   message?: string;
 };
 
@@ -19,23 +20,31 @@ function isValidEmail(value: string): boolean {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
 }
 
+function optionalString(value: unknown): string | undefined {
+  return typeof value === "string" && value.trim().length > 0 ? value.trim() : undefined;
+}
+
 function parsePayload(body: unknown): ContactPayload | null {
   if (typeof body !== "object" || body === null) return null;
-  const { name, phone, email, service, message } = body as Record<string, unknown>;
+  const { name, phone, email, service, location, message } = body as Record<string, unknown>;
 
-  if (!isNonEmptyString(name) || !isNonEmptyString(phone) || !isNonEmptyString(service)) {
-    return null;
-  }
-  if (typeof email === "string" && email.length > 0 && !isValidEmail(email)) {
-    return null;
-  }
+  const phoneOk = isNonEmptyString(phone);
+  const emailStr = typeof email === "string" ? email.trim() : "";
+
+  // Reject a malformed email if one was provided.
+  if (emailStr.length > 0 && !isValidEmail(emailStr)) return null;
+
+  // The only requirement: at least one contact method (phone or a valid email).
+  const emailOk = emailStr.length > 0;
+  if (!phoneOk && !emailOk) return null;
 
   return {
-    name: name.trim(),
-    phone: phone.trim(),
-    email: typeof email === "string" ? email.trim() : undefined,
-    service: service.trim(),
-    message: typeof message === "string" ? message.trim() : undefined,
+    name: optionalString(name),
+    phone: optionalString(phone),
+    email: emailOk ? emailStr : undefined,
+    service: optionalString(service),
+    location: optionalString(location),
+    message: optionalString(message),
   };
 }
 
@@ -64,10 +73,12 @@ export async function POST(request: Request) {
   const payload = parsePayload(body);
   if (!payload) {
     return NextResponse.json(
-      { error: "Merci de renseigner votre nom, votre téléphone et le type de nuisible." },
+      { error: "Merci de renseigner au moins un moyen de contact : téléphone ou e-mail." },
       { status: 400 }
     );
   }
+
+  const serviceText = payload.service ? serviceLabel(payload.service) : "non renseigné";
 
   const toEmail = process.env.CONTACT_TO_EMAIL || siteConfig.email;
   const fromEmail = process.env.CONTACT_FROM_EMAIL || "Experts Nuisible <onboarding@resend.dev>";
@@ -78,12 +89,15 @@ export async function POST(request: Request) {
     from: fromEmail,
     to: toEmail,
     replyTo: payload.email,
-    subject: `Nouvelle demande de devis — ${serviceLabel(payload.service)}`,
+    subject: payload.service
+      ? `Nouvelle demande de devis — ${serviceText}`
+      : "Nouvelle demande de devis",
     text: [
-      `Nom : ${payload.name}`,
-      `Téléphone : ${payload.phone}`,
+      `Nom : ${payload.name || "non renseigné"}`,
+      `Téléphone : ${payload.phone || "non renseigné"}`,
       `Email : ${payload.email || "non renseigné"}`,
-      `Type de nuisible : ${serviceLabel(payload.service)}`,
+      `Type de nuisible : ${serviceText}`,
+      `Zone concernée : ${payload.location || "non renseignée"}`,
       "",
       "Message :",
       payload.message || "(aucun message)",

@@ -1,23 +1,35 @@
 import { Hero } from "@/components/sections/Hero";
-import { Services } from "@/components/sections/Services";
+import { MarqueeBand } from "@/components/sections/MarqueeBand";
+import { Expertise } from "@/components/sections/Expertise";
 import { Nuisibles } from "@/components/sections/Nuisibles";
 import { Configurateur } from "@/components/sections/Configurateur";
+import { Atouts } from "@/components/sections/Atouts";
+import { Garantie } from "@/components/sections/Garantie";
+import { Disponibilite } from "@/components/sections/Disponibilite";
 import { Urgence } from "@/components/sections/Urgence";
 import { Avis } from "@/components/sections/Avis";
+import { FAQ } from "@/components/sections/FAQ";
 import { Contact } from "@/components/sections/Contact";
+import { ZoneIntervention } from "@/components/sections/ZoneIntervention";
 import { WaveDivider } from "@/components/ui/WaveDivider";
 
 export default function Home() {
   return (
     <>
       <Hero />
-      <Services />
+      <MarqueeBand />
+      <Garantie />
+      <Expertise />
       <Nuisibles />
       <Configurateur />
+      <Atouts />
+      <Disponibilite />
       <WaveDivider fromColor="var(--color-muted)" toColor="var(--color-accent)" />
       <Urgence />
       <WaveDivider fromColor="var(--color-accent)" toColor="var(--color-background)" flip />
       <Avis />
+      <FAQ />
+      <ZoneIntervention />
       <Contact />
     </>
   );
