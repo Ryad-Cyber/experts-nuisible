@@ -1,5 +1,8 @@
+"use client";
+
 import Image from "next/image";
-import { ArrowRight, Clock3, FileCheck2, Phone, ShieldCheck } from "lucide-react";
+import { motion } from "framer-motion";
+import { ArrowRight, Clock3, FileCheck2, Phone, ShieldCheck, Star } from "lucide-react";
 import { Section } from "@/components/ui/Section";
 import { Button } from "@/components/ui/Button";
 import { Reveal, StaggerGroup, StaggerItem } from "@/components/ui/Reveal";
@@ -95,16 +98,38 @@ export function Hero() {
             aria-hidden
             className="pointer-events-none absolute -inset-6 -z-10 rounded-[2.5rem] bg-secondary/10 blur-2xl"
           />
-          <div className="relative aspect-[4/3] w-full overflow-hidden rounded-[2rem] border border-border bg-white p-4 shadow-xl">
+          <div className="relative aspect-[4/3] w-full overflow-hidden rounded-[2rem] border border-border shadow-xl">
             <Image
-              src="/image_nuisible.jpeg"
-              alt="Experts Nuisible — dératisation, désinsectisation, désinfection"
+              src="/pic_header.jpg"
+              alt="Techniciens Experts Nuisible en intervention"
               fill
               sizes="(min-width: 1024px) 480px, 90vw"
-              className="object-contain"
+              className="object-cover"
               priority
             />
+            <div className="absolute inset-0 bg-gradient-to-t from-primary-dark/25 via-transparent to-transparent" />
           </div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.6, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+            className="glass absolute -left-3 top-5 flex items-center gap-2.5 rounded-2xl border border-white/40 px-3.5 py-2.5 shadow-lg sm:-left-5 sm:top-7"
+          >
+            <div className="flex -space-x-0.5">
+              {Array.from({ length: 5 }).map((_, index) => (
+                <Star
+                  key={index}
+                  className="size-3 fill-accent text-accent drop-shadow-sm"
+                  style={{ animation: `starPulse 2.4s ease-in-out ${index * 0.15}s infinite` }}
+                />
+              ))}
+            </div>
+            <div className="text-left leading-tight">
+              <p className="text-sm font-bold text-foreground">4.9/5</p>
+              <p className="text-[11px] text-muted-foreground">Clients satisfaits</p>
+            </div>
+          </motion.div>
 
           <div className="absolute -bottom-4 left-1/2 flex -translate-x-1/2 items-center gap-2 rounded-2xl border border-border bg-background px-3.5 py-2.5 shadow-md sm:left-auto sm:right-5 sm:translate-x-0">
             <ShieldCheck className="size-4 text-secondary" />

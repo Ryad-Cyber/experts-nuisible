@@ -25,18 +25,17 @@ export const siteConfig = {
   },
   nav: [
     { label: "Accueil", href: "/" },
-    { label: "Services", href: "#services" },
-    { label: "Agence", href: "#agence" },
+    { label: "Services", href: "#nuisibles" },
+    { label: "Why Us", href: "#agence" },
     { label: "FAQ", href: "#faq" },
     { label: "Contact", href: "#contact" },
   ] as NavLink[],
-  // Dropdown shown under the "Services" nav item. Service-type entries point to the
-  // Expertise section; specific pests point to the "Nuisibles" gallery. Swap the hrefs for
-  // dedicated pages once they exist.
+  // Dropdown shown under the "Services" nav item. All entries point to the "Nuisibles"
+  // showcase. Swap the hrefs for dedicated pages once they exist.
   servicesMenu: [
-    { label: "Dératisation", href: "#services" },
-    { label: "Désinsectisation", href: "#services" },
-    { label: "Désinfection", href: "#services" },
+    { label: "Dératisation", href: "#nuisibles" },
+    { label: "Désinsectisation", href: "#nuisibles" },
+    { label: "Désinfection", href: "#nuisibles" },
     { label: "Guêpes & frelons", href: "#nuisibles" },
     { label: "Punaises de lit", href: "#nuisibles" },
     { label: "Cafards", href: "#nuisibles" },

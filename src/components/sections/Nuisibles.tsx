@@ -46,7 +46,7 @@ export function Nuisibles() {
   }, [prefersReducedMotion]);
 
   function scrollByCards(direction: 1 | -1) {
-    railRef.current?.scrollBy({ left: direction * 233, behavior: "smooth" });
+    railRef.current?.scrollBy({ left: direction * 218, behavior: "smooth" });
   }
 
   return (
@@ -60,9 +60,9 @@ export function Nuisibles() {
             Nos nuisibles. Et bien d&apos;autres encore.
           </h2>
           <p className="mt-3 text-base text-muted-foreground">
-            De la punaise de lit au frelon asiatique, nos techniciens identifient et
-            traitent bien plus de nuisibles domestiques et professionnels que ceux présentés
-            ici.
+            Découvrez quelques-uns des principaux nuisibles que nous traitons. Notre équipe
+            intervient également sur de nombreuses autres espèces de rongeurs, insectes,
+            oiseaux, reptiles et bien d&apos;autres nuisibles.
           </p>
         </Reveal>
 
@@ -117,7 +117,7 @@ export function Nuisibles() {
 
           <a
             href="#contact"
-            className="flex aspect-[4/5] w-[58vw] shrink-0 snap-start flex-col items-center justify-center gap-1.5 rounded-3xl border border-dashed border-secondary/40 bg-muted/60 p-3.5 text-center transition-colors hover:border-secondary hover:bg-muted sm:w-[208px] lg:w-[220px]"
+            className="flex aspect-[5/6] w-[52vw] shrink-0 snap-start flex-col items-center justify-center gap-1.5 rounded-3xl border border-dashed border-secondary/40 bg-muted/60 p-3.5 text-center transition-colors hover:border-secondary hover:bg-muted sm:w-[194px] lg:w-[204px]"
           >
             <span className="flex size-8 items-center justify-center rounded-full bg-secondary/10 text-secondary">
               <Sparkles className="size-4" />

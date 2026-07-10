@@ -35,7 +35,7 @@ function ServicesDropdown() {
 
   const transition = prefersReducedMotion
     ? { duration: 0.01 }
-    : { duration: 0.18, ease: [0.16, 1, 0.3, 1] as const };
+    : { duration: 0.28, ease: [0.16, 1, 0.3, 1] as const };
 
   return (
     <div className="relative" onMouseEnter={handleEnter} onMouseLeave={handleLeave}>
@@ -57,24 +57,38 @@ function ServicesDropdown() {
         {open && (
           <motion.div
             role="menu"
-            initial={{ opacity: 0, y: -8, scale: 0.98 }}
+            initial={{ opacity: 0, y: -10, scale: 0.97 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -8, scale: 0.98 }}
             transition={transition}
             className="absolute left-1/2 top-full z-50 -translate-x-1/2 pt-3"
           >
-            <div className="glass min-w-[248px] rounded-2xl border border-border/70 p-2 shadow-lg">
-              {siteConfig.servicesMenu.map((item) => (
-                <a
+            <div
+              aria-hidden
+              className="absolute -inset-3 -z-10 rounded-[1.75rem] bg-primary/8 blur-2xl"
+            />
+            <div className="glass min-w-[280px] rounded-[1.5rem] border border-border/60 p-2.5 shadow-xl shadow-primary/5">
+              {siteConfig.servicesMenu.map((item, index) => (
+                <motion.a
                   key={item.label}
                   href={item.href}
                   role="menuitem"
                   onClick={() => setOpen(false)}
-                  className="group/item flex items-center justify-between gap-3 rounded-xl px-3.5 py-2.5 text-sm font-medium text-foreground/85 transition-colors hover:bg-muted hover:text-foreground"
+                  initial={{ opacity: 0, x: -6 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{
+                    delay: prefersReducedMotion ? 0 : 0.03 * index,
+                    duration: 0.22,
+                    ease: [0.16, 1, 0.3, 1],
+                  }}
+                  className="group/item flex items-center justify-between gap-3 rounded-xl px-3.5 py-3 text-sm font-medium text-foreground/85 transition-colors duration-150 hover:bg-muted hover:text-foreground"
                 >
-                  {item.label}
+                  <span className="flex items-center gap-2.5">
+                    <span className="size-1.5 shrink-0 rounded-full bg-secondary/50 transition-all duration-200 group-hover/item:scale-125 group-hover/item:bg-secondary" />
+                    {item.label}
+                  </span>
                   <ArrowRight className="size-3.5 -translate-x-1 text-secondary opacity-0 transition-all duration-200 group-hover/item:translate-x-0 group-hover/item:opacity-100" />
-                </a>
+                </motion.a>
               ))}
             </div>
           </motion.div>
@@ -183,7 +197,7 @@ export function Header() {
 
         <nav aria-label="Navigation principale" className="hidden items-center gap-6 lg:gap-8 md:flex md:justify-self-center">
           {siteConfig.nav.map((link) =>
-            link.href === "#services" ? (
+            link.label === "Services" ? (
               <ServicesDropdown key={link.href} />
             ) : (
               <a

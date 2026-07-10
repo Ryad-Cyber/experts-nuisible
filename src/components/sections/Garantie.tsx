@@ -72,7 +72,7 @@ export function Garantie() {
     <Section id="garantie" className="relative overflow-hidden py-10 md:py-12">
       <div
         aria-hidden
-        className="pointer-events-none absolute -left-32 bottom-0 h-[24rem] w-[24rem] rounded-full bg-secondary/10 blur-3xl"
+        className="pointer-events-none absolute -left-32 bottom-0 hidden h-[24rem] w-[24rem] rounded-full bg-secondary/10 blur-3xl lg:block"
       />
 
       <div className="relative grid items-center gap-8 lg:grid-cols-[auto_1fr] lg:gap-12">

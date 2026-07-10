@@ -1,6 +1,5 @@
 import { Hero } from "@/components/sections/Hero";
 import { MarqueeBand } from "@/components/sections/MarqueeBand";
-import { Expertise } from "@/components/sections/Expertise";
 import { Nuisibles } from "@/components/sections/Nuisibles";
 import { Configurateur } from "@/components/sections/Configurateur";
 import { Atouts } from "@/components/sections/Atouts";
@@ -20,7 +19,6 @@ export default function Home() {
       <Hero />
       <MarqueeBand />
       <Garantie />
-      <Expertise />
       <Nuisibles />
       <Configurateur />
       <Atouts />

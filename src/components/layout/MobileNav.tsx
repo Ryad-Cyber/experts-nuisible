@@ -36,6 +36,7 @@ export function MobileNav() {
   const [open, setOpen] = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
   const toggleRef = useRef<HTMLButtonElement>(null);
+  const panelRef = useRef<HTMLElement>(null);
   const prefersReducedMotion = useReducedMotion();
 
   useEffect(() => {
@@ -47,11 +48,22 @@ export function MobileNav() {
     function onKeyDown(event: KeyboardEvent) {
       if (event.key === "Escape") setOpen(false);
     }
+    function onScroll() {
+      setOpen(false);
+    }
+    function onTouchMove(event: TouchEvent) {
+      if (panelRef.current?.contains(event.target as Node)) return;
+      setOpen(false);
+    }
     document.addEventListener("keydown", onKeyDown);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("touchmove", onTouchMove, { passive: true });
 
     return () => {
       document.body.style.overflow = previousOverflow;
       document.removeEventListener("keydown", onKeyDown);
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("touchmove", onTouchMove);
     };
   }, [open]);
 
@@ -91,6 +103,7 @@ export function MobileNav() {
             />
 
             <motion.nav
+              ref={panelRef}
               id="mobile-nav-panel"
               aria-label="Navigation mobile"
               initial={{ opacity: 0, y: -8 }}
@@ -109,7 +122,7 @@ export function MobileNav() {
                   },
                 };
 
-                if (link.href === "#services") {
+                if (link.label === "Services") {
                   return (
                     <motion.div key={link.href} {...entry}>
                       <button

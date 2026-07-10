@@ -58,7 +58,7 @@ export function PestCard({ pest, index, serviceTitle, serviceIcon: Icon }: PestC
           transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] },
         },
       }}
-      className="group relative w-[58vw] shrink-0 snap-start sm:w-[208px] lg:w-[220px]"
+      className="group relative w-[52vw] shrink-0 snap-start sm:w-[194px] lg:w-[204px]"
     >
       <motion.div
         ref={ref}
@@ -67,7 +67,7 @@ export function PestCard({ pest, index, serviceTitle, serviceIcon: Icon }: PestC
         whileHover={{ scale: 1.03 }}
         transition={springConfig}
         style={{ rotateX, rotateY, transformPerspective: 900 }}
-        className="relative aspect-[4/5] overflow-hidden rounded-3xl bg-primary-dark shadow-xl"
+        className="relative aspect-[5/6] overflow-hidden rounded-3xl bg-primary-dark shadow-xl"
       >
         <Image
           src={pest.image}
