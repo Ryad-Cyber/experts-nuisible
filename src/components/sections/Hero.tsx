@@ -15,15 +15,27 @@ const trustPoints = [
   { icon: Phone, label: "Devis gratuit par téléphone" },
 ];
 
+const heroBackgroundStyle = {
+  backgroundImage:
+    "linear-gradient(to right, rgb(8 31 20 / 0.92), rgb(8 31 20 / 0.78) 55%, rgb(8 31 20 / 0.55)), " +
+    "linear-gradient(to top, rgb(8 31 20 / 0.55), transparent 45%, rgb(8 31 20 / 0.25)), " +
+    "url('/pic_header.jpg')",
+  backgroundSize: "cover",
+  backgroundPosition: "center",
+};
+
 export function Hero() {
   return (
-    <Section className="relative overflow-hidden pt-16 pb-12 md:pt-20 md:pb-14 lg:py-16">
+    <Section
+      className="relative overflow-hidden pt-16 pb-12 md:pt-20 md:pb-14 lg:py-16"
+      style={heroBackgroundStyle}
+    >
       <HeroBackdrop />
 
       <div className="relative grid gap-8 lg:grid-cols-2 lg:items-center lg:gap-10">
         <StaggerGroup className="flex flex-col items-center gap-4 text-center lg:items-start lg:text-left">
           <StaggerItem>
-            <span className="inline-flex items-center gap-2 rounded-full border border-border bg-muted px-3.5 py-1 text-xs font-medium text-muted-foreground">
+            <span className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-3.5 py-1 text-xs font-medium text-white/85 backdrop-blur-sm">
               <span className="relative flex size-2">
                 <span className="absolute inline-flex size-full animate-ping rounded-full bg-accent opacity-75" />
                 <span className="relative inline-flex size-2 rounded-full bg-accent" />
@@ -33,30 +45,28 @@ export function Hero() {
           </StaggerItem>
 
           <StaggerItem>
-            <h1 className="max-w-xl text-[1.7rem] font-semibold tracking-tight text-balance sm:text-3xl md:text-4xl lg:text-[2.7rem]">
+            <h1 className="max-w-xl text-[1.7rem] font-semibold tracking-tight text-balance text-white sm:text-3xl md:text-4xl lg:text-[2.7rem]">
               Dératisation &amp; désinsectisation.
               <br />
-              <span className="text-muted-foreground">Intervention rapide, sans compromis.</span>
+              <span className="text-white/70">Intervention rapide, sans compromis.</span>
             </h1>
           </StaggerItem>
 
           <StaggerItem>
-            <p className="max-w-xl text-sm text-muted-foreground md:text-base">
-              {siteConfig.description}
-            </p>
+            <p className="max-w-xl text-sm text-white/75 md:text-base">{siteConfig.description}</p>
           </StaggerItem>
 
           <StaggerItem className="flex w-full flex-col items-stretch gap-3 sm:w-auto sm:flex-row sm:items-center">
-            {/* Call — green, "live" pulsing dot, phone tilts on hover (matches navbar). */}
+            {/* Call — light pill on dark bg, "live" pulsing dot, phone tilts on hover (matches navbar). */}
             <Button
               href={siteConfig.phone.href}
               variant="secondary"
               size="lg"
-              className="group relative gap-2 whitespace-nowrap px-4 text-xs hover:bg-primary-light sm:px-5 sm:text-sm lg:text-base"
+              className="group relative gap-2 whitespace-nowrap bg-white px-4 text-xs text-primary-dark shadow-md hover:bg-white/90 sm:px-5 sm:text-sm lg:text-base"
             >
               <span className="relative flex size-2 shrink-0 items-center justify-center">
-                <span className="absolute inline-flex size-2 animate-ping rounded-full bg-accent-light/80" />
-                <span className="relative inline-flex size-1.5 rounded-full bg-accent-light" />
+                <span className="absolute inline-flex size-2 animate-ping rounded-full bg-accent/80" />
+                <span className="relative inline-flex size-1.5 rounded-full bg-accent-dark" />
               </span>
               <Phone className="size-4 shrink-0 transition-transform duration-300 group-hover:-rotate-12" />
               {siteConfig.cta.callNow} — {siteConfig.phone.display}
@@ -84,52 +94,66 @@ export function Hero() {
             {trustPoints.map(({ icon: Icon, label }) => (
               <div
                 key={label}
-                className="flex items-center justify-center gap-1.5 text-xs font-medium text-muted-foreground lg:justify-start"
+                className="flex items-center justify-center gap-1.5 text-xs font-medium text-white/70 lg:justify-start"
               >
-                <Icon className="size-3.5 text-foreground" />
+                <Icon className="size-3.5 text-white" />
                 {label}
               </div>
             ))}
           </StaggerItem>
         </StaggerGroup>
 
-        <Reveal delay={0.15} y={32} className="relative mx-auto w-full max-w-md lg:max-w-none">
+        <Reveal delay={0.15} y={32} className="relative mx-auto w-full max-w-xs sm:max-w-sm lg:max-w-md lg:justify-self-end">
           <div
             aria-hidden
-            className="pointer-events-none absolute -inset-6 -z-10 rounded-[2.5rem] bg-secondary/10 blur-2xl"
+            className="pointer-events-none absolute -inset-6 -z-10 rounded-[2.5rem] bg-accent/10 blur-2xl"
           />
-          <div className="relative aspect-[4/3] w-full overflow-hidden rounded-[2rem] border border-border shadow-xl">
+          <div className="relative aspect-[4/5] w-full overflow-hidden rounded-[2rem] border border-white/15 shadow-2xl">
             <Image
-              src="/pic_header.jpg"
-              alt="Techniciens Experts Nuisible en intervention"
+              src="/img_technicien.jpeg"
+              alt="Technicien Experts Nuisible en intervention sur toiture"
               fill
-              sizes="(min-width: 1024px) 480px, 90vw"
+              sizes="(min-width: 1024px) 420px, 80vw"
               className="object-cover"
               priority
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-primary-dark/25 via-transparent to-transparent" />
-          </div>
+            <div className="absolute inset-0 bg-gradient-to-t from-primary-dark/55 via-transparent to-transparent" />
 
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.6, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-            className="glass absolute -left-3 top-5 flex items-center gap-2.5 rounded-2xl border border-white/40 px-3.5 py-2.5 shadow-lg sm:-left-5 sm:top-7"
-          >
-            <div className="flex -space-x-0.5">
-              {Array.from({ length: 5 }).map((_, index) => (
-                <Star
-                  key={index}
-                  className="size-3 fill-accent text-accent drop-shadow-sm"
-                  style={{ animation: `starPulse 2.4s ease-in-out ${index * 0.15}s infinite` }}
-                />
-              ))}
-            </div>
-            <div className="text-left leading-tight">
-              <p className="text-sm font-bold text-foreground">4.9/5</p>
-              <p className="text-[11px] text-muted-foreground">Clients satisfaits</p>
-            </div>
-          </motion.div>
+            {/* Rating badge — anchored over the red-brick corner for the gold-on-red contrast. */}
+            <motion.div
+              initial={{ opacity: 0, y: 12, scale: 0.92 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              transition={{ delay: 0.6, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+              className="absolute bottom-5 left-5 flex items-center gap-3 overflow-hidden rounded-2xl border border-white/40 bg-white/20 px-5 py-3 shadow-[0_18px_40px_-12px_rgba(0,0,0,0.55)] backdrop-blur-xl"
+            >
+              <span
+                aria-hidden
+                className="pointer-events-none absolute inset-0 bg-gradient-to-br from-accent-light/30 via-transparent to-transparent"
+              />
+              <span
+                aria-hidden
+                className="pointer-events-none absolute -inset-px rounded-2xl shadow-[inset_0_1px_0_rgba(255,255,255,0.45)]"
+              />
+              <div className="relative flex gap-0.5">
+                {Array.from({ length: 5 }).map((_, index) => (
+                  <Star
+                    key={index}
+                    className="size-4 fill-accent text-accent drop-shadow-[0_1px_3px_rgba(0,0,0,0.4)]"
+                    style={{ animation: `starPulse 2.4s ease-in-out ${index * 0.15}s infinite` }}
+                  />
+                ))}
+              </div>
+              <span aria-hidden className="relative h-8 w-px bg-white/40" />
+              <div className="relative flex flex-col items-start leading-none">
+                <p className="text-xl font-bold tracking-tight text-white drop-shadow-[0_1px_3px_rgba(0,0,0,0.4)]">
+                  4,9<span className="text-sm font-medium text-white/80"> / 5</span>
+                </p>
+                <p className="mt-1 text-[11px] font-semibold uppercase tracking-widest text-white/90 drop-shadow-[0_1px_2px_rgba(0,0,0,0.4)]">
+                  Avis clients
+                </p>
+              </div>
+            </motion.div>
+          </div>
 
           <div className="absolute -bottom-4 left-1/2 flex -translate-x-1/2 items-center gap-2 rounded-2xl border border-border bg-background px-3.5 py-2.5 shadow-md sm:left-auto sm:right-5 sm:translate-x-0">
             <ShieldCheck className="size-4 text-secondary" />
