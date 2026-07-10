@@ -29,13 +29,13 @@ function FaqRow({
         type="button"
         onClick={onToggle}
         aria-expanded={isOpen}
-        className="flex w-full items-center justify-between gap-4 px-5 py-4 text-left sm:px-6 sm:py-5"
+        className="flex w-full items-center justify-between gap-4 px-4 py-3 text-left sm:px-5 sm:py-3.5"
       >
-        <span className="text-base font-semibold tracking-tight text-foreground sm:text-lg">
+        <span className="text-sm font-semibold tracking-tight text-foreground sm:text-base">
           {question}
         </span>
         <span
-          className={`flex size-8 shrink-0 items-center justify-center rounded-full transition-colors ${
+          className={`flex size-7 shrink-0 items-center justify-center rounded-full transition-colors ${
             isOpen ? "bg-accent text-accent-foreground" : "bg-muted text-secondary"
           }`}
         >
@@ -54,7 +54,7 @@ function FaqRow({
             transition={reducedMotion ? { duration: 0.01 } : { duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
             className="overflow-hidden"
           >
-            <p className="px-5 pb-5 text-sm leading-relaxed text-muted-foreground sm:px-6 sm:pb-6">
+            <p className="px-4 pb-3.5 text-sm leading-relaxed text-muted-foreground sm:px-5 sm:pb-4">
               {answer}
             </p>
           </motion.div>
@@ -72,7 +72,7 @@ export function FAQ() {
   const visible = showAll ? faqItems : faqItems.slice(0, INITIAL_COUNT);
 
   return (
-    <Section id="faq" className="relative overflow-hidden">
+    <Section id="faq" className="relative overflow-hidden py-10 md:py-14">
       <div
         aria-hidden
         className="pointer-events-none absolute -right-32 top-10 h-[24rem] w-[24rem] rounded-full bg-accent/10 blur-3xl"
@@ -82,16 +82,16 @@ export function FAQ() {
         <span className="text-sm font-semibold uppercase tracking-wider text-secondary">
           FAQ
         </span>
-        <h2 className="mt-3 text-3xl font-semibold tracking-tight text-balance md:text-4xl">
+        <h2 className="mt-2.5 text-2xl font-semibold tracking-tight text-balance md:text-3xl">
           Questions fréquentes
         </h2>
-        <p className="mt-4 text-lg text-muted-foreground">
+        <p className="mt-3 text-base text-muted-foreground">
           Tout ce qu&apos;il faut savoir avant votre intervention. Une autre question ?
           Contactez-nous directement.
         </p>
       </Reveal>
 
-      <Reveal delay={0.1} className="relative mx-auto mt-12 flex max-w-3xl flex-col gap-3">
+      <Reveal delay={0.1} className="relative mx-auto mt-6 flex max-w-3xl flex-col gap-2">
         {visible.map((item, index) => (
           <FaqRow
             key={item.question}
@@ -105,8 +105,8 @@ export function FAQ() {
       </Reveal>
 
       {!showAll && faqItems.length > INITIAL_COUNT && (
-        <div className="relative mt-8 flex justify-center">
-          <Button type="button" variant="secondary" size="lg" onClick={() => setShowAll(true)}>
+        <div className="relative mt-5 flex justify-center">
+          <Button type="button" variant="secondary" size="md" onClick={() => setShowAll(true)}>
             <Plus className="size-4" />
             Voir toutes les questions
           </Button>

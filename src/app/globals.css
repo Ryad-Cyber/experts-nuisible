@@ -60,6 +60,12 @@
 }
 
 @theme {
+  /* Spatial density lever, independent of typography: every spacing/sizing utility
+     (p-, m-, gap-, space-, h-, w-, size-, inset-, translate-…) derives from --spacing in
+     Tailwind v4. Shrinking it compacts all graphic elements — paddings, gaps, icons, button
+     heights, cards, section heights — WITHOUT affecting font-size (a separate scale). */
+  --spacing: 0.225rem;
+
   --radius-sm: 0.5rem;
   --radius-md: 0.75rem;
   --radius-lg: 1rem;
@@ -68,6 +74,11 @@
 }
 
 html {
+  /* Global density lever: shrink the rem base so the whole rem-driven design system
+     (type, spacing, gaps, button/card sizes, section heights) scales down proportionally,
+     keeping exact proportions. Percentage keeps it relative to the user's font preference
+     for accessibility — not a transform:scale() hack. */
+  font-size: 89%;
   scroll-behavior: smooth;
 }
 

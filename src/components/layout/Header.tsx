@@ -91,8 +91,8 @@ function HeaderCtas() {
       <Button
         href={siteConfig.phone.href}
         variant="secondary"
-        size="sm"
-        className="group relative gap-2.5 pl-3.5 hover:bg-primary-light"
+        size="md"
+        className="group relative gap-2.5 pl-4 hover:bg-primary-light"
       >
         <span className="relative flex size-2.5 items-center justify-center">
           <span className="absolute inline-flex size-2.5 animate-ping rounded-full bg-accent-light/80" />
@@ -106,7 +106,7 @@ function HeaderCtas() {
       {/* Devis gratuit — primary action: gold gradient, shine sweep, arrow slide, hover glow. */}
       <Button
         href="#contact"
-        size="sm"
+        size="md"
         className="group relative overflow-hidden bg-gradient-to-r from-accent-light via-accent to-accent-dark shadow-md hover:shadow-[0_0_30px_6px_rgb(245_196_51_/_0.55)]"
       >
         <span
@@ -135,7 +135,7 @@ function CallTicker() {
     <a
       href={siteConfig.phone.href}
       aria-label={`${siteConfig.cta.callNow} — ${siteConfig.phone.display}`}
-      className="block overflow-hidden border-t border-white/10 bg-primary-dark py-1.5"
+      className="block overflow-hidden border-t border-white/10 bg-primary-dark py-1"
     >
       <div className="flex w-max animate-marquee hover:[animation-play-state:paused]">
         {Array.from({ length: 8 }).map((_, index) => (
@@ -173,10 +173,10 @@ export function Header() {
         scrolled ? "border-border/60 shadow-sm" : "border-transparent"
       )}
     >
-      <Container className="grid h-16 grid-cols-[1fr_auto] items-center md:h-20 md:grid-cols-[1fr_auto_1fr]">
+      <Container className="grid h-16 grid-cols-[1fr_auto] items-center md:h-18 md:grid-cols-[1fr_auto_1fr]">
         <Link href="/" className="flex items-center gap-2.5 justify-self-start">
-          <Logo size="md" />
-          <span className="bg-gradient-to-r from-primary to-primary-light bg-clip-text text-lg font-semibold tracking-tight text-transparent drop-shadow-[0_1px_4px_rgb(30_122_76_/_0.12)] md:text-xl">
+          <Logo size="md" className="size-12 md:size-13" />
+          <span className="bg-gradient-to-r from-primary to-primary-light bg-clip-text text-base font-semibold tracking-tight text-transparent drop-shadow-[0_1px_4px_rgb(30_122_76_/_0.12)] md:text-lg">
             {siteConfig.name}
           </span>
         </Link>

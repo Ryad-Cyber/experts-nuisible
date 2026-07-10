@@ -4,6 +4,7 @@ import { Expertise } from "@/components/sections/Expertise";
 import { Nuisibles } from "@/components/sections/Nuisibles";
 import { Configurateur } from "@/components/sections/Configurateur";
 import { Atouts } from "@/components/sections/Atouts";
+import { GalerieNuisibles3D } from "@/components/sections/GalerieNuisibles3D";
 import { Garantie } from "@/components/sections/Garantie";
 import { Disponibilite } from "@/components/sections/Disponibilite";
 import { Urgence } from "@/components/sections/Urgence";
@@ -23,6 +24,7 @@ export default function Home() {
       <Nuisibles />
       <Configurateur />
       <Atouts />
+      <GalerieNuisibles3D />
       <Disponibilite />
       <WaveDivider fromColor="var(--color-muted)" toColor="var(--color-accent)" />
       <Urgence />

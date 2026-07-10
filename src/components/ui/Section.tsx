@@ -24,7 +24,7 @@ export function Section({
 }: SectionProps) {
   return (
     <section
-      className={cn("py-16 md:py-24", variantStyles[variant], className)}
+      className={cn("py-12 md:py-16", variantStyles[variant], className)}
       {...props}
     >
       <Container className={containerClassName}>{children}</Container>

@@ -20,7 +20,7 @@ export function Urgence() {
     <Section
       id="urgence"
       variant="accent"
-      className="relative overflow-hidden py-10 text-center md:py-14"
+      className="relative overflow-hidden py-8 text-center md:py-11"
     >
       <div
         aria-hidden
@@ -31,20 +31,20 @@ export function Urgence() {
         className="pointer-events-none absolute left-1/2 top-1/2 h-[40rem] w-[40rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-accent-dark/10 blur-3xl"
       />
 
-      <Reveal className="relative mx-auto flex max-w-2xl flex-col items-center gap-4">
+      <Reveal className="relative mx-auto flex max-w-2xl flex-col items-center gap-3">
         <motion.span
-          className="inline-flex size-12 items-center justify-center rounded-full bg-accent-foreground/10"
+          className="inline-flex size-11 items-center justify-center rounded-full bg-accent-foreground/10"
           animate={prefersReducedMotion ? undefined : { scale: [1, 1.08, 1] }}
           transition={{ duration: 2.2, repeat: Infinity, ease: "easeInOut" }}
         >
-          <Siren className="size-6" />
+          <Siren className="size-5" />
         </motion.span>
 
-        <h2 className="text-3xl font-semibold tracking-tight text-balance md:text-4xl">
+        <h2 className="text-2xl font-semibold tracking-tight text-balance md:text-3xl">
           Une urgence nuisible ? On intervient vite.
         </h2>
 
-        <p className="text-lg text-accent-foreground/80">
+        <p className="text-base text-accent-foreground/80">
           Rats, guêpes, punaises de lit... certaines situations ne peuvent pas attendre.
           Appelez-nous, un technicien vous répond directement pour organiser une
           intervention rapide.
@@ -55,7 +55,7 @@ export function Urgence() {
           {siteConfig.cta.callNow} — {siteConfig.phone.display}
         </Button>
 
-        <StaggerGroup className="mt-2 grid grid-cols-1 gap-3 sm:grid-cols-3 sm:gap-8">
+        <StaggerGroup className="mt-1.5 grid grid-cols-1 gap-2.5 sm:grid-cols-3 sm:gap-6">
           {highlights.map(({ icon: Icon, label }) => (
             <StaggerItem
               key={label}

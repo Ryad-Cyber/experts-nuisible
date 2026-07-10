@@ -17,7 +17,7 @@ function GuaranteeMedallion() {
   const prefersReducedMotion = useReducedMotion();
 
   return (
-    <div className="relative flex aspect-square w-64 items-center justify-center sm:w-72">
+    <div className="relative flex aspect-square w-52 items-center justify-center sm:w-60">
       {/* Soft glow behind the medallion */}
       <div aria-hidden className="absolute inset-4 rounded-full bg-accent/25 blur-2xl" />
 
@@ -54,12 +54,12 @@ function GuaranteeMedallion() {
       </motion.svg>
 
       {/* Glass core */}
-      <div className="relative flex size-44 flex-col items-center justify-center rounded-full border border-white/60 bg-white/60 text-center shadow-xl backdrop-blur-xl sm:size-48">
-        <span className="text-6xl font-bold leading-none tracking-tight text-foreground sm:text-7xl">
+      <div className="relative flex size-36 flex-col items-center justify-center rounded-full border border-white/60 bg-white/60 text-center shadow-xl backdrop-blur-xl sm:size-40">
+        <span className="text-5xl font-bold leading-none tracking-tight text-foreground sm:text-6xl">
           30
         </span>
-        <span className="mt-1 text-lg font-semibold text-accent-dark">jours</span>
-        <span className="mt-1 text-[11px] font-semibold uppercase tracking-widest text-muted-foreground">
+        <span className="mt-1 text-base font-semibold text-accent-dark">jours</span>
+        <span className="mt-1 text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">
           Garantie résultat
         </span>
       </div>
@@ -69,13 +69,13 @@ function GuaranteeMedallion() {
 
 export function Garantie() {
   return (
-    <Section id="garantie" className="relative overflow-hidden">
+    <Section id="garantie" className="relative overflow-hidden py-10 md:py-12">
       <div
         aria-hidden
         className="pointer-events-none absolute -left-32 bottom-0 h-[24rem] w-[24rem] rounded-full bg-secondary/10 blur-3xl"
       />
 
-      <div className="relative grid items-center gap-12 lg:grid-cols-[auto_1fr] lg:gap-16">
+      <div className="relative grid items-center gap-8 lg:grid-cols-[auto_1fr] lg:gap-12">
         <Reveal className="flex justify-center lg:justify-start">
           <GuaranteeMedallion />
         </Reveal>
@@ -85,15 +85,15 @@ export function Garantie() {
             <ShieldCheck className="size-4" />
             Garantie résultat
           </span>
-          <h2 className="mt-4 text-3xl font-semibold tracking-tight text-balance md:text-4xl">
+          <h2 className="mt-3 text-2xl font-semibold tracking-tight text-balance md:text-3xl">
             Votre tranquillité est notre priorité
           </h2>
-          <p className="mt-4 text-lg text-muted-foreground">
+          <p className="mt-2.5 text-base text-muted-foreground">
             Si les nuisibles réapparaissent dans les 30 jours suivant notre intervention,
             notre équipe intervient à nouveau sans frais supplémentaires.
           </p>
 
-          <ul className="mt-6 flex flex-col gap-3">
+          <ul className="mt-5 flex flex-col gap-2.5">
             {POINTS.map((point) => (
               <li
                 key={point}
@@ -105,7 +105,7 @@ export function Garantie() {
             ))}
           </ul>
 
-          <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row lg:items-start">
+          <div className="mt-6 flex flex-col items-center gap-3 sm:flex-row lg:items-start">
             <Button href="#contact" size="lg">
               Demander une intervention
             </Button>

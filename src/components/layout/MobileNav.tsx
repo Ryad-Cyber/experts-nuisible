@@ -97,7 +97,7 @@ export function MobileNav() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -8 }}
               transition={panelTransition}
-              className="fixed inset-x-0 top-16 z-40 flex max-h-[calc(100dvh-4rem)] flex-col gap-1 overflow-y-auto border-b border-border bg-background p-4 shadow-lg"
+              className="fixed inset-x-0 top-16 z-40 flex max-h-[calc(100dvh-3.6rem)] flex-col gap-1 overflow-y-auto border-b border-border bg-background p-4 shadow-lg"
             >
               {siteConfig.nav.map((link, index) => {
                 const entry = {
@@ -116,7 +116,7 @@ export function MobileNav() {
                         type="button"
                         aria-expanded={servicesOpen}
                         onClick={() => setServicesOpen((prev) => !prev)}
-                        className="flex w-full items-center justify-between rounded-lg px-3 py-3 text-lg font-medium text-foreground hover:bg-muted"
+                        className="flex w-full items-center justify-between rounded-lg px-3 py-2.5 text-base font-medium text-foreground hover:bg-muted"
                       >
                         {link.label}
                         <ChevronDown
@@ -162,7 +162,7 @@ export function MobileNav() {
                     href={link.href}
                     onClick={close}
                     {...entry}
-                    className="rounded-lg px-3 py-3 text-lg font-medium text-foreground hover:bg-muted"
+                    className="rounded-lg px-3 py-2.5 text-base font-medium text-foreground hover:bg-muted"
                   >
                     {link.label}
                   </motion.a>

@@ -70,13 +70,13 @@ export function Atouts() {
         <span className="text-sm font-semibold uppercase tracking-wider text-secondary">
           Pourquoi nous choisir
         </span>
-        <h2 className="mt-3 text-3xl font-semibold tracking-tight text-balance md:text-4xl">
+        <h2 className="mt-3 text-2xl font-semibold tracking-tight text-balance md:text-3xl">
           Ce qui nous distingue
         </h2>
       </Reveal>
 
       <StaggerGroup
-        className="relative mx-auto mt-14 max-w-3xl"
+        className="relative mx-auto mt-11 max-w-3xl"
         onMouseLeave={() => setActive(null)}
       >
         {PILLARS.map((pillar, index) => {
@@ -89,14 +89,14 @@ export function Atouts() {
               <div
                 onMouseEnter={() => setActive(index)}
                 className={cn(
-                  "group relative flex items-center gap-4 border-b border-border py-6 transition-opacity duration-300 last:border-b-0 sm:gap-8",
+                  "group relative flex items-center gap-3 border-b border-border py-5 transition-opacity duration-300 last:border-b-0 sm:gap-6",
                   isDimmed && "opacity-40"
                 )}
               >
                 {isActive && (
                   <motion.span
                     layoutId="atout-indicator"
-                    className="absolute -left-4 top-1/2 h-8 w-1 -translate-y-1/2 rounded-full bg-accent sm:-left-6"
+                    className="absolute -left-4 top-1/2 h-7 w-1 -translate-y-1/2 rounded-full bg-accent sm:-left-6"
                     transition={
                       prefersReducedMotion ? { duration: 0.01 } : { type: "spring", stiffness: 420, damping: 34 }
                     }
@@ -109,17 +109,17 @@ export function Atouts() {
 
                 <span
                   className={cn(
-                    "flex size-12 shrink-0 items-center justify-center rounded-full transition-all duration-300",
+                    "flex size-10 shrink-0 items-center justify-center rounded-full transition-all duration-300",
                     isActive
                       ? "scale-110 bg-accent text-accent-foreground shadow-[0_0_20px_rgba(245,196,51,0.45)]"
                       : "bg-secondary/10 text-secondary"
                   )}
                 >
-                  <Icon className="size-5" />
+                  <Icon className="size-4" />
                 </span>
 
                 <div className="min-w-0 flex-1">
-                  <h3 className="text-lg font-semibold tracking-tight text-foreground sm:text-xl">
+                  <h3 className="text-base font-semibold tracking-tight text-foreground sm:text-lg">
                     {pillar.title}
                   </h3>
                   <p className="mt-1 text-sm text-muted-foreground">{pillar.detail}</p>

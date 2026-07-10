@@ -16,7 +16,7 @@ import { QUOTE_CITY_EVENT, QUOTE_ZONE_EVENT, type QuoteCityDetail, type QuoteZon
 import type { PlausibleEvents } from "@/lib/analytics";
 
 const inputStyles =
-  "w-full rounded-lg border border-border bg-background/95 px-3.5 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-accent shadow-sm transition-shadow";
+  "w-full rounded-lg border border-border bg-background/95 px-3.5 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-accent shadow-sm transition-shadow";
 
 const selectStyles = cn(inputStyles, "appearance-none bg-no-repeat pr-9");
 
@@ -161,13 +161,13 @@ function ContactForm() {
   return (
     <div
       className={cn(
-        "glass relative overflow-hidden rounded-2xl border border-white/50 p-6 shadow-xl backdrop-blur-xl transition-shadow duration-500 sm:p-8",
+        "glass relative overflow-hidden rounded-2xl border border-white/50 p-5 shadow-xl backdrop-blur-xl transition-shadow duration-500 sm:p-6",
         justPrefilled && "ring-2 ring-accent shadow-glow-accent"
       )}
     >
-      <form onSubmit={handleSubmit} className="relative flex flex-col gap-5">
-        <div className="grid gap-5 sm:grid-cols-2">
-          <div className="flex flex-col gap-1.5">
+      <form onSubmit={handleSubmit} className="relative flex flex-col gap-3.5">
+        <div className="grid gap-3.5 sm:grid-cols-2">
+          <div className="flex flex-col gap-1">
             <label htmlFor="name" className={labelStyles}>
               Nom
             </label>
@@ -179,7 +179,7 @@ function ContactForm() {
               className={cn(inputStyles)}
             />
           </div>
-          <div className="flex flex-col gap-1.5">
+          <div className="flex flex-col gap-1">
             <label htmlFor="phone" className={labelStyles}>
               Téléphone
             </label>
@@ -194,7 +194,7 @@ function ContactForm() {
           </div>
         </div>
 
-        <div className="flex flex-col gap-1.5">
+        <div className="flex flex-col gap-1">
           <label htmlFor="email" className={labelStyles}>
             Email
           </label>
@@ -208,12 +208,12 @@ function ContactForm() {
           />
         </div>
 
-        <p className="-mt-2 text-xs text-muted-foreground">
+        <p className="-mt-1.5 text-xs text-muted-foreground">
           Téléphone ou e-mail : un seul des deux suffit.
         </p>
 
-        <div className="grid gap-5 sm:grid-cols-2">
-          <div className="flex flex-col gap-1.5">
+        <div className="grid gap-3.5 sm:grid-cols-2">
+          <div className="flex flex-col gap-1">
             <label htmlFor="service" className={labelStyles}>
               Type de nuisible
             </label>
@@ -234,7 +234,7 @@ function ContactForm() {
             </select>
           </div>
 
-          <div className="flex flex-col gap-1.5">
+          <div className="flex flex-col gap-1">
             <label htmlFor="zoneSeen" className={labelStyles}>
               Emplacement
             </label>
@@ -262,11 +262,11 @@ function ContactForm() {
             value={zoneOther}
             onChange={(event) => setZoneOther(event.target.value)}
             placeholder="Précisez l'endroit..."
-            className={cn(inputStyles, "-mt-2")}
+            className={cn(inputStyles, "-mt-1.5")}
           />
         )}
 
-        <div className="flex flex-col gap-1.5">
+        <div className="flex flex-col gap-1">
           <label htmlFor="message" className={labelStyles}>
             Message
           </label>
@@ -274,7 +274,7 @@ function ContactForm() {
             ref={messageRef}
             id="message"
             name="message"
-            rows={3}
+            rows={2}
             placeholder="Décrivez votre situation en quelques mots..."
             className={cn(inputStyles, "resize-none")}
           />
@@ -330,7 +330,7 @@ function ContactForm() {
 
 export function Contact() {
   return (
-    <section id="contact" className="relative isolate overflow-hidden py-20 md:py-28">
+    <section id="contact" className="relative isolate overflow-hidden py-12 md:py-16">
       {/* Full-bleed photo — a real design element, not a faint backdrop. */}
       <Image
         src="/technicien_ia.jpg"
@@ -357,18 +357,18 @@ export function Contact() {
           <span className="text-sm font-semibold uppercase tracking-wider text-secondary">
             Contact
           </span>
-          <h2 className="mt-3 text-3xl font-semibold tracking-tight text-balance md:text-4xl">
+          <h2 className="mt-2.5 text-2xl font-semibold tracking-tight text-balance md:text-3xl">
             Parlons de votre intervention
           </h2>
-          <p className="mt-4 text-lg text-muted-foreground">
+          <p className="mt-3 text-base text-muted-foreground">
             Par téléphone pour une réponse immédiate, ou via le formulaire pour un devis
             gratuit et sans engagement.
           </p>
         </Reveal>
 
-        <div className="mt-12 grid gap-8 lg:grid-cols-2 lg:gap-12">
+        <div className="mt-8 grid gap-6 lg:grid-cols-2 lg:gap-10">
           <Reveal className="flex flex-col gap-6">
-            <div className="glass flex flex-col gap-5 rounded-2xl border border-white/50 p-6 shadow-xl backdrop-blur-xl">
+            <div className="glass flex flex-col gap-4 rounded-2xl border border-white/50 p-5 shadow-xl backdrop-blur-xl sm:p-6">
               <a
                 href={siteConfig.phone.href}
                 className="flex items-center gap-3 rounded-xl bg-accent px-4 py-3.5 text-accent-foreground transition-colors hover:bg-accent/90"

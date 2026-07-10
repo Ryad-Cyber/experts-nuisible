@@ -166,21 +166,21 @@ export function Configurateur() {
   );
 
   return (
-    <Section id="diagnostic" variant="muted">
+    <Section id="diagnostic" variant="muted" className="py-10 md:py-12">
       <Reveal className="mx-auto max-w-2xl text-center">
-        <span className="text-sm font-semibold uppercase tracking-wider text-secondary">
+        <span className="text-xs font-semibold uppercase tracking-wider text-secondary">
           Diagnostic interactif
         </span>
-        <h2 className="mt-3 text-3xl font-semibold tracking-tight text-balance md:text-4xl">
+        <h2 className="mt-2.5 text-2xl font-semibold tracking-tight text-balance md:text-3xl">
           Où avez-vous aperçu le nuisible ?
         </h2>
-        <p className="mt-4 text-lg text-muted-foreground">
+        <p className="mt-3 text-base text-muted-foreground">
           Explorez la villa en 3D et cliquez directement sur un élément — toit, cheminée,
           fenêtre, arbre, jardin… — pour indiquer où vous avez repéré le problème.
         </p>
       </Reveal>
 
-      <div ref={tiltRef} className="mt-12 grid gap-6 lg:grid-cols-[1.3fr_1fr] lg:items-stretch">
+      <div ref={tiltRef} className="mt-6 grid gap-5 lg:grid-cols-[1.3fr_1fr] lg:items-stretch">
         <div className="relative aspect-[4/3] overflow-hidden rounded-[2rem] border border-border bg-gradient-to-b from-background to-muted shadow-lg sm:aspect-[16/10]">
           {webglSupported ? (
             <>
@@ -208,7 +208,7 @@ export function Configurateur() {
           )}
         </div>
 
-        <div className="flex flex-col justify-center rounded-[2rem] border border-border bg-background p-8 shadow-lg">
+        <div className="flex flex-col justify-center rounded-[2rem] border border-border bg-background p-5 shadow-lg lg:p-6">
           <AnimatePresence mode="wait">
             {activeZone ? (
               <motion.div

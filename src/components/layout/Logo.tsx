@@ -9,9 +9,9 @@ type LogoProps = {
 };
 
 const sizeStyles: Record<LogoSize, string> = {
-  sm: "size-9",
-  md: "size-17",
-  lg: "size-16",
+  sm: "size-8",
+  md: "size-11",
+  lg: "size-14",
 };
 
 export function Logo({ size = "md", className }: LogoProps) {

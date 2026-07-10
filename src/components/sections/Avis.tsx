@@ -39,7 +39,7 @@ function TestimonialCard({
     <motion.div
       whileHover={prefersReducedMotion ? undefined : { y: -6 }}
       transition={{ type: "spring", stiffness: 300, damping: 22 }}
-      className="group relative flex h-full flex-col gap-5 overflow-hidden rounded-2xl border border-white/60 bg-white/70 p-6 shadow-md backdrop-blur-xl transition-shadow duration-300 hover:shadow-xl hover:shadow-secondary/10"
+      className="group relative flex h-full flex-col gap-3 overflow-hidden rounded-2xl border border-white/60 bg-white/70 p-4 shadow-md backdrop-blur-xl transition-shadow duration-300 hover:shadow-xl hover:shadow-secondary/10"
     >
       {/* Soft glow that blooms in on hover */}
       <div className="pointer-events-none absolute -right-10 -top-10 size-32 rounded-full bg-accent/0 blur-2xl transition-colors duration-500 group-hover:bg-accent/20" />
@@ -50,7 +50,7 @@ function TestimonialCard({
             <Star
               key={index}
               className={cn(
-                "size-4",
+                "size-3.5",
                 index < testimonial.rating ? "text-accent" : "text-border"
               )}
               fill={index < testimonial.rating ? "currentColor" : "none"}
@@ -58,17 +58,17 @@ function TestimonialCard({
             />
           ))}
         </div>
-        <Quote className="size-7 text-secondary/25" strokeWidth={1.5} />
+        <Quote className="size-6 text-secondary/25" strokeWidth={1.5} />
       </div>
 
-      <p className="relative flex-1 text-[0.95rem] leading-relaxed text-foreground/90">
+      <p className="relative flex-1 text-sm leading-relaxed text-foreground/90">
         &ldquo;{testimonial.quote}&rdquo;
       </p>
 
-      <div className="relative flex items-center gap-3 border-t border-border/60 pt-4">
+      <div className="relative flex items-center gap-2.5 border-t border-border/60 pt-2.5">
         <span
           className={cn(
-            "flex size-10 shrink-0 items-center justify-center rounded-full bg-gradient-to-br text-sm font-semibold text-white shadow-sm",
+            "flex size-9 shrink-0 items-center justify-center rounded-full bg-gradient-to-br text-xs font-semibold text-white shadow-sm",
             gradient
           )}
         >
@@ -88,7 +88,7 @@ export function Avis() {
     testimonials.reduce((sum, t) => sum + t.rating, 0) / testimonials.length;
 
   return (
-    <Section id="avis" className="relative overflow-hidden">
+    <Section id="avis" className="relative overflow-hidden py-10 md:py-14">
       <div
         aria-hidden
         className="pointer-events-none absolute -left-32 top-1/3 h-96 w-96 rounded-full bg-secondary/10 blur-3xl"
@@ -102,21 +102,21 @@ export function Avis() {
         <span className="text-sm font-semibold uppercase tracking-wider text-secondary">
           Avis clients
         </span>
-        <h2 className="mt-3 text-3xl font-semibold tracking-tight text-balance md:text-4xl">
+        <h2 className="mt-2.5 text-2xl font-semibold tracking-tight text-balance md:text-3xl">
           Ils nous ont fait confiance
         </h2>
-        <p className="mt-4 text-lg text-muted-foreground">
+        <p className="mt-3 text-base text-muted-foreground">
           Particuliers, restaurants et copropriétés : découvrez leurs retours après
           intervention.
         </p>
 
-        <div className="mt-5 inline-flex items-center gap-2 rounded-full border border-border bg-background/80 px-4 py-2 shadow-sm backdrop-blur-sm">
+        <div className="mt-3.5 inline-flex items-center gap-2 rounded-full border border-border bg-background/80 px-3.5 py-1.5 shadow-sm backdrop-blur-sm">
           <div className="flex gap-0.5">
             {Array.from({ length: 5 }).map((_, index) => (
               <Star
                 key={index}
                 className={cn(
-                  "size-4",
+                  "size-3.5",
                   index < Math.round(averageRating) ? "text-accent" : "text-border"
                 )}
                 fill={index < Math.round(averageRating) ? "currentColor" : "none"}
@@ -131,7 +131,7 @@ export function Avis() {
         </div>
       </Reveal>
 
-      <StaggerGroup className="relative mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+      <StaggerGroup className="relative mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {testimonials.map((testimonial, index) => (
           <StaggerItem key={testimonial.id}>
             <TestimonialCard

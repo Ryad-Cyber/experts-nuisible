@@ -74,7 +74,7 @@ function CoverageMap() {
   const primary = HUBS.find((hub) => hub.primary)!;
 
   return (
-    <div className="relative aspect-square w-full max-w-sm">
+    <div className="relative aspect-square w-full max-w-xs">
       {/* Stylised map canvas: faint dot grid + soft coverage glow */}
       <div
         aria-hidden
@@ -174,30 +174,30 @@ export function Disponibilite() {
         <span className="text-sm font-semibold uppercase tracking-wider text-secondary">
           Disponibilité
         </span>
-        <h2 className="mt-3 text-3xl font-semibold tracking-tight text-balance md:text-4xl">
+        <h2 className="mt-2.5 text-2xl font-semibold tracking-tight text-balance md:text-3xl">
           Disponible 24h/24, partout où vous êtes
         </h2>
-        <p className="mt-4 text-lg text-muted-foreground">
+        <p className="mt-3 text-base text-muted-foreground">
           Une équipe mobilisée en permanence, week-ends et jours fériés inclus.
         </p>
       </Reveal>
 
-      <Reveal delay={0.1} className="relative mx-auto mt-12 max-w-5xl">
+      <Reveal delay={0.1} className="relative mx-auto mt-9 max-w-5xl">
         <div className="overflow-hidden rounded-[2rem] border border-white/60 bg-white/40 shadow-xl backdrop-blur-2xl">
           <div className="grid gap-0 lg:grid-cols-[1.05fr_1fr]">
-            <div className="flex flex-col items-center justify-center gap-4 border-b border-white/50 p-8 lg:border-b-0 lg:border-r">
+            <div className="flex flex-col items-center justify-center gap-3 border-b border-white/50 p-6 lg:border-b-0 lg:border-r">
               <CoverageMap />
               <p className="text-center text-xs text-muted-foreground">
                 Cliquez sur un secteur pour préparer votre demande de devis.
               </p>
             </div>
 
-            <div className="flex flex-col justify-center gap-8 p-8 sm:p-10">
+            <div className="flex flex-col justify-center gap-6 p-6 sm:p-8">
               <div className="flex flex-wrap gap-2">
                 {AVAILABILITY_BADGES.map(({ icon: Icon, label }) => (
                   <span
                     key={label}
-                    className="inline-flex items-center gap-1.5 rounded-full border border-white/70 bg-white/70 px-3 py-1.5 text-xs font-semibold text-foreground shadow-sm backdrop-blur-sm"
+                    className="inline-flex items-center gap-1.5 rounded-full border border-white/70 bg-white/70 px-2.5 py-1 text-xs font-semibold text-foreground shadow-sm backdrop-blur-sm"
                   >
                     <Icon className="size-3.5 text-accent-dark" />
                     {label}
@@ -205,9 +205,9 @@ export function Disponibilite() {
                 ))}
               </div>
 
-              <div className="grid grid-cols-2 gap-6">
+              <div className="grid grid-cols-2 gap-5">
                 <div>
-                  <p className="text-4xl font-bold tracking-tight text-foreground sm:text-5xl">
+                  <p className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
                     <AnimatedStat value={200} prefix="+" />
                   </p>
                   <p className="mt-1 text-sm font-medium text-foreground/80">interventions réalisées</p>
@@ -219,7 +219,7 @@ export function Disponibilite() {
                     <LiveDot />
                     En ligne
                   </span>
-                  <p className="text-4xl font-bold tracking-tight text-foreground sm:text-5xl">
+                  <p className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
                     <AnimatedStat value={3} />
                   </p>
                   <p className="mt-1 text-sm font-medium text-foreground/80">

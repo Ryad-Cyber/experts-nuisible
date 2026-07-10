@@ -24,27 +24,27 @@ const ZONES = [
 
 export function ZoneIntervention() {
   return (
-    <Section id="zone-intervention" className="relative overflow-hidden">
+    <Section id="zone-intervention" className="relative overflow-hidden py-8 md:py-10">
       <Reveal delay={0.15} className="relative mx-auto max-w-4xl text-center">
-        <h3 className="text-xl font-semibold tracking-tight">Zone d&apos;intervention</h3>
-        <p className="mx-auto mt-2 max-w-2xl text-sm text-muted-foreground">
+        <h3 className="text-lg font-semibold tracking-tight">Zone d&apos;intervention</h3>
+        <p className="mx-auto mt-1.5 max-w-2xl text-sm text-muted-foreground">
           Nous intervenons dans un rayon d&apos;environ 300 à 400 km autour de notre secteur
           principal, ainsi que dans de nombreuses autres villes sur demande. Les villes
           affichées ci-dessous sont des exemples de nos principales zones d&apos;intervention.
         </p>
-        <div className="mt-6 flex flex-wrap items-center justify-center gap-2.5">
+        <div className="mt-5 flex flex-wrap items-center justify-center gap-2">
           {ZONES.map((zone) => (
             <button
               key={zone}
               type="button"
               onClick={() => requestQuoteForCity(zone)}
-              className="inline-flex cursor-pointer items-center gap-1.5 rounded-full border border-border bg-background px-3.5 py-1.5 text-sm font-medium text-foreground shadow-sm transition-colors hover:border-accent hover:bg-accent/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+              className="inline-flex cursor-pointer items-center gap-1.5 rounded-full border border-border bg-background px-3 py-1 text-sm font-medium text-foreground shadow-sm transition-colors hover:border-accent hover:bg-accent/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
             >
               <MapPin className="size-3.5 text-secondary" />
               {zone}
             </button>
           ))}
-          <span className="inline-flex items-center gap-1.5 rounded-full border border-dashed border-secondary/50 bg-secondary/5 px-3.5 py-1.5 text-sm font-semibold text-secondary">
+          <span className="inline-flex items-center gap-1.5 rounded-full border border-dashed border-secondary/50 bg-secondary/5 px-3 py-1 text-sm font-semibold text-secondary">
             + Et bien d&apos;autres communes
           </span>
         </div>

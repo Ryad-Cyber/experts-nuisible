@@ -17,12 +17,12 @@ function chips(copy: string) {
     return (
       <div
         key={`${copy}-${index}`}
-        className="mx-2.5 flex shrink-0 items-center gap-3 rounded-full border border-white/60 bg-white/70 py-2 pl-2.5 pr-5 shadow-sm backdrop-blur-md"
+        className="mx-2 flex shrink-0 items-center gap-2 rounded-full border border-white/60 bg-white/70 py-1.5 pl-1.5 pr-4 shadow-sm backdrop-blur-md"
       >
-        <span className="flex size-9 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-accent/20 to-secondary/15 text-accent-dark">
-          <Icon className="size-4" />
+        <span className="flex size-7 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-accent/20 to-secondary/15 text-accent-dark">
+          <Icon className="size-3.5" />
         </span>
-        <span className="whitespace-nowrap text-sm font-medium text-foreground/85">{message.text}</span>
+        <span className="whitespace-nowrap text-xs font-medium text-foreground/85">{message.text}</span>
       </div>
     );
   });
@@ -32,15 +32,15 @@ export function MarqueeBand() {
   return (
     <section
       aria-label="Nos engagements"
-      className="relative overflow-hidden border-y border-border/50 bg-gradient-to-r from-muted via-background to-muted py-7"
+      className="relative overflow-hidden border-y border-border/50 bg-gradient-to-r from-muted via-background to-muted py-3.5"
     >
       <div
         aria-hidden
-        className="pointer-events-none absolute -left-24 top-1/2 h-48 w-48 -translate-y-1/2 rounded-full bg-secondary/10 blur-3xl"
+        className="pointer-events-none absolute -left-24 top-1/2 h-32 w-32 -translate-y-1/2 rounded-full bg-secondary/10 blur-3xl"
       />
       <div
         aria-hidden
-        className="pointer-events-none absolute -right-24 top-1/2 h-48 w-48 -translate-y-1/2 rounded-full bg-accent/10 blur-3xl"
+        className="pointer-events-none absolute -right-24 top-1/2 h-32 w-32 -translate-y-1/2 rounded-full bg-accent/10 blur-3xl"
       />
 
       <div className="mask-fade-x relative">

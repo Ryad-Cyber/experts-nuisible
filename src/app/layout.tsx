@@ -74,7 +74,7 @@ export default function RootLayout({
       <LocalBusinessJsonLd />
       <PhoneClickTracker />
       <Header />
-      <main className="flex-1 pb-20 md:pb-0">{children}</main>
+      <main className="flex-1 pb-18 md:pb-0">{children}</main>
       <Footer />
       <StickyCallBar />
       <ScrollMotif />

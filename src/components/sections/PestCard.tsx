@@ -58,7 +58,7 @@ export function PestCard({ pest, index, serviceTitle, serviceIcon: Icon }: PestC
           transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] },
         },
       }}
-      className="group relative w-[72vw] shrink-0 snap-start sm:w-[300px] lg:w-[320px]"
+      className="group relative w-[58vw] shrink-0 snap-start sm:w-[208px] lg:w-[220px]"
     >
       <motion.div
         ref={ref}
@@ -67,13 +67,13 @@ export function PestCard({ pest, index, serviceTitle, serviceIcon: Icon }: PestC
         whileHover={{ scale: 1.03 }}
         transition={springConfig}
         style={{ rotateX, rotateY, transformPerspective: 900 }}
-        className="relative aspect-[3/4] overflow-hidden rounded-3xl bg-primary-dark shadow-xl"
+        className="relative aspect-[4/5] overflow-hidden rounded-3xl bg-primary-dark shadow-xl"
       >
         <Image
           src={pest.image}
           alt={pest.name}
           fill
-          sizes="(min-width: 1024px) 320px, 72vw"
+          sizes="(min-width: 1024px) 220px, 58vw"
           className="scale-[1.18] object-cover transition-transform duration-700 ease-out group-hover:scale-[1.28]"
         />
 
@@ -85,16 +85,16 @@ export function PestCard({ pest, index, serviceTitle, serviceIcon: Icon }: PestC
           className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
         />
 
-        <span className="absolute right-4 top-4 rounded-full border border-white/20 bg-white/10 px-2.5 py-1 text-xs font-medium tabular-nums text-white/80 backdrop-blur-sm">
+        <span className="absolute right-3 top-3 rounded-full border border-white/20 bg-white/10 px-1.5 py-0.5 text-[11px] font-medium tabular-nums text-white/80 backdrop-blur-sm">
           {String(index + 1).padStart(2, "0")}
         </span>
 
-        <div className="absolute inset-x-0 bottom-0 flex flex-col gap-2 p-5">
-          <span className="inline-flex w-fit items-center gap-1.5 rounded-full bg-accent px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wide text-accent-foreground">
-            <Icon className="size-3.5" />
+        <div className="absolute inset-x-0 bottom-0 flex flex-col gap-1 p-3">
+          <span className="inline-flex w-fit items-center gap-1.5 rounded-full bg-accent px-2 py-0.5 text-[11px] font-semibold uppercase tracking-wide text-accent-foreground">
+            <Icon className="size-3" />
             {serviceTitle}
           </span>
-          <h3 className="text-xl font-semibold tracking-tight text-white">{pest.name}</h3>
+          <h3 className="text-base font-semibold tracking-tight text-white">{pest.name}</h3>
         </div>
       </motion.div>
     </motion.div>
