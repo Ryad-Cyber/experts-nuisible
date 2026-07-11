@@ -50,12 +50,13 @@ export function ScrollMotif() {
         </div>
       </motion.div>
 
-      {/* Mobile/tablet: lighter — short static-position rail tucked in the top-right corner,
-          clear of the bottom StickyCallBar thumb zone. No floating loop, just the progress fill. */}
+      {/* Mobile/tablet: lighter — a taller rail so the capsule's glide actually reads as
+          following the scroll, anchored mid-screen and clear of the header above and the
+          StickyCallBar thumb zone below. No floating loop, just the progress fill. */}
       <motion.div
         aria-hidden
         style={{ opacity }}
-        className="pointer-events-none fixed right-3 top-20 z-30 h-16 lg:hidden"
+        className="pointer-events-none fixed right-3 top-1/2 z-30 h-[45vh] max-h-96 -translate-y-1/2 lg:hidden"
       >
         <div className="relative mx-auto h-full w-px bg-gradient-to-b from-transparent via-border to-transparent">
           <motion.div

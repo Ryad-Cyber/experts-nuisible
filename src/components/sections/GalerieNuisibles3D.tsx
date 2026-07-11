@@ -79,43 +79,70 @@ function ModelCard({ pest }: { pest: PestModel }) {
   );
 }
 
+const heroBackgroundStyle = {
+  backgroundImage:
+    "radial-gradient(circle at 15% 0%, rgb(124 148 67 / 0.16), transparent 55%), " +
+    "radial-gradient(circle at 85% 100%, rgb(245 196 51 / 0.1), transparent 55%), " +
+    "linear-gradient(to bottom, rgb(8 31 20 / 0.97), rgb(8 31 20 / 0.99) 50%, rgb(8 31 20 / 0.97))",
+};
+
 export function GalerieNuisibles3D() {
   return (
-    <Section id="galerie-3d" variant="muted" className="relative overflow-hidden py-10 md:py-12">
-      <Reveal className="mx-auto max-w-2xl text-center">
-        <span className="text-sm font-semibold uppercase tracking-wider text-secondary">
-          Galerie 3D
-        </span>
-        <h2 className="mt-2 text-2xl font-semibold tracking-tight text-balance md:text-3xl">
-          Explorez les nuisibles en 3D
-        </h2>
-        <p className="mt-3 text-muted-foreground">
-          Faites pivoter chaque modèle à la souris. Chaque nuisible illustré représente toute une
-          famille d&apos;espèces que nous traitons — pas uniquement l&apos;animal affiché.
-        </p>
-      </Reveal>
+    <>
+      <div className="relative overflow-hidden py-16 md:py-20" style={heroBackgroundStyle}>
+        {/* Fine dot-grid texture, echoes the "Solutions professionnelles" band further down —
+            gives this intro its own material instead of a flat fill. */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 opacity-[0.07]"
+          style={{
+            backgroundImage: "radial-gradient(circle, white 1px, transparent 1px)",
+            backgroundSize: "22px 22px",
+          }}
+        />
+        {/* Exit seam — fades into the (light) gallery grid below. */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-muted to-transparent"
+        />
 
-      <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
-        {PEST_MODELS.map((pest) => (
-          <ModelCard key={pest.id} pest={pest} />
-        ))}
-      </div>
-
-      {/* Breadth reassurance: we treat far more than the models shown. */}
-      <div className="mt-6 flex flex-col items-center gap-4 rounded-2xl border border-dashed border-secondary/40 bg-background/70 p-6 text-center backdrop-blur-sm md:flex-row md:justify-between md:text-left">
-        <div>
-          <h3 className="text-lg font-semibold tracking-tight">Et bien d&apos;autres nuisibles…</h3>
-          <p className="mt-1 max-w-2xl text-sm text-muted-foreground">
-            Notre équipe intervient sur de nombreuses espèces de rongeurs, insectes, oiseaux,
-            reptiles, champignons et autres nuisibles. Contactez-nous pour toute situation
-            spécifique.
+        <Reveal className="relative mx-auto max-w-2xl px-4 text-center sm:px-6 lg:px-8">
+          <span className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-4 py-2 text-xs font-semibold uppercase tracking-wider text-accent-light backdrop-blur-sm">
+            Galerie 3D
+          </span>
+          <h2 className="mt-4 text-2xl font-semibold tracking-tight text-balance text-white md:text-3xl">
+            Explorez les nuisibles en 3D
+          </h2>
+          <p className="mx-auto mt-3 max-w-xl text-sm text-white/60">
+            Faites pivoter chaque modèle à la souris. Chaque nuisible illustré représente toute
+            une famille d&apos;espèces que nous traitons — pas uniquement l&apos;animal affiché.
           </p>
-        </div>
-        <Button href="/#contact" size="md" className="shrink-0">
-          Demander un devis
-          <ArrowRight className="size-4" />
-        </Button>
+        </Reveal>
       </div>
-    </Section>
+
+      <Section id="galerie-3d" variant="muted" className="relative overflow-hidden py-10 md:py-12">
+        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+          {PEST_MODELS.map((pest) => (
+            <ModelCard key={pest.id} pest={pest} />
+          ))}
+        </div>
+
+        {/* Breadth reassurance: we treat far more than the models shown. */}
+        <div className="mt-6 flex flex-col items-center gap-4 rounded-2xl border border-dashed border-secondary/40 bg-background/70 p-6 text-center backdrop-blur-sm md:flex-row md:justify-between md:text-left">
+          <div>
+            <h3 className="text-lg font-semibold tracking-tight">Et bien d&apos;autres nuisibles…</h3>
+            <p className="mt-1 max-w-2xl text-sm text-muted-foreground">
+              Notre équipe intervient sur de nombreuses espèces de rongeurs, insectes, oiseaux,
+              reptiles, champignons et autres nuisibles. Contactez-nous pour toute situation
+              spécifique.
+            </p>
+          </div>
+          <Button href="/#contact" size="md" className="shrink-0">
+            Demander un devis
+            <ArrowRight className="size-4" />
+          </Button>
+        </div>
+      </Section>
+    </>
   );
 }

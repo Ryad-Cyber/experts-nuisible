@@ -24,15 +24,14 @@ const heroBackgroundStyle = {
   backgroundPosition: "center",
 };
 
-// Discreet, artistic silhouettes (wasp + rodent) — an original in-house motif, not a photo and
-// not any external certification body's mark. Sits faint behind the Certibiocide badge.
-const certBadgeMotif = {
+// Discreet, artistic silhouettes (wasp, rodent, roach) tiled as a near-invisible watermark —
+// an original in-house motif, not a photo and not any external certification body's mark.
+// Reused as the shared "credential" background for both trust badges below.
+const badgeWatermark = {
   backgroundImage:
-    "radial-gradient(circle at 30% 20%, rgb(245 196 51 / 0.16), transparent 60%), " +
-    "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cg fill='none' stroke='%23ffffff' stroke-width='1.1' stroke-linecap='round' opacity='0.35'%3E%3Cellipse cx='24' cy='22' rx='6' ry='8' transform='rotate(-18 24 22)'/%3E%3Cpath d='M24 14 L18 8 M24 14 L30 8'/%3E%3Cpath d='M18 20 L9 16 M30 20 L39 16 M18 26 L9 30 M30 26 L39 30'/%3E%3Cellipse cx='42' cy='44' rx='9' ry='5.5'/%3E%3Ccircle cx='50' cy='42' r='2.6'/%3E%3Cpath d='M35 43 L30 40 M35 46 L30 49'/%3E%3C/g%3E%3C/svg%3E\")",
-  backgroundSize: "auto, 130px 130px",
-  backgroundPosition: "center, center",
-  backgroundRepeat: "no-repeat, no-repeat",
+    "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'%3E%3Cg fill='none' stroke='%23ffffff' stroke-width='1' stroke-linecap='round' stroke-linejoin='round' opacity='0.5'%3E%3Cellipse cx='22' cy='20' rx='5.5' ry='7' transform='rotate(-16 22 20)'/%3E%3Cpath d='M22 13 L17 7 M22 13 L27 7 M16 18 L8 15 M28 18 L36 15 M16 23 L8 27 M28 23 L36 27'/%3E%3Cellipse cx='92' cy='30' rx='8' ry='5'/%3E%3Ccircle cx='99' cy='28' r='2.3'/%3E%3Cpath d='M85 29 L79 26 M85 32 L79 35'/%3E%3Cpath d='M22 85 Q30 78 40 85 Q35 92 30 98 Q26 92 22 85 Z'/%3E%3Cpath d='M14 85 L8 82 M14 90 L7 91'/%3E%3Crect x='78' y='78' width='16' height='10' rx='4' transform='rotate(8 86 83)'/%3E%3Cpath d='M82 76 L80 71 M90 77 L92 72 M78 84 L72 83 M94 85 L100 86'/%3E%3C/g%3E%3C/svg%3E\")",
+  backgroundSize: "150px 150px",
+  backgroundRepeat: "repeat",
 };
 
 export function Hero() {
@@ -57,14 +56,18 @@ export function Hero() {
 
           <StaggerItem>
             <h1 className="max-w-xl text-[1.7rem] font-semibold tracking-tight text-balance text-white sm:text-3xl md:text-4xl lg:text-[2.7rem]">
-              Dératisation &amp; désinsectisation.
+              Solutions professionnelles contre tous les nuisibles.
               <br />
-              <span className="text-white/70">Intervention rapide, sans compromis.</span>
+              <span className="text-white/70">Une intervention rapide. Un résultat durable.</span>
             </h1>
           </StaggerItem>
 
           <StaggerItem>
-            <p className="max-w-xl text-sm text-white/75 md:text-base">{siteConfig.description}</p>
+            <p className="max-w-xl text-sm text-white/75 md:text-base">
+              Experts Nuisible intervient sur tous types de nuisibles, chez les particuliers
+              comme chez les professionnels, grâce à un réseau de techniciens couvrant de
+              nombreuses agglomérations françaises.
+            </p>
           </StaggerItem>
 
           <StaggerItem className="flex w-full flex-col items-stretch gap-3 sm:w-auto sm:flex-row sm:items-center">
@@ -114,32 +117,40 @@ export function Hero() {
           </StaggerItem>
 
           <StaggerItem className="flex flex-wrap items-center justify-center gap-2.5 lg:justify-start">
-            {/* Certibiocide — premium credential badge with a faint in-house pest motif behind
-                it (no official emblem, no external site's layout copied). */}
-            <div className="glass flex items-center gap-2.5 rounded-xl border border-white/20 px-3 py-2">
+            {/* Certibiocide — premium credential badge: faint tiled pest-silhouette watermark
+                across the whole card (near-invisible, gives it a "certified document" texture)
+                plus a gold accent glow, no official emblem, no external site's layout copied. */}
+            <div className="group relative flex items-center gap-2.5 overflow-hidden rounded-xl border border-white/15 bg-gradient-to-br from-white/[0.08] to-white/[0.02] px-3.5 py-2.5 backdrop-blur-md transition-colors duration-300 hover:border-accent-light/30">
+              <span aria-hidden className="pointer-events-none absolute inset-0" style={badgeWatermark} />
               <span
                 aria-hidden
-                className="relative flex size-9 shrink-0 items-center justify-center overflow-hidden rounded-lg border border-white/25 bg-primary-dark/60"
-                style={certBadgeMotif}
-              >
-                <BadgeCheck className="relative size-4 text-accent-light drop-shadow-[0_1px_2px_rgba(0,0,0,0.5)]" />
+                className="pointer-events-none absolute -left-6 -top-6 size-20 rounded-full bg-accent-light/20 blur-2xl"
+              />
+              <span className="relative flex size-9 shrink-0 items-center justify-center rounded-lg border border-accent-light/30 bg-accent-light/10 text-accent-light shadow-[0_0_16px_-2px_rgba(245,196,51,0.35)]">
+                <BadgeCheck className="size-4" />
               </span>
-              <div className="text-left leading-tight">
+              <div className="relative text-left leading-tight">
                 <p className="text-xs font-semibold text-white">Certibiocide</p>
                 <p className="text-[10px] text-white/60">Ministère de l&apos;Agriculture</p>
               </div>
             </div>
 
-            {/* Live technician availability — reassures "someone is available right now". */}
-            <div className="glass flex items-center gap-2.5 rounded-xl border border-white/20 px-3 py-2">
-              <span className="relative flex size-9 shrink-0 items-center justify-center rounded-lg border border-white/25 bg-primary-dark/60">
-                <Users className="size-4 text-white/85" />
+            {/* Live technician availability — same watermark texture, emerald accent instead of
+                gold to echo the pulsing "online" dot; reassures "someone is available now". */}
+            <div className="group relative flex items-center gap-2.5 overflow-hidden rounded-xl border border-white/15 bg-gradient-to-br from-white/[0.08] to-white/[0.02] px-3.5 py-2.5 backdrop-blur-md transition-colors duration-300 hover:border-emerald-300/30">
+              <span aria-hidden className="pointer-events-none absolute inset-0" style={badgeWatermark} />
+              <span
+                aria-hidden
+                className="pointer-events-none absolute -left-6 -top-6 size-20 rounded-full bg-emerald-400/20 blur-2xl"
+              />
+              <span className="relative flex size-9 shrink-0 items-center justify-center rounded-lg border border-emerald-300/30 bg-emerald-400/10 text-emerald-300 shadow-[0_0_16px_-2px_rgba(52,211,153,0.35)]">
+                <Users className="size-4" />
                 <span className="absolute -right-1 -top-1 flex size-3">
                   <span className="absolute inline-flex size-full animate-ping rounded-full bg-emerald-400 opacity-75" />
                   <span className="relative inline-flex size-3 rounded-full border border-primary-dark bg-emerald-400" />
                 </span>
               </span>
-              <div className="text-left leading-tight">
+              <div className="relative text-left leading-tight">
                 <p className="text-xs font-semibold text-white">3 techniciens disponibles</p>
                 <p className="text-[10px] text-white/60">Intervention rapide</p>
               </div>
