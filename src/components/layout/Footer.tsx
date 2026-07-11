@@ -1,5 +1,5 @@
 import type { SVGProps } from "react";
-import { ArrowUpRight, Mail, MapPin, Phone } from "lucide-react";
+import { ArrowUpRight, BadgeCheck, Mail, MapPin, Phone } from "lucide-react";
 import { siteConfig } from "@/config/site";
 import { services } from "@/data/services";
 import { Container } from "@/components/ui/Container";
@@ -153,8 +153,17 @@ export function Footer() {
       </Container>
 
       <div className="relative border-t border-white/10 py-3.5">
-        <Container className="flex flex-col items-center justify-between gap-2 text-xs text-white/55 sm:flex-row">
+        <Container className="flex flex-col items-center justify-between gap-3 text-xs text-white/55 sm:flex-row">
           <span>© {year} {siteConfig.name}. Tous droits réservés.</span>
+
+          <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1.5">
+            <BadgeCheck className="size-3.5 shrink-0 text-accent-light" />
+            <span className="leading-tight">
+              <span className="font-semibold text-white/80">Certibiocide</span>
+              <span className="text-white/50"> — Certification reconnue par le Ministère de l&apos;Agriculture</span>
+            </span>
+          </span>
+
           <span>{siteConfig.hours[0]?.days} — {siteConfig.hours[0]?.hours}</span>
         </Container>
       </div>

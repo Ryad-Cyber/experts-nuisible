@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import dynamic from "next/dynamic";
+import Link from "next/link";
 import { ArrowRight, Box, MousePointer2 } from "lucide-react";
 import { Section } from "@/components/ui/Section";
 import { Button } from "@/components/ui/Button";
@@ -34,42 +35,45 @@ function ModelCard({ pest }: { pest: PestModel }) {
   }, []);
 
   return (
-    <div className="group flex flex-col overflow-hidden rounded-2xl border border-border bg-background shadow-sm transition-shadow duration-300 hover:shadow-md">
+    <div className="group flex flex-col overflow-hidden rounded-xl border border-border bg-background shadow-sm transition-shadow duration-300 hover:shadow-md">
       <div
         ref={ref}
-        className="relative aspect-[4/3] w-full overflow-hidden"
+        className="relative aspect-[5/4] w-full overflow-hidden"
         style={{
           backgroundImage:
             "radial-gradient(circle at 50% 38%, var(--color-muted), var(--color-background))",
         }}
       >
         {inView ? (
-          <PestModelViewer url={pest.file} {...pest.tuning} />
+          // Slight extra zoom compensates for the more compact cards (smaller on-screen area).
+          <PestModelViewer url={pest.file} {...pest.tuning} scale={(pest.tuning?.scale ?? 1) * 1.12} />
         ) : (
           <div className="flex h-full w-full items-center justify-center text-muted-foreground/40">
-            <Box className="size-8" />
+            <Box className="size-6" />
           </div>
         )}
 
-        <span className="pointer-events-none absolute left-3 top-3 rounded-full bg-background/85 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wide text-secondary shadow-sm backdrop-blur-sm">
+        <span className="pointer-events-none absolute left-2 top-2 rounded-full bg-background/85 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-secondary shadow-sm backdrop-blur-sm">
           {pest.category}
         </span>
-        <span className="pointer-events-none absolute bottom-3 right-3 inline-flex items-center gap-1 rounded-full bg-background/75 px-2 py-1 text-[10px] font-medium text-muted-foreground opacity-0 backdrop-blur-sm transition-opacity duration-300 group-hover:opacity-100">
-          <MousePointer2 className="size-3" />
+        <span className="pointer-events-none absolute bottom-2 right-2 inline-flex items-center gap-1 rounded-full bg-background/75 px-1.5 py-0.5 text-[9px] font-medium text-muted-foreground opacity-0 backdrop-blur-sm transition-opacity duration-300 group-hover:opacity-100">
+          <MousePointer2 className="size-2.5" />
           Faites pivoter
         </span>
       </div>
 
-      <div className="flex flex-1 flex-col gap-1.5 p-4">
-        <h3 className="text-base font-semibold tracking-tight">{pest.name}</h3>
-        <p className="flex-1 text-xs leading-relaxed text-muted-foreground">{pest.description}</p>
-        <a
-          href="#contact"
-          className="mt-1 inline-flex w-fit items-center gap-1 text-xs font-semibold text-secondary transition-colors hover:text-foreground"
+      <div className="flex flex-1 flex-col gap-1 p-3">
+        <h3 className="text-sm font-semibold tracking-tight">{pest.name}</h3>
+        <p className="line-clamp-2 flex-1 text-xs leading-snug text-muted-foreground">
+          {pest.description}
+        </p>
+        <Link
+          href="/#contact"
+          className="mt-0.5 inline-flex w-fit items-center gap-1 text-xs font-semibold text-secondary transition-colors hover:text-foreground"
         >
           Intervention pour ce nuisible
-          <ArrowRight className="size-3.5 transition-transform group-hover:translate-x-0.5" />
-        </a>
+          <ArrowRight className="size-3 transition-transform group-hover:translate-x-0.5" />
+        </Link>
       </div>
     </div>
   );
@@ -77,7 +81,7 @@ function ModelCard({ pest }: { pest: PestModel }) {
 
 export function GalerieNuisibles3D() {
   return (
-    <Section id="galerie-3d" variant="muted" className="relative overflow-hidden py-12 md:py-16">
+    <Section id="galerie-3d" variant="muted" className="relative overflow-hidden py-10 md:py-12">
       <Reveal className="mx-auto max-w-2xl text-center">
         <span className="text-sm font-semibold uppercase tracking-wider text-secondary">
           Galerie 3D
@@ -91,14 +95,14 @@ export function GalerieNuisibles3D() {
         </p>
       </Reveal>
 
-      <div className="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
         {PEST_MODELS.map((pest) => (
           <ModelCard key={pest.id} pest={pest} />
         ))}
       </div>
 
       {/* Breadth reassurance: we treat far more than the models shown. */}
-      <div className="mt-8 flex flex-col items-center gap-4 rounded-2xl border border-dashed border-secondary/40 bg-background/70 p-6 text-center backdrop-blur-sm md:flex-row md:justify-between md:text-left">
+      <div className="mt-6 flex flex-col items-center gap-4 rounded-2xl border border-dashed border-secondary/40 bg-background/70 p-6 text-center backdrop-blur-sm md:flex-row md:justify-between md:text-left">
         <div>
           <h3 className="text-lg font-semibold tracking-tight">Et bien d&apos;autres nuisibles…</h3>
           <p className="mt-1 max-w-2xl text-sm text-muted-foreground">
@@ -107,7 +111,7 @@ export function GalerieNuisibles3D() {
             spécifique.
           </p>
         </div>
-        <Button href="#contact" size="md" className="shrink-0">
+        <Button href="/#contact" size="md" className="shrink-0">
           Demander un devis
           <ArrowRight className="size-4" />
         </Button>

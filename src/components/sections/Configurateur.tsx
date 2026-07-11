@@ -166,22 +166,23 @@ export function Configurateur() {
   );
 
   return (
-    <Section id="diagnostic" variant="muted" className="py-10 md:py-12">
+    <Section id="diagnostic" variant="muted" className="py-12 md:py-16">
       <Reveal className="mx-auto max-w-2xl text-center">
         <span className="text-xs font-semibold uppercase tracking-wider text-secondary">
           Diagnostic interactif
         </span>
         <h2 className="mt-2.5 text-2xl font-semibold tracking-tight text-balance md:text-3xl">
-          Où avez-vous aperçu le nuisible ?
+          Un exemple d&apos;habitation, à inspecter comme la vôtre
         </h2>
         <p className="mt-3 text-base text-muted-foreground">
-          Explorez la villa en 3D et cliquez directement sur un élément — toit, cheminée,
-          fenêtre, arbre, jardin… — pour indiquer où vous avez repéré le problème.
+          Cette villa en 3D illustre les zones les plus exposées d&apos;une habitation.
+          Explorez-la librement et cliquez sur un élément — toit, cheminée, fenêtre, arbre,
+          jardin… — pour voir comment nous identifions et traitons chaque type de situation.
         </p>
       </Reveal>
 
-      <div ref={tiltRef} className="mt-6 grid gap-5 lg:grid-cols-[1.3fr_1fr] lg:items-stretch">
-        <div className="relative aspect-[4/3] overflow-hidden rounded-[2rem] border border-border bg-gradient-to-b from-background to-muted shadow-lg sm:aspect-[16/10]">
+      <div ref={tiltRef} className="mt-8 grid gap-5 lg:grid-cols-[1.5fr_1fr] lg:items-stretch">
+        <div className="relative aspect-[4/3] overflow-hidden rounded-[2rem] border border-border bg-gradient-to-b from-background to-muted shadow-lg sm:aspect-[16/9]">
           {webglSupported ? (
             <>
               <HouseScene

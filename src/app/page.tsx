@@ -1,7 +1,6 @@
 import { Hero } from "@/components/sections/Hero";
 import { MarqueeBand } from "@/components/sections/MarqueeBand";
 import { Nuisibles } from "@/components/sections/Nuisibles";
-import { Configurateur } from "@/components/sections/Configurateur";
 import { Atouts } from "@/components/sections/Atouts";
 import { Garantie } from "@/components/sections/Garantie";
 import { Disponibilite } from "@/components/sections/Disponibilite";
@@ -19,7 +18,6 @@ export default function Home() {
       <MarqueeBand />
       <Garantie />
       <Nuisibles />
-      <Configurateur />
       <Atouts />
       <Disponibilite />
       <WaveDivider fromColor="var(--color-muted)" toColor="var(--color-accent)" />

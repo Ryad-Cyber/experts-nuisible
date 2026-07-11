@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { ArrowRight, Clock3, FileCheck2, Phone, ShieldCheck, Star } from "lucide-react";
+import { ArrowRight, BadgeCheck, Clock3, FileCheck2, Phone, ShieldCheck, Star, Users } from "lucide-react";
 import { Section } from "@/components/ui/Section";
 import { Button } from "@/components/ui/Button";
 import { Reveal, StaggerGroup, StaggerItem } from "@/components/ui/Reveal";
@@ -22,6 +22,17 @@ const heroBackgroundStyle = {
     "url('/pic_header.jpg')",
   backgroundSize: "cover",
   backgroundPosition: "center",
+};
+
+// Discreet, artistic silhouettes (wasp + rodent) — an original in-house motif, not a photo and
+// not any external certification body's mark. Sits faint behind the Certibiocide badge.
+const certBadgeMotif = {
+  backgroundImage:
+    "radial-gradient(circle at 30% 20%, rgb(245 196 51 / 0.16), transparent 60%), " +
+    "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cg fill='none' stroke='%23ffffff' stroke-width='1.1' stroke-linecap='round' opacity='0.35'%3E%3Cellipse cx='24' cy='22' rx='6' ry='8' transform='rotate(-18 24 22)'/%3E%3Cpath d='M24 14 L18 8 M24 14 L30 8'/%3E%3Cpath d='M18 20 L9 16 M30 20 L39 16 M18 26 L9 30 M30 26 L39 30'/%3E%3Cellipse cx='42' cy='44' rx='9' ry='5.5'/%3E%3Ccircle cx='50' cy='42' r='2.6'/%3E%3Cpath d='M35 43 L30 40 M35 46 L30 49'/%3E%3C/g%3E%3C/svg%3E\")",
+  backgroundSize: "auto, 130px 130px",
+  backgroundPosition: "center, center",
+  backgroundRepeat: "no-repeat, no-repeat",
 };
 
 export function Hero() {
@@ -100,6 +111,39 @@ export function Hero() {
                 {label}
               </div>
             ))}
+          </StaggerItem>
+
+          <StaggerItem className="flex flex-wrap items-center justify-center gap-2.5 lg:justify-start">
+            {/* Certibiocide — premium credential badge with a faint in-house pest motif behind
+                it (no official emblem, no external site's layout copied). */}
+            <div className="glass flex items-center gap-2.5 rounded-xl border border-white/20 px-3 py-2">
+              <span
+                aria-hidden
+                className="relative flex size-9 shrink-0 items-center justify-center overflow-hidden rounded-lg border border-white/25 bg-primary-dark/60"
+                style={certBadgeMotif}
+              >
+                <BadgeCheck className="relative size-4 text-accent-light drop-shadow-[0_1px_2px_rgba(0,0,0,0.5)]" />
+              </span>
+              <div className="text-left leading-tight">
+                <p className="text-xs font-semibold text-white">Certibiocide</p>
+                <p className="text-[10px] text-white/60">Ministère de l&apos;Agriculture</p>
+              </div>
+            </div>
+
+            {/* Live technician availability — reassures "someone is available right now". */}
+            <div className="glass flex items-center gap-2.5 rounded-xl border border-white/20 px-3 py-2">
+              <span className="relative flex size-9 shrink-0 items-center justify-center rounded-lg border border-white/25 bg-primary-dark/60">
+                <Users className="size-4 text-white/85" />
+                <span className="absolute -right-1 -top-1 flex size-3">
+                  <span className="absolute inline-flex size-full animate-ping rounded-full bg-emerald-400 opacity-75" />
+                  <span className="relative inline-flex size-3 rounded-full border border-primary-dark bg-emerald-400" />
+                </span>
+              </span>
+              <div className="text-left leading-tight">
+                <p className="text-xs font-semibold text-white">3 techniciens disponibles</p>
+                <p className="text-[10px] text-white/60">Intervention rapide</p>
+              </div>
+            </div>
           </StaggerItem>
         </StaggerGroup>
 

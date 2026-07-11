@@ -46,8 +46,8 @@ const PILLARS: Pillar[] = [
   },
   {
     icon: Bug,
-    title: "Tous les nuisibles traités",
-    detail: "Rats • Souris • Guêpes • Frelons • Punaises de lit",
+    title: "Tous types de nuisibles pris en charge",
+    detail: "Rongeurs • Insectes • Nuisibles volants • Reptiles • Oiseaux • Parasites • Champignons • Et bien d'autres",
   },
 ];
 
