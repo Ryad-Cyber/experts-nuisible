@@ -26,6 +26,7 @@ function InstagramIcon(props: SVGProps<SVGSVGElement>) {
 const footerNav = [
   { label: "Services", href: "#services" },
   { label: "Agence", href: "#agence" },
+  { label: "Galerie 3D", href: "/galerie-3d" },
   { label: "Zones d'intervention", href: "#zone-intervention" },
   { label: "FAQ", href: "#faq" },
   { label: "Contact", href: "#contact" },

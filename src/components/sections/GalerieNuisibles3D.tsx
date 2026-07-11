@@ -110,9 +110,9 @@ export function GalerieNuisibles3D() {
           <span className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-4 py-2 text-xs font-semibold uppercase tracking-wider text-accent-light backdrop-blur-sm">
             Galerie 3D
           </span>
-          <h2 className="mt-4 text-2xl font-semibold tracking-tight text-balance text-white md:text-3xl">
+          <h1 className="mt-4 text-2xl font-semibold tracking-tight text-balance text-white md:text-3xl">
             Explorez les nuisibles en 3D
-          </h2>
+          </h1>
           <p className="mx-auto mt-3 max-w-xl text-sm text-white/60">
             Faites pivoter chaque modèle à la souris. Chaque nuisible illustré représente toute
             une famille d&apos;espèces que nous traitons — pas uniquement l&apos;animal affiché.
