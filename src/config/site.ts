@@ -27,6 +27,7 @@ export const siteConfig = {
     { label: "Accueil", href: "/" },
     { label: "Services", href: "#nuisibles" },
     { label: "Why Us", href: "#agence" },
+    { label: "Galerie 3D", href: "/galerie-3d" },
     { label: "FAQ", href: "#faq" },
     { label: "Contact", href: "#contact" },
   ] as NavLink[],

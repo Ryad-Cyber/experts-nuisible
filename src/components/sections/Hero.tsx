@@ -119,12 +119,13 @@ export function Hero() {
             />
             <div className="absolute inset-0 bg-gradient-to-t from-primary-dark/55 via-transparent to-transparent" />
 
-            {/* Rating badge — anchored over the red-brick corner for the gold-on-red contrast. */}
+            {/* Rating badge — top-left, clear of the "Sans engagement" pill anchored at the
+                bottom on every breakpoint (avoids overlap on narrow phones). */}
             <motion.div
               initial={{ opacity: 0, y: 12, scale: 0.92 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               transition={{ delay: 0.6, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-              className="absolute bottom-5 left-5 flex items-center gap-3 overflow-hidden rounded-2xl border border-white/40 bg-white/20 px-5 py-3 shadow-[0_18px_40px_-12px_rgba(0,0,0,0.55)] backdrop-blur-xl"
+              className="absolute left-5 top-5 flex items-center gap-3 overflow-hidden rounded-2xl border border-white/40 bg-white/20 px-5 py-3 shadow-[0_18px_40px_-12px_rgba(0,0,0,0.55)] backdrop-blur-xl"
             >
               <span
                 aria-hidden
@@ -155,8 +156,8 @@ export function Hero() {
             </motion.div>
           </div>
 
-          <div className="absolute -bottom-4 left-1/2 flex -translate-x-1/2 items-center gap-2 rounded-2xl border border-border bg-background px-3.5 py-2.5 shadow-md sm:left-auto sm:right-5 sm:translate-x-0">
-            <ShieldCheck className="size-4 text-secondary" />
+          <div className="absolute -bottom-4 right-3 flex items-center gap-2 rounded-2xl border border-border bg-background px-3 py-2 shadow-md sm:right-5 sm:px-3.5 sm:py-2.5">
+            <ShieldCheck className="size-4 shrink-0 text-secondary" />
             <div className="text-left">
               <p className="text-xs font-semibold leading-none">Sans engagement</p>
               <p className="mt-1 text-[11px] text-muted-foreground">Devis gratuit &amp; rapide</p>

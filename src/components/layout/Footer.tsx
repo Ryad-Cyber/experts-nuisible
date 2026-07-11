@@ -65,9 +65,12 @@ export function Footer() {
             href={siteConfig.social.instagram.href}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3 py-1.5 text-sm text-white/75 transition-colors hover:border-accent/50 hover:text-white"
+            className="group inline-flex items-center gap-2.5 rounded-full border border-white/15 bg-white/5 py-1.5 pl-1.5 pr-3.5 text-sm text-white/75 transition-all duration-300 hover:border-accent/50 hover:bg-white/10 hover:text-white"
           >
-            <InstagramIcon className="size-4" />@{siteConfig.social.instagram.handle}
+            <span className="flex size-6 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-accent-light via-accent to-accent-dark text-primary-dark transition-transform duration-300 group-hover:scale-110">
+              <InstagramIcon className="size-3.5" />
+            </span>
+            @{siteConfig.social.instagram.handle}
           </a>
         </div>
 
@@ -130,12 +133,19 @@ export function Footer() {
           </a>
 
           <div className="space-y-2 text-sm text-white/70">
-            <a href={`mailto:${siteConfig.email}`} className="flex items-center gap-2.5 hover:text-white">
-              <Mail className="size-4 shrink-0 text-accent-light" />
+            <a
+              href={`mailto:${siteConfig.email}`}
+              className="group flex items-center gap-2.5 transition-colors hover:text-white"
+            >
+              <span className="flex size-7 shrink-0 items-center justify-center rounded-full border border-white/15 bg-white/5 transition-colors duration-300 group-hover:border-accent/50 group-hover:bg-white/10">
+                <Mail className="size-3.5 text-accent-light" />
+              </span>
               {siteConfig.email}
             </a>
             <p className="flex items-center gap-2.5">
-              <MapPin className="size-4 shrink-0 text-accent-light" />
+              <span className="flex size-7 shrink-0 items-center justify-center rounded-full border border-white/15 bg-white/5">
+                <MapPin className="size-3.5 text-accent-light" />
+              </span>
               {siteConfig.serviceArea}
             </p>
           </div>

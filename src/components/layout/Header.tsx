@@ -189,7 +189,7 @@ export function Header() {
     >
       <Container className="grid h-16 grid-cols-[1fr_auto] items-center md:h-18 md:grid-cols-[1fr_auto_1fr]">
         <Link href="/" className="flex items-center gap-2.5 justify-self-start">
-          <Logo size="md" className="size-12 md:size-13" />
+          <Logo size="md" className="size-13 md:size-14" />
           <span className="bg-gradient-to-r from-primary to-primary-light bg-clip-text text-base font-semibold tracking-tight text-transparent drop-shadow-[0_1px_4px_rgb(30_122_76_/_0.12)] md:text-lg">
             {siteConfig.name}
           </span>

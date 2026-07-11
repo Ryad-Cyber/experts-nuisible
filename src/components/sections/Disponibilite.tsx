@@ -31,10 +31,16 @@ const HUBS: Hub[] = [
 
 function AnimatedStat({ value, prefix = "" }: { value: number; prefix?: string }) {
   const ref = useRef<HTMLSpanElement>(null);
-  const isInView = useInView(ref, { once: true, margin: "-80px" });
+  // margin: "0px" (not a negative inset) so the stat still counts up as soon as any part of it
+  // enters the viewport — a negative margin could fail to ever trigger on short mobile screens.
+  const isInView = useInView(ref, { once: true, margin: "0px" });
   const prefersReducedMotion = useReducedMotion();
   const motionValue = useMotionValue(0);
-  const [display, setDisplay] = useState("0");
+  const hasAnimated = useRef(false);
+  // Start already showing the final value: if the in-view animation never fires (e.g. the
+  // element is already on screen before hydration, or intersection timing is unlucky on
+  // mobile), the stat still reads correctly instead of getting stuck at "0".
+  const [display, setDisplay] = useState(value.toLocaleString("fr-FR"));
 
   useEffect(() => {
     return motionValue.on("change", (latest) => {
@@ -43,11 +49,13 @@ function AnimatedStat({ value, prefix = "" }: { value: number; prefix?: string }
   }, [motionValue]);
 
   useEffect(() => {
-    if (!isInView) return;
+    if (!isInView || hasAnimated.current) return;
+    hasAnimated.current = true;
     if (prefersReducedMotion) {
       motionValue.set(value);
       return;
     }
+    motionValue.set(0);
     const controls = animate(motionValue, value, { duration: 1.8, ease: [0.16, 1, 0.3, 1] });
     return () => controls.stop();
   }, [isInView, value, prefersReducedMotion, motionValue]);
