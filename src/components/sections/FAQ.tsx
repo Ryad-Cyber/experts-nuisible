@@ -83,11 +83,13 @@ export function FAQ() {
           FAQ
         </span>
         <h2 className="mt-2.5 text-2xl font-semibold tracking-tight text-balance md:text-3xl">
-          Questions fréquentes
+          Vos questions sur la dératisation, la désinsectisation et les nuisibles
         </h2>
         <p className="mt-3 text-base text-muted-foreground">
-          Tout ce qu&apos;il faut savoir avant votre intervention. Une autre question ?
-          Contactez-nous directement.
+          Retrouvez les réponses aux questions les plus fréquentes concernant la dératisation,
+          la désinsectisation, les punaises de lit, les cafards, les rats, les souris, les
+          guêpes, les frelons, les devis, les délais d&apos;intervention et bien d&apos;autres
+          sujets.
         </p>
       </Reveal>
 
@@ -108,7 +110,7 @@ export function FAQ() {
         <div className="relative mt-5 flex justify-center">
           <Button type="button" variant="secondary" size="md" onClick={() => setShowAll(true)}>
             <Plus className="size-4" />
-            Voir toutes les questions
+            Afficher toutes les questions
           </Button>
         </div>
       )}

@@ -10,6 +10,7 @@ import { FAQ } from "@/components/sections/FAQ";
 import { Contact } from "@/components/sections/Contact";
 import { ZoneIntervention } from "@/components/sections/ZoneIntervention";
 import { WaveDivider } from "@/components/ui/WaveDivider";
+import { FaqJsonLd } from "@/components/seo/FaqJsonLd";
 
 export default function Home() {
   return (
@@ -25,6 +26,7 @@ export default function Home() {
       <WaveDivider fromColor="var(--color-accent)" toColor="var(--color-background)" flip />
       <Avis />
       <FAQ />
+      <FaqJsonLd />
       <ZoneIntervention />
       <Contact />
     </>
