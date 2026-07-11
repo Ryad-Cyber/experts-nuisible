@@ -78,8 +78,8 @@ function SolutionsProfessionnelles() {
         staggerDelay={0.1}
         className="relative mx-auto mt-10 grid max-w-3xl gap-5 sm:grid-cols-2"
       >
-        {PROFESSIONAL_PARTNERS.map((partner, index) => (
-          <StaggerItem key={partner.id} y={20} className={index % 2 === 1 ? "sm:mt-8" : undefined}>
+        {PROFESSIONAL_PARTNERS.map((partner) => (
+          <StaggerItem key={partner.id} y={20}>
             <div className="group relative overflow-hidden rounded-[1.75rem] border border-white/10 bg-white/[0.04] p-7 backdrop-blur-sm transition-all duration-500 hover:-translate-y-1.5 hover:border-accent-light/30 hover:bg-white/[0.07]">
               {/* Glow that blooms in on hover, following the card's own accent. */}
               <span

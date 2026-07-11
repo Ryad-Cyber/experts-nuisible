@@ -103,11 +103,11 @@ export function Avis() {
           Avis clients
         </span>
         <h2 className="mt-2.5 text-2xl font-semibold tracking-tight text-balance md:text-3xl">
-          Ils nous ont fait confiance
+          Leurs retours après nos interventions
         </h2>
         <p className="mt-3 text-base text-muted-foreground">
-          Particuliers, restaurants et copropriétés : découvrez leurs retours après
-          intervention.
+          Découvrez les expériences de nos clients après l&apos;intervention de nos techniciens,
+          chez les particuliers comme dans les locaux professionnels.
         </p>
 
         <div className="mt-3.5 inline-flex items-center gap-2 rounded-full border border-border bg-background/80 px-3.5 py-1.5 shadow-sm backdrop-blur-sm">
