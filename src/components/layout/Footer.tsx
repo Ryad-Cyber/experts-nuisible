@@ -1,4 +1,5 @@
 import type { SVGProps } from "react";
+import Link from "next/link";
 import { ArrowUpRight, BadgeCheck, Mail, MapPin, Phone } from "lucide-react";
 import { siteConfig } from "@/config/site";
 import { services } from "@/data/services";
@@ -24,12 +25,12 @@ function InstagramIcon(props: SVGProps<SVGSVGElement>) {
 }
 
 const footerNav = [
-  { label: "Services", href: "#services" },
-  { label: "Agence", href: "#agence" },
+  { label: "Services", href: "/#nuisibles" },
+  { label: "Agence", href: "/#agence" },
   { label: "Galerie 3D", href: "/galerie-3d" },
-  { label: "Zones d'intervention", href: "#zone-intervention" },
-  { label: "FAQ", href: "#faq" },
-  { label: "Contact", href: "#contact" },
+  { label: "Zones d'intervention", href: "/#zone-intervention" },
+  { label: "FAQ", href: "/#faq" },
+  { label: "Contact", href: "/#contact" },
 ];
 
 export function Footer() {
@@ -98,13 +99,13 @@ export function Footer() {
           <p className="text-xs font-semibold uppercase tracking-widest text-accent-light">Services</p>
           <div className="mt-4 flex flex-wrap gap-1.5">
             {services.map((service) => (
-              <a
+              <Link
                 key={service.id}
-                href="#services"
+                href="/#nuisibles"
                 className="inline-flex items-center rounded-full border border-white/15 bg-white/5 px-2.5 py-1 text-xs font-medium text-white/75 transition-colors hover:border-accent/50 hover:bg-white/10 hover:text-white"
               >
                 {service.title}
-              </a>
+              </Link>
             ))}
           </div>
         </div>
