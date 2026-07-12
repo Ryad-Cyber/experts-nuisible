@@ -20,4 +20,16 @@ export const PROFESSIONAL_PARTNERS: ProfessionalPartner[] = [
     logo: "/buzbuster.png",
     description: "Solutions et équipements spécialisés pour les professionnels du pest control",
   },
+  {
+    id: "dobol",
+    name: "Dobol",
+    logo: "/Dobol.jpg",
+    description: "Gamme professionnelle de produits de lutte contre les insectes",
+  },
+  {
+    id: "phobi",
+    name: "Phobi",
+    logo: "/Phobi.jpg",
+    description: "Produits professionnels dédiés à la lutte contre les nuisibles",
+  },
 ];

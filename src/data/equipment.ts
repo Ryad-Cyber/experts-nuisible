@@ -269,6 +269,11 @@ export const technicianPhotos: TechnicianPhoto[] = [
     alt: "Technicien Experts Nuisible en intervention professionnelle",
   },
   {
+    id: "tech-materiel-bleu",
+    src: "/technicien-materiel-bleu.jpeg",
+    alt: "Technicien en combinaison, gants et surchaussures pendant une intervention réelle",
+  },
+  {
     id: "tech-ia-1",
     src: "/tech_ia.jpeg",
     alt: "Technicien en équipement de protection intégral",

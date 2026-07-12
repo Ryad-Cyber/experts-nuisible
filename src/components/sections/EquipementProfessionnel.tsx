@@ -8,6 +8,7 @@ import { Section } from "@/components/ui/Section";
 import { Reveal } from "@/components/ui/Reveal";
 import { cn } from "@/lib/utils";
 import { technicianPhotos } from "@/data/equipment";
+import { PROFESSIONAL_PARTNERS } from "@/data/professionalPartners";
 import { TenueTechnicien } from "./TenueTechnicien";
 
 // Rythme rapide voulu (~1,5 s par photo) — l'effet cinéma reste porté par le
@@ -22,18 +23,9 @@ const PROOF_POINTS = [
   "Produits homologués, appliqués selon des protocoles stricts",
 ];
 
-// Fabricants/fournisseurs dont nous utilisons les équipements professionnels.
-// Ajouter une entrée ici — le bandeau rotatif la reprend automatiquement.
-type Partner = {
-  name: string;
-  logo: string;
-};
-
-const PARTNERS: Partner[] = [
-  { name: "Armosa", logo: "/Armosa.jpg" },
-  { name: "Buzzbusters", logo: "/buzbuster.png" },
-];
-
+// Fabricants/fournisseurs : source unique dans data/professionalPartners.ts —
+// le bandeau rotatif et la section "Solutions professionnelles" de /identifier
+// affichent exactement la même liste.
 const PARTNER_ROTATE_MS = 4600;
 
 function TechnicianSlideshow() {
@@ -89,14 +81,14 @@ function PartnersStrip() {
   const prefersReducedMotion = useReducedMotion();
 
   useEffect(() => {
-    if (prefersReducedMotion || PARTNERS.length < 2) return;
+    if (prefersReducedMotion || PROFESSIONAL_PARTNERS.length < 2) return;
     const timer = setInterval(() => {
-      setActive((prev) => (prev + 1) % PARTNERS.length);
+      setActive((prev) => (prev + 1) % PROFESSIONAL_PARTNERS.length);
     }, PARTNER_ROTATE_MS);
     return () => clearInterval(timer);
   }, [prefersReducedMotion]);
 
-  const partner = PARTNERS[active];
+  const partner = PROFESSIONAL_PARTNERS[active];
 
   return (
     <div className="flex flex-col items-center gap-4 rounded-2xl border border-border bg-background p-5 shadow-sm sm:flex-row sm:justify-between sm:gap-6 sm:p-6">
@@ -134,7 +126,7 @@ function PartnersStrip() {
         </div>
 
         <div className="flex items-center justify-center gap-1.5">
-          {PARTNERS.map((p, index) => (
+          {PROFESSIONAL_PARTNERS.map((p, index) => (
             <button
               key={p.name}
               type="button"

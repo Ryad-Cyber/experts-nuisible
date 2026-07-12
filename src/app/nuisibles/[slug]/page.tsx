@@ -14,6 +14,8 @@ import {
 } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { PestCtaCard } from "@/components/sections/PestCtaCard";
+import { FieldProofGallery } from "@/components/sections/FieldProofGallery";
+import { proofsForPest } from "@/data/fieldProofs";
 import { siteConfig } from "@/config/site";
 import {
   PEST_BY_ID,
@@ -256,6 +258,9 @@ export default async function PestPage({ params }: { params: Promise<{ slug: str
                 </p>
               </section>
             </div>
+
+            {/* Preuve terrain au moment de la décision : médias réels seulement. */}
+            <FieldProofGallery proofs={proofsForPest(pest.id)} />
           </article>
 
           {/* CTA — sticky sur desktop, après la fiche sur mobile. */}

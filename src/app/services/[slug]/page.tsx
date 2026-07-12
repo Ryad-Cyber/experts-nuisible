@@ -12,6 +12,8 @@ import {
 import { Container } from "@/components/ui/Container";
 import { PestLinkCard } from "@/components/sections/PestLinkCard";
 import { ServiceCtaCard } from "@/components/sections/ServiceCtaCard";
+import { FieldProofGallery } from "@/components/sections/FieldProofGallery";
+import { proofsForService } from "@/data/fieldProofs";
 import { siteConfig } from "@/config/site";
 import { services } from "@/data/services";
 import { PEST_GUIDE } from "@/data/pestGuide";
@@ -198,6 +200,9 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
                 ))}
               </ol>
             </section>
+
+            {/* Preuve terrain : médias réels d'interventions liés à ce service. */}
+            <FieldProofGallery proofs={proofsForService(service.id)} />
 
             {/* Avis réel correspondant au service, quand il existe. */}
             {review && (
