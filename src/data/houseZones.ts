@@ -1,16 +1,23 @@
 import {
   AppWindow,
+  Armchair,
   BedDouble,
+  Bug,
   Building2,
   Car,
   CircleDot,
+  CookingPot,
   DoorOpen,
   Fence,
   Flame,
   Home,
   MapPin,
   PanelTop,
+  Rat,
+  Sofa,
+  Sprout,
   Tent,
+  Trash2,
   TreePine,
   Trees,
   Warehouse,
@@ -52,21 +59,38 @@ export const HOUSE_ZONES: SelectableZone[] = [
   },
   {
     id: "combles",
-    label: "Combles / vide-grenier",
+    label: "Grenier / combles",
     description:
-      "Situés juste sous la toiture, les combles et le vide-grenier offrent un espace chaud et isolé recherché par les rongeurs et les insectes xylophages qui viennent s'y abriter.",
+      "Le grenier, juste sous la toiture, offre un espace chaud, isolé et tranquille — le refuge préféré des rongeurs, fouines et insectes xylophages. Les bruits nocturnes viennent presque toujours d'ici.",
     option: "Combles / vide-grenier",
     icon: Warehouse,
     primary: true,
   },
   {
     id: "chambres",
-    label: "Chambres / pièces intérieures",
+    label: "Chambres / étage",
     description:
-      "Les chambres et pièces de vie sont particulièrement concernées par les punaises de lit, les acariens et certains insectes rampants. Une inspection cible les zones à risque.",
+      "Les chambres sont particulièrement concernées par les punaises de lit et certains insectes rampants : literie, plinthes et cloisons sont inspectées en priorité.",
     option: "Chambre / pièces intérieures",
     icon: BedDouble,
     primary: true,
+  },
+  {
+    id: "cuisine",
+    label: "Cuisine",
+    description:
+      "Chaleur, eau et nourriture : la cuisine est la zone n°1 des cafards, fourmis, mites alimentaires et souris. Derrière l'électroménager et sous l'évier, une inspection révèle vite l'ampleur du problème.",
+    option: "Cuisine",
+    icon: CookingPot,
+    primary: true,
+  },
+  {
+    id: "sejour",
+    label: "Salon / séjour",
+    description:
+      "Canapés, plinthes et parquet du séjour abritent punaises de lit, puces et insectes rampants. Les pièces de vie sont inspectées avec la literie lorsque des piqûres apparaissent.",
+    option: "Chambre / pièces intérieures",
+    icon: Sofa,
   },
   {
     id: "fenetres",
@@ -79,11 +103,20 @@ export const HOUSE_ZONES: SelectableZone[] = [
   },
   {
     id: "balcon",
-    label: "Balcon / terrasse",
+    label: "Balcon de l'étage",
     description:
-      "Les balcons et terrasses en hauteur sont un point d'observation et de nidification fréquent pour les pigeons et autres oiseaux.",
-    option: "Autre",
+      "Les balcons en hauteur sont un point d'observation et de nidification fréquent pour les pigeons et autres oiseaux ; les fientes accumulées imposent un nettoyage sanitaire.",
+    option: "Terrasse / balcon",
     icon: PanelTop,
+    primary: true,
+  },
+  {
+    id: "terrasse",
+    label: "Terrasse",
+    description:
+      "Repas en extérieur, miettes, mobilier et lames de bois : la terrasse attire guêpes, frelons, fourmis et pigeons. Les nids s'installent volontiers sous les lames et les assises.",
+    option: "Terrasse / balcon",
+    icon: Armchair,
     primary: true,
   },
   {
@@ -123,6 +156,15 @@ export const HOUSE_ZONES: SelectableZone[] = [
     primary: true,
   },
   {
+    id: "potager",
+    label: "Potager",
+    description:
+      "Légumes, terre meuble et arrosage : le potager attire mulots, rats, limaces et insectes ravageurs. Nous traitons avec des méthodes compatibles avec vos cultures.",
+    option: "Potager",
+    icon: Sprout,
+    primary: true,
+  },
+  {
     id: "garage",
     label: "Garage",
     description:
@@ -138,6 +180,30 @@ export const HOUSE_ZONES: SelectableZone[] = [
       "Les zones humides autour de la piscine favorisent la présence de moustiques et d'insectes d'eau.",
     option: "Jardin",
     icon: Waves,
+  },
+  {
+    id: "poubelles",
+    label: "Local poubelles",
+    description:
+      "Les déchets alimentaires sont le premier point d'attraction des rats et des cafards. Un local poubelles visité régulièrement par les nuisibles trahit une colonie proche.",
+    option: "Jardin",
+    icon: Trash2,
+  },
+  {
+    id: "rat",
+    label: "Un rat rôde ici !",
+    description:
+      "Bien vu — un rat s'est installé près des poubelles. C'est exactement le signe qu'il ne faut pas ignorer : un rat visible en journée indique presque toujours une colonie déjà établie à proximité.",
+    option: "Jardin",
+    icon: Rat,
+  },
+  {
+    id: "nid-guepes",
+    label: "Nid de guêpes",
+    description:
+      "Vous avez repéré un nid actif. Ne vous en approchez pas et ne tentez rien vous-même : la destruction s'effectue avec un équipement de protection adapté, souvent en fin de journée.",
+    option: "Autre",
+    icon: Bug,
   },
   {
     id: "egouts",
@@ -179,16 +245,24 @@ export const HOUSE_ZONE_BY_ID: Record<string, SelectableZone> = Object.fromEntri
 
 export const PRIMARY_HOUSE_ZONES = HOUSE_ZONES.filter((zone) => zone.primary);
 
-// Resolves any glTF mesh name from the villa to a zone id via keyword matching, so that
-// *every* element of the model is selectable — not just a handful of preset hotspots.
-// Order matters: more specific rules come first.
+// Resolves any glTF mesh name from the villa (Villa_finale.glb) to a zone id via keyword
+// matching, so that *every* element of the model is selectable — not just preset hotspots.
+// Order matters: more specific rules come first (e.g. "TablePiscine" must resolve to the
+// pool before the generic terrace furniture rule sees "Table").
 export function classifyMeshToZone(name: string): string {
   const has = (needle: string) => name.includes(needle);
 
+  // Storytelling placés par le modeleur : un rat près des poubelles, deux nids de guêpes.
+  if (name.startsWith("Rat_")) return "rat";
+  if (has("Nid_guepes")) return "nid-guepes";
+  if (has("Poubelle") || has("poubelle")) return "poubelles";
+
   if (has("Cheminee")) return "cheminee";
-  if (has("Cloture") || has("Portail") || has("Pilier_portail")) return "cloture";
+  if (has("Cloture") || has("cloture") || has("Portail") || has("portail")) return "cloture";
   if (has("Garage")) return "garage";
-  if (has("Cabane_fenetre") || has("Fenetre") || has("Baie") || has("imposte")) return "fenetres";
+  if (has("Cabane_fenetre") || has("Fenetre") || has("Baie") || has("imposte") || has("Rebord")) {
+    return "fenetres";
+  }
   if (has("Cabane")) return "abri";
   if (
     has("Bassin") ||
@@ -197,19 +271,33 @@ export function classifyMeshToZone(name: string): string {
     has("Profondeur") ||
     has("Margelles") ||
     has("Piscine") ||
-    has("LED_piscine")
+    has("LED_piscine") ||
+    has("Parasol")
   ) {
     return "piscine";
   }
+  if (has("Potager") || has("Epouvantail")) return "potager";
   if (has("Arbre")) return "arbre";
   if (has("Toit") || has("Pignon") || has("Gouttiere") || has("Descente_eau") || has("LED_debord")) {
     return "toiture";
   }
-  // Combles / vide-grenier = the volume just *under* the roof (fascia band + under-roof vents),
-  // distinct from the upper living floor, which is treated as bedrooms below.
-  if (has("Claire_voie") || has("Bandeau")) return "combles";
-  if (name.startsWith("Etage") || has("Brique")) return "chambres";
-  if (has("Terrasse_toit") || has("Garde_corps") || has("LED_sous_terrasse")) return "balcon";
+  // Grenier / combles = the real attic volume (zinc band + ventilation grilles) plus the
+  // under-roof claire-voie and fascia band.
+  if (has("Grenier") || has("Claire_voie") || has("Bandeau")) return "combles";
+  // Intérieur RDC : séjour (salon, escalier, parquet et cloisons du rez-de-chaussée) —
+  // must run before the generic RDC/facade rule which owns the exterior walls.
+  if (has("Cuisine")) return "cuisine";
+  if (has("Salon") || name === "Escalier" || name === "RDC_sol" || name === "RDC_cloisons") {
+    return "sejour";
+  }
+  // Étage : volumes, sols, cloisons et lits des chambres.
+  if (name.startsWith("Etage") || has("Brique") || has("Lit")) return "chambres";
+  if (has("Balcon") || has("Garde_corps")) return "balcon";
+  // Grande terrasse au sol + son mobilier (canapé, table, transats). "terrasse" en
+  // minuscules couvre Marches_terrasse et LED_sous_terrasse.
+  if (has("Terrasse") || has("terrasse") || has("Canape") || has("Table") || has("Transat")) {
+    return "terrasse";
+  }
   if (name === "Porte" || name === "Poignee" || has("Entree") || has("Auvent")) return "porte";
   if (has("Regard") || has("Tuyau") || has("egout")) return "egouts";
   if (name.startsWith("RDC") || has("Interieur_suggere") || has("_mur")) return "facade";
@@ -222,14 +310,11 @@ export function classifyMeshToZone(name: string): string {
     has("Jardiniere") ||
     has("Haie") ||
     has("Barbecue") ||
-    has("Poubelle") ||
     has("Boite_lettres") ||
     has("Lampadaire") ||
+    has("Halo") ||
     has("Spot_arbre") ||
-    has("Borne") ||
-    has("Nid_guepes") ||
-    has("Terrasse") ||
-    has("Marche_terrasse")
+    has("Borne")
   ) {
     return "jardin";
   }
@@ -238,3 +323,11 @@ export function classifyMeshToZone(name: string): string {
 
 // Zones whose geometry fades away in interior view to reveal the inside of the house.
 export const FADES_IN_INTERIOR = new Set<string>(["toiture", "cheminee", "combles", "balcon"]);
+
+// The new villa has real rooms with real ceilings: in interior view the ceilings must fade
+// with the roof, otherwise the top-down camera would only ever show ceiling slabs. The
+// zone stays "chambres" (clicking a ceiling still means "upstairs rooms") — only the fade
+// behaviour is mesh-specific.
+export function meshFadesInInterior(meshName: string, zoneId: string): boolean {
+  return FADES_IN_INTERIOR.has(zoneId) || meshName.includes("plafond");
+}

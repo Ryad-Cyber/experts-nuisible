@@ -6,11 +6,11 @@ import { Html, OrbitControls, ContactShadows, Environment, Lightformer, useGLTF 
 import type { OrbitControls as OrbitControlsImpl } from "three-stdlib";
 import gsap from "gsap";
 import * as THREE from "three";
-import { classifyMeshToZone, FADES_IN_INTERIOR, HOUSE_ZONE_BY_ID } from "@/data/houseZones";
+import { classifyMeshToZone, meshFadesInInterior, HOUSE_ZONE_BY_ID } from "@/data/houseZones";
 
 export type HouseView = "exterior" | "interior";
 
-const MODEL_URL = "/maquette_Villa.glb";
+const MODEL_URL = "/Villa_finale.glb";
 
 const HOVER_GLOW = new THREE.Color("#f5c433");
 const SELECT_GLOW = new THREE.Color("#1e7a4c");
@@ -53,6 +53,16 @@ const MATERIAL_STYLES: Record<string, MaterialStyle> = {
   Nid_Guepes: { color: "#d8c9a3", roughness: 0.95, metalness: 0 },
   Interieur_Suggere: { color: "#7a6a55", roughness: 0.75, metalness: 0 },
   Mobilier: { color: "#6b6558", roughness: 0.6, metalness: 0.05 },
+  // Villa_finale : grenier zingué, vraies pièces intérieures, potager et son petit monde.
+  Zinc_Grenier: { color: "#7e868d", roughness: 0.42, metalness: 0.72 },
+  Parquet_Interieur: { color: "#b08a5a", roughness: 0.55, metalness: 0 },
+  Mur_Interieur: { color: "#e9e3d5", roughness: 0.92, metalness: 0 },
+  Terre_Potager: { color: "#3c2e1f", roughness: 1, metalness: 0 },
+  Salade: { color: "#6fae45", roughness: 0.85, metalness: 0, flatShading: true },
+  Tomate: { color: "#c4402f", roughness: 0.45, metalness: 0 },
+  Courge: { color: "#d98a2e", roughness: 0.6, metalness: 0 },
+  Rat_Gris: { color: "#6f6a64", roughness: 0.9, metalness: 0 },
+  Rat_Oeil: { color: "#141210", roughness: 0.25, metalness: 0.1 },
   Lampe_Diffuseur: { color: "#fff8e8", roughness: 0.3, metalness: 0, transparent: true, opacity: 0.55 },
   LED_Chaude: { color: "#ffdd7a", roughness: 0.4, metalness: 0, emissive: "#ffdd7a", emissiveIntensity: 1.4 },
   Glow_Lampadaire: {
@@ -274,7 +284,7 @@ function Villa({
         mesh,
         materials: styledMaterials,
         zoneId,
-        fades: FADES_IN_INTERIOR.has(zoneId),
+        fades: meshFadesInInterior(mesh.name, zoneId),
         restY: mesh.position.y,
         origRaycast: mesh.raycast,
       });
@@ -432,7 +442,7 @@ function Villa({
         />
 
         {/* Lamppost fixture light, placed at the model's real "Lampadaire_source" coordinates. */}
-        <pointLight position={[-9.85, 2.9, 6.5]} color="#ffdd7a" intensity={0.7} distance={6} decay={2} />
+        <pointLight position={[-9.85, 2.78, 6.5]} color="#ffdd7a" intensity={0.7} distance={6} decay={2} />
 
         {selectAnchor && selectedLabel && (
           <FloatingLabel position={selectAnchor} label={selectedLabel} variant="selected" />

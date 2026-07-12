@@ -176,8 +176,10 @@ export function Configurateur() {
         </h2>
         <p className="mt-3 text-base text-muted-foreground">
           Cette villa en 3D illustre les zones les plus exposées d&apos;une habitation.
-          Explorez-la librement et cliquez sur un élément — toit, cheminée, fenêtre, arbre,
-          jardin… — pour voir comment nous identifions et traitons chaque type de situation.
+          Explorez-la librement, passez en vue intérieure et cliquez sur un élément — toiture,
+          grenier, cuisine, chambres, terrasse, potager… — pour voir comment nous identifions
+          et traitons chaque type de situation. Ouvrez l&apos;œil : certains intrus s&apos;y
+          cachent déjà.
         </p>
       </Reveal>
 
@@ -269,9 +271,10 @@ export function Configurateur() {
                   Sélectionnez une zone
                 </h3>
                 <p className="text-muted-foreground">
-                  Chaque élément de la villa — toiture, cheminée, combles, fenêtres, balcon,
-                  jardin, arbre, clôture… — est cliquable. Sélectionnez l&apos;endroit où vous
-                  avez aperçu le nuisible pour préparer votre demande.
+                  Chaque élément de la villa — toiture, grenier, cuisine, chambres, terrasse,
+                  potager, jardin, piscine… — est cliquable, à l&apos;extérieur comme à
+                  l&apos;intérieur. Sélectionnez l&apos;endroit où vous avez aperçu le nuisible
+                  pour préparer votre demande.
                 </p>
               </motion.div>
             )}
