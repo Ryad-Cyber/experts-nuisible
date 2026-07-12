@@ -42,7 +42,6 @@ export const siteConfig = {
   nav: [
     { label: "Accueil", href: "/" },
     { label: "Services", href: "/#nuisibles" },
-    { label: "Pourquoi nous", href: "/#agence" },
     { label: "Identifier mon nuisible", href: "/identifier" },
     { label: "FAQ", href: "/#faq" },
     { label: "Contact", href: "/#contact" },

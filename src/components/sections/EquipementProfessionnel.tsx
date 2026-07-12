@@ -2,14 +2,13 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import { CheckCircle2, ShieldCheck, Sparkles } from "lucide-react";
+import { ArrowRight, CheckCircle2, ShieldCheck, Sparkles } from "lucide-react";
 import { Section } from "@/components/ui/Section";
 import { Reveal } from "@/components/ui/Reveal";
-import { cn } from "@/lib/utils";
 import { technicianPhotos } from "@/data/equipment";
 import { PROFESSIONAL_PARTNERS } from "@/data/professionalPartners";
-import { TenueTechnicien } from "./TenueTechnicien";
 
 // Rythme rapide voulu (~1,5 s par photo) — l'effet cinéma reste porté par le
 // crossfade et la dérive de zoom Ken Burns, qui ne changent pas.
@@ -24,9 +23,9 @@ const PROOF_POINTS = [
 ];
 
 // Fabricants/fournisseurs : source unique dans data/professionalPartners.ts —
-// le bandeau rotatif et la section "Solutions professionnelles" de /identifier
-// affichent exactement la même liste.
-const PARTNER_ROTATE_MS = 4600;
+// le bandeau et la section "Solutions professionnelles" de /identifier affichent
+// exactement la même liste. Logos statiques : le carousel photos est la seule
+// animation permanente de la section (philosophie « un seul battement »).
 
 function TechnicianSlideshow() {
   const prefersReducedMotion = useReducedMotion();
@@ -77,22 +76,9 @@ function TechnicianSlideshow() {
 }
 
 function PartnersStrip() {
-  const [active, setActive] = useState(0);
-  const prefersReducedMotion = useReducedMotion();
-
-  useEffect(() => {
-    if (prefersReducedMotion || PROFESSIONAL_PARTNERS.length < 2) return;
-    const timer = setInterval(() => {
-      setActive((prev) => (prev + 1) % PROFESSIONAL_PARTNERS.length);
-    }, PARTNER_ROTATE_MS);
-    return () => clearInterval(timer);
-  }, [prefersReducedMotion]);
-
-  const partner = PROFESSIONAL_PARTNERS[active];
-
   return (
-    <div className="flex flex-col items-center gap-4 rounded-2xl border border-border bg-background p-5 shadow-sm sm:flex-row sm:justify-between sm:gap-6 sm:p-6">
-      <div className="text-center sm:text-left">
+    <div className="flex flex-col items-center gap-4 rounded-2xl border border-border bg-background p-5 shadow-sm lg:flex-row lg:justify-between lg:gap-6 lg:p-6">
+      <div className="text-center lg:text-left">
         <span className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-secondary">
           <Sparkles className="size-3.5" />
           Solutions professionnelles utilisées
@@ -103,43 +89,24 @@ function PartnersStrip() {
         </p>
       </div>
 
-      <div className="flex flex-col items-center gap-2.5">
-        <div className="relative flex h-16 w-40 items-center justify-center overflow-hidden rounded-xl border border-border bg-muted/50">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={partner.name}
-              initial={{ opacity: 0, y: prefersReducedMotion ? 0 : 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: prefersReducedMotion ? 0 : -8 }}
-              transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-              className="absolute inset-0 flex items-center justify-center p-2.5"
-            >
-              <Image
-                src={partner.logo}
-                alt={partner.name}
-                width={160}
-                height={64}
-                className="h-full w-auto object-contain"
-              />
-            </motion.div>
-          </AnimatePresence>
-        </div>
-
-        <div className="flex items-center justify-center gap-1.5">
-          {PROFESSIONAL_PARTNERS.map((p, index) => (
-            <button
-              key={p.name}
-              type="button"
-              onClick={() => setActive(index)}
-              aria-label={`Afficher ${p.name}`}
-              className={cn(
-                "h-1.5 rounded-full transition-all duration-300",
-                index === active ? "w-5 bg-secondary" : "w-1.5 bg-border hover:bg-secondary/40"
-              )}
+      {/* Barre de logos statique — pattern "press bar" : la crédibilité se montre,
+          elle ne clignote pas. */}
+      <ul className="flex flex-wrap items-center justify-center gap-2.5">
+        {PROFESSIONAL_PARTNERS.map((partner) => (
+          <li
+            key={partner.id}
+            className="flex h-14 w-28 items-center justify-center overflow-hidden rounded-xl border border-border bg-muted/50 p-2"
+          >
+            <Image
+              src={partner.logo}
+              alt={partner.name}
+              width={112}
+              height={56}
+              className="h-full w-auto object-contain"
             />
-          ))}
-        </div>
-      </div>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }
@@ -185,11 +152,18 @@ export function EquipementProfessionnel() {
               </li>
             ))}
           </ul>
+
+          {/* Teaser vers la tenue interactive (déplacée sur /identifier) : le signal
+              de professionnalisme reste, la grosse section interactive non. */}
+          <Link
+            href="/identifier#tenue"
+            className="group mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-secondary transition-colors hover:text-foreground"
+          >
+            Inspecter la tenue d&apos;intervention pièce par pièce
+            <ArrowRight className="size-4 transition-transform duration-300 group-hover:translate-x-0.5" />
+          </Link>
         </div>
       </Reveal>
-
-      {/* Plateau d'inspection : la tenue pièce par pièce + matériel contextualisé. */}
-      <TenueTechnicien />
 
       <Reveal delay={0.1} className="relative mt-8">
         <PartnersStrip />

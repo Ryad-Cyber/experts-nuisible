@@ -152,7 +152,7 @@ export function Hero() {
               </span>
               <div className="relative text-left leading-tight">
                 <p className="text-xs font-semibold text-white">Un technicien vous répond</p>
-                <p className="text-[10px] text-white/60">24h/24 — week-ends &amp; jours fériés</p>
+                <p className="text-[10px] text-white/60">Week-ends &amp; jours fériés inclus</p>
               </div>
             </div>
           </StaggerItem>

@@ -27,7 +27,6 @@ function InstagramIcon(props: SVGProps<SVGSVGElement>) {
 const footerNav = [
   { label: "Services", href: "/#nuisibles" },
   { label: "Nuisibles", href: "/nuisibles" },
-  { label: "Agence", href: "/#agence" },
   { label: "Identifier mon nuisible", href: "/identifier" },
   { label: "Zones d'intervention", href: "/#zone-intervention" },
   { label: "FAQ", href: "/#faq" },

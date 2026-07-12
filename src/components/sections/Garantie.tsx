@@ -7,10 +7,13 @@ import { Button } from "@/components/ui/Button";
 import { Reveal } from "@/components/ui/Reveal";
 import { siteConfig } from "@/config/site";
 
+// Le dernier point vient de l'ancienne section Atouts (fusionnée ici) : c'est
+// le seul de ses piliers qui n'était pas déjà dit ailleurs sur la page.
 const POINTS = [
   "Nouvelle intervention sans frais si le nuisible réapparaît",
   "Suivi jusqu'à disparition complète",
   "Techniciens certifiés & produits homologués",
+  "Tous les nuisibles pris en charge : rongeurs, insectes, volants, reptiles, oiseaux, champignons",
 ];
 
 function GuaranteeMedallion() {

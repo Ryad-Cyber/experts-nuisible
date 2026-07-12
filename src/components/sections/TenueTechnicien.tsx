@@ -231,7 +231,7 @@ export function TenueTechnicien() {
   }
 
   return (
-    <div ref={rootRef} className="relative mt-10">
+    <div ref={rootRef} className="relative">
       <div className="mx-auto max-w-2xl text-center">
         <span className="inline-flex items-center gap-2 rounded-full border border-border bg-background/80 px-3.5 py-1.5 text-xs font-semibold uppercase tracking-wider text-secondary shadow-sm backdrop-blur-sm">
           <ShieldCheck className="size-3.5" />

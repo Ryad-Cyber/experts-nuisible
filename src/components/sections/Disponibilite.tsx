@@ -2,16 +2,16 @@
 
 import { useEffect, useRef, useState } from "react";
 import { animate, motion, useInView, useMotionValue, useReducedMotion } from "framer-motion";
-import { CalendarClock, CheckCircle2, Clock3, Sparkles, type LucideIcon } from "lucide-react";
+import { CalendarClock, CheckCircle2, type LucideIcon } from "lucide-react";
 import { Section } from "@/components/ui/Section";
 import { Reveal, StaggerGroup, StaggerItem } from "@/components/ui/Reveal";
 import { requestQuoteForCity } from "@/lib/quoteEvents";
 
+// Le titre de la section dit déjà « Disponible 24h/24 » : les chips ne répètent
+// pas, elles précisent (week-ends, fériés — ce que peu de confrères couvrent).
 const AVAILABILITY_BADGES: { icon: LucideIcon; label: string }[] = [
-  { icon: Clock3, label: "24h/24" },
-  { icon: CalendarClock, label: "7j/7" },
   { icon: CheckCircle2, label: "Week-ends inclus" },
-  { icon: Sparkles, label: "Jours fériés inclus" },
+  { icon: CalendarClock, label: "Jours fériés inclus" },
 ];
 
 // Départements donnés à titre indicatif (fusion de l'ancienne section ZoneIntervention) —
@@ -236,7 +236,7 @@ export function Disponibilite() {
                   <p className="mt-1 text-sm font-medium text-foreground/80">
                     délai d&apos;intervention en urgence
                   </p>
-                  <p className="text-xs text-muted-foreground">Un technicien vous répond 24h/24</p>
+                  <p className="text-xs text-muted-foreground">Un technicien vous répond directement</p>
                 </div>
               </div>
             </div>
