@@ -168,6 +168,7 @@ export const PEST_GUIDE: PestGuideEntry[] = [
     id: "fouines",
     name: "Fouine",
     category: "rongeurs",
+    model: { file: "/fouine_3D.glb", tuning: { scale: 1.15, offsetY: 0.08 } },
     photo: "/fouine.jpg",
     serviceId: "deratisation",
     description:
@@ -246,6 +247,7 @@ export const PEST_GUIDE: PestGuideEntry[] = [
     id: "cafards",
     name: "Cafards",
     category: "rampants",
+    model: { file: "/cafard_3D.glb", tuning: { scale: 1.25, offsetY: 0.08 } },
     photo: "/cafard.jpg",
     serviceId: "desinsectisation",
     description:
@@ -285,6 +287,7 @@ export const PEST_GUIDE: PestGuideEntry[] = [
     id: "fourmis",
     name: "Fourmis",
     category: "rampants",
+    model: { file: "/fourmis_3D.glb", tuning: { scale: 1.3, offsetY: 0.06 } },
     photo: "/fourmis.jpg",
     serviceId: "desinsectisation",
     description:
@@ -321,6 +324,7 @@ export const PEST_GUIDE: PestGuideEntry[] = [
     id: "termites",
     name: "Termites",
     category: "rampants",
+    model: { file: "/termites_3D.glb", tuning: { scale: 1.2, offsetY: 0.07 } },
     photo: "/Termite.jpg",
     serviceId: "prevention",
     description:
@@ -360,6 +364,7 @@ export const PEST_GUIDE: PestGuideEntry[] = [
     id: "guepes",
     name: "Guêpes",
     category: "volants",
+    model: { file: "/guepe_3D.glb", tuning: { scale: 1.25, offsetY: 0.06 } },
     photo: "/Guepe.jpg",
     serviceId: "nuisibles-volants",
     description:
@@ -504,6 +509,7 @@ export const PEST_GUIDE: PestGuideEntry[] = [
     id: "mites",
     name: "Mites alimentaires",
     category: "volants",
+    model: { file: "/mites_3D.glb", tuning: { scale: 1.2, offsetY: 0.05 } },
     photo: "/mite.jpg",
     serviceId: "desinfection",
     description:
@@ -541,6 +547,7 @@ export const PEST_GUIDE: PestGuideEntry[] = [
     id: "chenilles",
     name: "Chenilles processionnaires",
     category: "jardin",
+    model: { file: "/chenille_3D.glb", tuning: { scale: 1.15, offsetY: 0.08 } },
     photo: "/chenille.jpg",
     serviceId: "desinsectisation",
     description:
@@ -613,6 +620,7 @@ export const PEST_GUIDE: PestGuideEntry[] = [
     id: "pigeons",
     name: "Pigeons",
     category: "jardin",
+    model: { file: "/pigeon_3D.glb", tuning: { scale: 1.1, offsetY: 0.06 } },
     photo: "/pigeon.jpg",
     serviceId: "nuisibles-volants",
     description:
