@@ -8,10 +8,11 @@ import { Section } from "@/components/ui/Section";
 import { Reveal } from "@/components/ui/Reveal";
 import { cn } from "@/lib/utils";
 import { technicianPhotos } from "@/data/equipment";
+import { TenueTechnicien } from "./TenueTechnicien";
 
 // Tempo posé : 1,5 s par photo se lisait comme un GIF nerveux — la compétence
-// est calme. Chaque photo respire 4,2 s avec une lente dérive de zoom.
-const SLIDE_DURATION = 4200;
+// est calme. Chaque photo respire ~3,6 s avec une lente dérive de zoom.
+const SLIDE_DURATION = 3600;
 
 // Preuves opérationnelles concrètes — uniquement des faits déjà revendiqués
 // ailleurs sur le site (Garantie, Hero Certibiocide), jamais de sur-promesse.
@@ -195,13 +196,8 @@ export function EquipementProfessionnel() {
         </div>
       </Reveal>
 
-      {/* ------------------------------------------------------------------
-          Emplacement réservé : silhouette interactive du technicien équipé
-          (pièces séparables + variantes par nuisible). S'insérera ici, entre
-          le carousel et le bandeau partenaires, dès que `technicianSilhouette`
-          sera renseigné avec les vrais PNG dans src/data/equipment.ts.
-          Aucun rendu tant que la config est null — pas de faux assets.
-          ------------------------------------------------------------------ */}
+      {/* Plateau d'inspection : la tenue pièce par pièce + matériel contextualisé. */}
+      <TenueTechnicien />
 
       <Reveal delay={0.1} className="relative mt-8">
         <PartnersStrip />
