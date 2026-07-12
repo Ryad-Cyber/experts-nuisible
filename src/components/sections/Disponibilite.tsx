@@ -68,15 +68,6 @@ function AnimatedStat({ value, prefix = "" }: { value: number; prefix?: string }
   );
 }
 
-function LiveDot() {
-  return (
-    <span className="relative flex size-2">
-      <span className="absolute inline-flex size-full animate-ping rounded-full bg-emerald-400 opacity-75" />
-      <span className="relative inline-flex size-2 rounded-full bg-emerald-500" />
-    </span>
-  );
-}
-
 function CoverageMap() {
   const prefersReducedMotion = useReducedMotion();
   const primary = HUBS.find((hub) => hub.primary)!;
@@ -219,20 +210,19 @@ export function Disponibilite() {
                     <AnimatedStat value={200} prefix="+" />
                   </p>
                   <p className="mt-1 text-sm font-medium text-foreground/80">interventions réalisées</p>
-                  <p className="text-xs text-muted-foreground">Partout en France</p>
+                  <p className="text-xs text-muted-foreground">Dans de nombreuses agglomérations</p>
                 </div>
 
+                {/* Fait déjà revendiqué sur tout le site (Hero, Urgence) — pas de compteur
+                    "temps réel" simulé ici, uniquement des engagements vérifiables. */}
                 <div>
-                  <span className="mb-1.5 inline-flex items-center gap-1.5 rounded-full bg-emerald-500/10 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wide text-emerald-700">
-                    <LiveDot />
-                    En ligne
-                  </span>
                   <p className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-                    <AnimatedStat value={3} />
+                    &lt;&nbsp;24h
                   </p>
                   <p className="mt-1 text-sm font-medium text-foreground/80">
-                    techniciens disponibles actuellement
+                    délai d&apos;intervention en urgence
                   </p>
+                  <p className="text-xs text-muted-foreground">Un technicien vous répond 24h/24</p>
                 </div>
               </div>
             </div>

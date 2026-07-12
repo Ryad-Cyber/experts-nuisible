@@ -18,9 +18,15 @@ export function PhoneClickTracker() {
   useEffect(() => {
     function handleClick(event: MouseEvent) {
       if (!(event.target instanceof Element)) return;
-      const anchor = event.target.closest('a[href^="tel:"]');
-      if (!(anchor instanceof HTMLElement)) return;
-      plausible("Phone Click", { props: { location: resolveLocation(anchor) } });
+      const phoneAnchor = event.target.closest('a[href^="tel:"]');
+      if (phoneAnchor instanceof HTMLElement) {
+        plausible("Phone Click", { props: { location: resolveLocation(phoneAnchor) } });
+        return;
+      }
+      const whatsappAnchor = event.target.closest('a[href^="https://wa.me/"]');
+      if (whatsappAnchor instanceof HTMLElement) {
+        plausible("WhatsApp Click", { props: { location: resolveLocation(whatsappAnchor) } });
+      }
     }
 
     document.addEventListener("click", handleClick);

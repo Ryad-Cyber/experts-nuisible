@@ -12,6 +12,12 @@ export const siteConfig = {
     display: "07 66 90 90 33",
     href: `tel:+33${phoneDigits.slice(1)}`,
   },
+  whatsapp: {
+    display: "07 66 90 90 33",
+    href: `https://wa.me/33${phoneDigits.slice(1)}?text=${encodeURIComponent(
+      "Bonjour, j'ai un problème de nuisible. Je vous envoie quelques photos de la situation."
+    )}`,
+  },
   email: "Contact@expertsnuisible.com",
   serviceArea: "Réseau de techniciens dans de nombreuses agglomérations françaises",
   hours: [
@@ -26,7 +32,7 @@ export const siteConfig = {
   nav: [
     { label: "Accueil", href: "/" },
     { label: "Services", href: "#nuisibles" },
-    { label: "Why Us", href: "#agence" },
+    { label: "Pourquoi nous", href: "#agence" },
     { label: "Galerie 3D", href: "/galerie-3d" },
     { label: "FAQ", href: "#faq" },
     { label: "Contact", href: "#contact" },

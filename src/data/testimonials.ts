@@ -34,3 +34,11 @@ export const testimonials: Testimonial[] = [
       "Punaises de lit éliminées définitivement, bon accompagnement pendant tout le traitement.",
   },
 ];
+
+// Source unique de la note affichée partout sur le site (Hero, section Avis…).
+// Note déclarée, à remplacer par la note Google réelle une fois la fiche reliée —
+// ne jamais réintroduire un chiffre en dur dans un composant.
+export const reviewsSummary = {
+  ratingValue: 4.8,
+  reviewCount: testimonials.length,
+};

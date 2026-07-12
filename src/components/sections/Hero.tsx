@@ -2,17 +2,20 @@
 
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { ArrowRight, BadgeCheck, Clock3, FileCheck2, Phone, ShieldCheck, Star, Users } from "lucide-react";
+import { ArrowRight, BadgeCheck, BadgeEuro, Clock3, EyeOff, FileCheck2, Headset, Phone, ShieldCheck, Star } from "lucide-react";
 import { Section } from "@/components/ui/Section";
 import { Button } from "@/components/ui/Button";
 import { Reveal, StaggerGroup, StaggerItem } from "@/components/ui/Reveal";
 import { siteConfig } from "@/config/site";
+import { reviewsSummary } from "@/data/testimonials";
 import { HeroBackdrop } from "./HeroBackdrop";
 
+// Chaque point répond à une peur qui bloque l'appel (délai, prix, honte) — les mentions
+// "certifiés" et "devis gratuit" vivent déjà dans le badge Certibiocide et le CTA doré.
 const trustPoints = [
   { icon: Clock3, label: "Intervention sous 24h" },
-  { icon: ShieldCheck, label: "Techniciens certifiés" },
-  { icon: Phone, label: "Devis gratuit par téléphone" },
+  { icon: BadgeEuro, label: "Prix annoncé avant intervention" },
+  { icon: EyeOff, label: "Intervention discrète" },
 ];
 
 const heroBackgroundStyle = {
@@ -135,8 +138,8 @@ export function Hero() {
               </div>
             </div>
 
-            {/* Live technician availability — same watermark texture, emerald accent instead of
-                gold to echo the pulsing "online" dot; reassures "someone is available now". */}
+            {/* Availability — same watermark texture, emerald accent. No fake live counter:
+                the pulsing dot expresses the genuine 24/7 answering promise, nothing simulated. */}
             <div className="group relative flex items-center gap-2.5 overflow-hidden rounded-xl border border-white/15 bg-gradient-to-br from-white/[0.08] to-white/[0.02] px-3.5 py-2.5 backdrop-blur-md transition-colors duration-300 hover:border-emerald-300/30">
               <span aria-hidden className="pointer-events-none absolute inset-0" style={badgeWatermark} />
               <span
@@ -144,15 +147,15 @@ export function Hero() {
                 className="pointer-events-none absolute -left-6 -top-6 size-20 rounded-full bg-emerald-400/20 blur-2xl"
               />
               <span className="relative flex size-9 shrink-0 items-center justify-center rounded-lg border border-emerald-300/30 bg-emerald-400/10 text-emerald-300 shadow-[0_0_16px_-2px_rgba(52,211,153,0.35)]">
-                <Users className="size-4" />
+                <Headset className="size-4" />
                 <span className="absolute -right-1 -top-1 flex size-3">
                   <span className="absolute inline-flex size-full animate-ping rounded-full bg-emerald-400 opacity-75" />
                   <span className="relative inline-flex size-3 rounded-full border border-primary-dark bg-emerald-400" />
                 </span>
               </span>
               <div className="relative text-left leading-tight">
-                <p className="text-xs font-semibold text-white">3 techniciens disponibles</p>
-                <p className="text-[10px] text-white/60">Intervention rapide</p>
+                <p className="text-xs font-semibold text-white">Un technicien vous répond</p>
+                <p className="text-[10px] text-white/60">24h/24 — week-ends &amp; jours fériés</p>
               </div>
             </div>
           </StaggerItem>
@@ -202,7 +205,8 @@ export function Hero() {
               <span aria-hidden className="relative h-8 w-px bg-white/40" />
               <div className="relative flex flex-col items-start leading-none">
                 <p className="text-xl font-bold tracking-tight text-white drop-shadow-[0_1px_3px_rgba(0,0,0,0.4)]">
-                  4,9<span className="text-sm font-medium text-white/80"> / 5</span>
+                  {reviewsSummary.ratingValue.toLocaleString("fr-FR")}
+                  <span className="text-sm font-medium text-white/80"> / 5</span>
                 </p>
                 <p className="mt-1 text-[11px] font-semibold uppercase tracking-widest text-white/90 drop-shadow-[0_1px_2px_rgba(0,0,0,0.4)]">
                   Avis clients

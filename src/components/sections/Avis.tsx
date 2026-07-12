@@ -1,11 +1,11 @@
 "use client";
 
 import { motion, useReducedMotion } from "framer-motion";
-import { Quote, Star } from "lucide-react";
+import { BadgeCheck, Quote, Star } from "lucide-react";
 import { Section } from "@/components/ui/Section";
 import { Reveal, StaggerGroup, StaggerItem } from "@/components/ui/Reveal";
 import { cn } from "@/lib/utils";
-import { testimonials } from "@/data/testimonials";
+import { reviewsSummary, testimonials } from "@/data/testimonials";
 
 // Deterministic accent rotation per card — avoids a monotone repeat of the same gradient
 // on every testimonial while staying entirely within the existing brand palette.
@@ -74,18 +74,29 @@ function TestimonialCard({
         >
           {initials(testimonial.author)}
         </span>
-        <div>
+        <div className="min-w-0">
           <p className="text-sm font-semibold leading-tight">{testimonial.author}</p>
-          <p className="text-xs text-muted-foreground">{testimonial.location}</p>
+          <p className="truncate text-xs text-muted-foreground">
+            {testimonial.location}
+            {testimonial.service && <> · {testimonial.service}</>}
+          </p>
         </div>
+        {/* Badge affiché uniquement pour les futurs avis Google vérifiés. */}
+        {testimonial.source === "google" && testimonial.verified && (
+          <span className="ml-auto inline-flex shrink-0 items-center gap-1 rounded-full bg-secondary/10 px-2 py-0.5 text-[10px] font-semibold text-secondary">
+            <BadgeCheck className="size-3" />
+            Avis Google
+          </span>
+        )}
       </div>
     </motion.div>
   );
 }
 
 export function Avis() {
-  const averageRating =
-    testimonials.reduce((sum, t) => sum + t.rating, 0) / testimonials.length;
+  // Note lue depuis la source unique (reviewsSummary) — jamais recalculée localement,
+  // pour garantir le même chiffre que le Hero et les futures données structurées.
+  const averageRating = reviewsSummary.ratingValue;
 
   return (
     <Section id="avis" className="relative overflow-hidden py-10 md:py-14">
@@ -124,9 +135,11 @@ export function Avis() {
               />
             ))}
           </div>
-          <span className="text-sm font-semibold">{averageRating.toFixed(1)}/5</span>
+          <span className="text-sm font-semibold">
+            {averageRating.toLocaleString("fr-FR")}/5
+          </span>
           <span className="text-sm text-muted-foreground">
-            · {testimonials.length} avis clients
+            · {reviewsSummary.reviewCount} avis clients
           </span>
         </div>
       </Reveal>

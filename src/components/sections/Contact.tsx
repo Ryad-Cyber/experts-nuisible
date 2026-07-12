@@ -8,6 +8,7 @@ import { Card } from "@/components/ui/Card";
 import { Container } from "@/components/ui/Container";
 import { Button } from "@/components/ui/Button";
 import { Reveal } from "@/components/ui/Reveal";
+import { WhatsAppIcon } from "@/components/ui/WhatsAppIcon";
 import { cn } from "@/lib/utils";
 import { siteConfig } from "@/config/site";
 import { services } from "@/data/services";
@@ -388,6 +389,16 @@ export function Contact() {
               >
                 <Mail className="size-4 text-secondary" />
                 {siteConfig.email}
+              </a>
+
+              <a
+                href={siteConfig.whatsapp.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-3 text-sm hover:underline"
+              >
+                <WhatsAppIcon className="size-4 shrink-0 text-[#25D366]" />
+                WhatsApp — envoyez des photos de votre situation
               </a>
 
               <p className="flex items-center gap-3 text-sm">

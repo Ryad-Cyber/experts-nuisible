@@ -23,6 +23,23 @@ export type Testimonial = {
   location: string;
   rating: number;
   quote: string;
+  /** Type d'intervention (ex. "Dératisation") — affiché sur la carte si présent. */
+  service?: string;
+  /** Date de l'intervention ou de l'avis. */
+  date?: string;
+  /** Provenance de l'avis — "google" active le badge vérifié. */
+  source?: "interne" | "google";
+  /** Lien vers l'avis d'origine (fiche Google) si disponible. */
+  sourceUrl?: string;
+  verified?: boolean;
+};
+
+export type Technician = {
+  /** Prénom réel du technicien — jamais de fausse identité. */
+  firstName: string;
+  /** Photo réelle (chemin public/), jamais générée. */
+  photo: string;
+  certification?: string;
 };
 
 export type HouseZoneId = "toiture" | "combles" | "cuisine" | "cave" | "jardin";
