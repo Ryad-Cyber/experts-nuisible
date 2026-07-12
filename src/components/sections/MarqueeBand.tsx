@@ -1,18 +1,21 @@
-import { Bug, Car, CheckCircle2, Home, Phone, ShieldCheck, Star, Zap, type LucideIcon } from "lucide-react";
+import { Bug, Car, CheckCircle2, Star, type LucideIcon } from "lucide-react";
 
+// Uniquement les messages que le Hero juste au-dessus ne dit pas déjà : preuve chiffrée,
+// aperçu des nuisibles traités (segue vers la section Nuisibles), devis, mobilité.
+// Le 24/7, le délai et le prix vivent dans le Hero — pas de répétition adjacente.
 const MESSAGES: { icon: LucideIcon; text: string }[] = [
-  { icon: Phone, text: "Disponible 24h/24 • 7j/7" },
-  { icon: ShieldCheck, text: "Protégez durablement votre habitation" },
-  { icon: Zap, text: "Intervention rapide" },
-  { icon: Home, text: "Maison • Appartement • Local professionnel" },
-  { icon: Bug, text: "Guêpes • Frelons • Rongeurs • Punaises de lit • et bien d'autres" },
-  { icon: Car, text: "Déplacement rapide dans de nombreuses régions" },
   { icon: Star, text: "Plus de 200 interventions réalisées" },
+  { icon: Bug, text: "Guêpes • Frelons • Rongeurs • Punaises de lit • et bien d'autres" },
   { icon: CheckCircle2, text: "Devis gratuit et sans engagement" },
+  { icon: Car, text: "Déplacement rapide dans de nombreuses régions" },
 ];
 
+// Chaque moitié de la piste rend la liste deux fois : l'animation translate de -50 %,
+// il faut donc que chaque moitié soit assez large pour couvrir un écran desktop.
+const LOOP = [...MESSAGES, ...MESSAGES];
+
 function chips(copy: string) {
-  return MESSAGES.map((message, index) => {
+  return LOOP.map((message, index) => {
     const Icon = message.icon;
     return (
       <div

@@ -4,9 +4,49 @@ export type TechnicianPhoto = {
   alt: string;
 };
 
-// Structure prête à accueillir plus tard une partie interactive
-// (équipements de protection, matériel professionnel, nuisibles associés)
-// une fois les assets dédiés disponibles.
+// ---------------------------------------------------------------------------
+// Silhouette interactive du technicien — ARCHITECTURE PRÉPARÉE, EN ATTENTE DES
+// VRAIS ASSETS. Renseigner `technicianSilhouette` uniquement lorsque les PNG
+// réels (fond transparent, pièces détourées séparément) seront déposés dans
+// /public. Ne jamais utiliser d'images génériques ou générées pour simuler
+// du matériel : tant que la config est `null`, rien ne s'affiche sur le site.
+// ---------------------------------------------------------------------------
+
+export type GearPieceId =
+  | "casque"
+  | "combinaison"
+  | "gants"
+  | "chaussures"
+  | "surchaussures";
+
+export type GearPiece = {
+  id: GearPieceId | string;
+  label: string;
+  /** PNG détouré de la pièce seule, ex. "/gear/casque.png" */
+  image: string;
+  description?: string;
+};
+
+export type NuisibleGearVariant = {
+  /** Doit correspondre à un id de service (src/data/services.ts). */
+  serviceId: string;
+  label: string;
+  /** Équipements spécifiques ajoutés pour ce nuisible (pulvérisateur, vapeur, etc.). */
+  extraGear: GearPiece[];
+};
+
+export type TechnicianSilhouette = {
+  /** PNG du technicien complet équipé, fond transparent. */
+  baseImage: string;
+  /** Pièces de protection séparables (casque, combinaison, gants, chaussures…). */
+  pieces: GearPiece[];
+  /** Variantes d'équipement par type de nuisible. */
+  variants: NuisibleGearVariant[];
+};
+
+export const technicianSilhouette: TechnicianSilhouette | null = null;
+
+// Photos réelles du carousel "Notre équipement professionnel".
 export const technicianPhotos: TechnicianPhoto[] = [
   {
     id: "tech-1",

@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { animate, motion, useInView, useMotionValue, useReducedMotion } from "framer-motion";
 import { CalendarClock, CheckCircle2, Clock3, Sparkles, type LucideIcon } from "lucide-react";
 import { Section } from "@/components/ui/Section";
-import { Reveal } from "@/components/ui/Reveal";
+import { Reveal, StaggerGroup, StaggerItem } from "@/components/ui/Reveal";
 import { requestQuoteForCity } from "@/lib/quoteEvents";
 
 const AVAILABILITY_BADGES: { icon: LucideIcon; label: string }[] = [
@@ -12,6 +12,19 @@ const AVAILABILITY_BADGES: { icon: LucideIcon; label: string }[] = [
   { icon: CalendarClock, label: "7j/7" },
   { icon: CheckCircle2, label: "Week-ends inclus" },
   { icon: Sparkles, label: "Jours fériés inclus" },
+];
+
+// Départements donnés à titre indicatif (fusion de l'ancienne section ZoneIntervention) —
+// la phrase d'accompagnement précise qu'ils ne représentent qu'une partie de la couverture.
+const SECTORS = [
+  { name: "Paris", code: "75" },
+  { name: "Loiret", code: "45" },
+  { name: "Loir-et-Cher", code: "41" },
+  { name: "Indre-et-Loire", code: "37" },
+  { name: "Eure-et-Loir", code: "28" },
+  { name: "Cher", code: "18" },
+  { name: "Yonne", code: "89" },
+  { name: "Nièvre", code: "58" },
 ];
 
 type Hub = { name: string; short: string; x: number; y: number; primary?: boolean };
@@ -177,7 +190,8 @@ export function Disponibilite() {
           Disponible 24h/24, partout où vous êtes
         </h2>
         <p className="mt-3 text-base text-muted-foreground">
-          Une équipe mobilisée en permanence, week-ends et jours fériés inclus.
+          Une équipe mobilisée en permanence, week-ends et jours fériés inclus, auprès des
+          particuliers comme des professionnels.
         </p>
       </Reveal>
 
@@ -229,6 +243,45 @@ export function Disponibilite() {
           </div>
         </div>
       </Reveal>
+
+      {/* Zone d'intervention — fusionnée ici depuis l'ancienne section dédiée. L'id est
+          conservé pour l'ancre du footer (#zone-intervention) et le SEO local : les noms
+          de départements restent présents dans le HTML. */}
+      <div id="zone-intervention" className="relative mx-auto mt-9 max-w-3xl scroll-mt-24 text-center">
+        <Reveal>
+          <p className="mx-auto max-w-2xl text-sm text-muted-foreground">
+            Les secteurs ci-dessous sont donnés à titre indicatif et ne représentent
+            qu&apos;une partie de notre zone d&apos;intervention.
+          </p>
+        </Reveal>
+
+        <StaggerGroup
+          staggerDelay={0.04}
+          className="mt-5 flex flex-wrap items-center justify-center gap-2.5"
+        >
+          {SECTORS.map((sector) => (
+            <StaggerItem key={sector.code} y={10}>
+              <span className="glass group inline-flex items-center gap-2 rounded-full border border-white/50 px-4 py-2 shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-secondary/40 hover:shadow-md">
+                <span className="text-sm font-medium text-foreground">{sector.name}</span>
+                <span className="text-xs font-semibold tabular-nums text-secondary transition-colors duration-300 group-hover:text-accent-dark">
+                  {sector.code}
+                </span>
+              </span>
+            </StaggerItem>
+          ))}
+
+          <StaggerItem y={10}>
+            <a
+              href="#contact"
+              className="glass group inline-flex items-center gap-2 rounded-full border border-dashed border-secondary/40 px-4 py-2 shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-secondary/60 hover:shadow-md"
+            >
+              <span className="text-sm font-medium text-secondary transition-colors duration-300 group-hover:text-accent-dark">
+                Et bien d&apos;autres...
+              </span>
+            </a>
+          </StaggerItem>
+        </StaggerGroup>
+      </div>
     </Section>
   );
 }

@@ -57,12 +57,12 @@ export function Nuisibles() {
             Nos nuisibles
           </span>
           <h2 className="mt-3 text-2xl font-semibold tracking-tight text-balance md:text-3xl">
-            Nos nuisibles. Et bien d&apos;autres encore.
+            Identifiez votre nuisible, nous nous occupons du reste.
           </h2>
           <p className="mt-3 text-base text-muted-foreground">
-            Découvrez quelques-uns des principaux nuisibles que nous traitons. Notre équipe
-            intervient également sur de nombreuses autres espèces de rongeurs, insectes,
-            oiseaux, reptiles et bien d&apos;autres nuisibles.
+            Rats, souris, punaises de lit, cafards, guêpes, frelons… Retrouvez ci-dessous les
+            principaux nuisibles que nous traitons. Notre équipe intervient aussi sur de
+            nombreuses autres espèces de rongeurs, insectes, oiseaux et reptiles.
           </p>
         </Reveal>
 

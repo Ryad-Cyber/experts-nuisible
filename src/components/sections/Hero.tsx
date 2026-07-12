@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { ArrowRight, BadgeCheck, BadgeEuro, Clock3, EyeOff, FileCheck2, Headset, Phone, ShieldCheck, Star } from "lucide-react";
+import { ArrowRight, BadgeCheck, Building2, EyeOff, FileCheck2, Headset, Phone, ShieldCheck, Star } from "lucide-react";
 import { Section } from "@/components/ui/Section";
 import { Button } from "@/components/ui/Button";
 import { Reveal, StaggerGroup, StaggerItem } from "@/components/ui/Reveal";
@@ -10,12 +10,13 @@ import { siteConfig } from "@/config/site";
 import { reviewsSummary } from "@/data/testimonials";
 import { HeroBackdrop } from "./HeroBackdrop";
 
-// Chaque point répond à une peur qui bloque l'appel (délai, prix, honte) — les mentions
-// "certifiés" et "devis gratuit" vivent déjà dans le badge Certibiocide et le CTA doré.
+// Chaque point répond à une peur qui bloque l'appel (honte, récidive, "est-ce pour moi ?").
+// Délai et prix vivent désormais dans le H1, "certifiés" et "devis gratuit" dans le badge
+// Certibiocide et le CTA doré — aucun message n'est répété deux fois dans le Hero.
 const trustPoints = [
-  { icon: Clock3, label: "Intervention sous 24h" },
-  { icon: BadgeEuro, label: "Prix annoncé avant intervention" },
   { icon: EyeOff, label: "Intervention discrète" },
+  { icon: ShieldCheck, label: "Garantie résultat 30 jours" },
+  { icon: Building2, label: "Particuliers & professionnels" },
 ];
 
 const heroBackgroundStyle = {
@@ -59,17 +60,17 @@ export function Hero() {
 
           <StaggerItem>
             <h1 className="max-w-xl text-[1.7rem] font-semibold tracking-tight text-balance text-white sm:text-3xl md:text-4xl lg:text-[2.7rem]">
-              Solutions professionnelles contre tous les nuisibles.
+              Un nuisible chez vous ?
               <br />
-              <span className="text-white/70">Une intervention rapide. Un résultat durable.</span>
+              <span className="text-white/70">Intervention sous 24 h. Prix annoncé avant.</span>
             </h1>
           </StaggerItem>
 
           <StaggerItem>
             <p className="max-w-xl text-sm text-white/75 md:text-base">
-              Experts Nuisible intervient sur tous types de nuisibles, chez les particuliers
-              comme chez les professionnels, grâce à un réseau de techniciens couvrant de
-              nombreuses agglomérations françaises.
+              Dératisation, désinsectisation, désinfection — Experts Nuisible traite tous les
+              types de nuisibles, chez les particuliers comme chez les professionnels, grâce à
+              un réseau de techniciens couvrant de nombreuses agglomérations françaises.
             </p>
           </StaggerItem>
 
