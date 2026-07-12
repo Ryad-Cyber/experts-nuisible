@@ -31,6 +31,16 @@ export type GearSlot =
   | "combinaison"
   | "surchaussures";
 
+/** Variante d'une pièce pour une famille de nuisibles donnée. */
+export type SuitPieceVariant = {
+  image: string;
+  alt: string;
+  /** Étiquette de tuile, si elle diffère de la pièce par défaut. */
+  label?: string;
+  /** Fiche dédiée lorsque la pièce change vraiment de nature (ex. cagoule). */
+  fiche?: EquipmentFiche;
+};
+
 /** Tuile de la composition (les deux gants partagent la même fiche). */
 export type SuitPiece = {
   slot: GearSlot;
@@ -38,6 +48,9 @@ export type SuitPiece = {
   image: string;
   alt: string;
   ficheId: string;
+  /** Images alternatives affichées selon la famille sélectionnée — la rotation
+   *  automatique des contextes fait ainsi « tourner » toute la tenue. */
+  contextVariants?: Partial<Record<GearContextId, SuitPieceVariant>>;
 };
 
 export type GearContextId = "rongeurs" | "insectes" | "exterieur";
@@ -87,6 +100,8 @@ export const SUIT_FICHES: EquipmentFiche[] = [
   },
 ];
 
+// NB : les visuels comportant un visage généré (casque3, combinaison3) restent
+// volontairement inutilisés — jamais de faux humain sur le site.
 export const SUIT_PIECES: SuitPiece[] = [
   {
     slot: "casque",
@@ -94,13 +109,33 @@ export const SUIT_PIECES: SuitPiece[] = [
     image: "/casque.jpg",
     alt: "Masque de protection respiratoire intégral avec cartouches filtrantes, posé sur son support",
     ficheId: "casque",
+    contextVariants: {
+      insectes: {
+        image: "/casque2.jpeg",
+        alt: "Cagoule de protection à voilage intégral avec demi-masque respiratoire",
+        label: "Cagoule de protection",
+        fiche: {
+          id: "casque-insectes",
+          name: "Cagoule de protection",
+          why: "Voilage intégral et demi-masque : visage et cou restent hors d'atteinte des piqûres pendant la destruction des nids de guêpes ou de frelons.",
+          benefit:
+            "Le technicien peut approcher le nid calmement et finir le travail — pas d'intervention expédiée sous la menace des piqûres.",
+        },
+      },
+    },
   },
   {
     slot: "gant-gauche",
     label: "Gant gauche",
     image: "/gant_gauche.jpg",
-    alt: "Gant de protection noir, vue de la paume",
+    alt: "Gant de protection renforcé noir, vue de la paume",
     ficheId: "gants",
+    contextVariants: {
+      insectes: {
+        image: "/gant_gauche2.jpeg",
+        alt: "Gant d'application souple pour les traitements de précision, main gauche",
+      },
+    },
   },
   {
     slot: "combinaison",
@@ -108,13 +143,26 @@ export const SUIT_PIECES: SuitPiece[] = [
     image: "/combinaison2.jpeg",
     alt: "Combinaison d'intervention complète avec renforts, présentée prête à enfiler",
     ficheId: "combinaison",
+    contextVariants: {
+      exterieur: {
+        image: "/combinaison.jpg",
+        alt: "Technicien en combinaison intégrale à capuche avec protection respiratoire",
+        label: "Combinaison intégrale",
+      },
+    },
   },
   {
     slot: "gant-droit",
     label: "Gant droit",
     image: "/gant_droit.jpg",
-    alt: "Gant de protection noir à manchette tricotée, vue de la paume",
+    alt: "Gant de protection renforcé à manchette tricotée, vue de la paume",
     ficheId: "gants",
+    contextVariants: {
+      insectes: {
+        image: "/gant_droit2.jpeg",
+        alt: "Gant d'application souple pour les traitements de précision, main droite",
+      },
+    },
   },
   {
     slot: "surchaussures",
@@ -122,6 +170,16 @@ export const SUIT_PIECES: SuitPiece[] = [
     image: "/surchaussure3.jpg",
     alt: "Chaussures de sécurité recouvertes de surchaussures de protection jetables",
     ficheId: "surchaussures",
+    contextVariants: {
+      insectes: {
+        image: "/surchaussure.jpg",
+        alt: "Surchaussures de protection jetables enfilées sur des chaussures de sécurité",
+      },
+      exterieur: {
+        image: "/surchaussure2.jpg",
+        alt: "Surchaussures de protection sur chaussures de sécurité, prêtes pour l'intervention",
+      },
+    },
   },
 ];
 

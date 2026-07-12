@@ -1,8 +1,8 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Image from "next/image";
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { AnimatePresence, motion, useInView, useReducedMotion } from "framer-motion";
 import { Check, ShieldCheck, Sparkles } from "lucide-react";
 import {
   EQUIPMENT_FICHE_BY_ID,
@@ -16,6 +16,10 @@ import {
 import { cn } from "@/lib/utils";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
+
+// Rotation automatique des familles : toute la tenue « tourne » (cagoule, gants,
+// combinaison, surchaussures, matériel) tant que le visiteur n'a pas interagi.
+const AUTO_ROTATE_MS = 3800;
 
 // -----------------------------------------------------------------------------
 // Plateau d'inspection de la tenue : combinaison au centre, casque en haut,
@@ -35,6 +39,8 @@ type TileProps = {
 };
 
 function GearTile({ image, alt, label, selected, onSelect, className, sizes }: TileProps) {
+  const reducedMotion = Boolean(useReducedMotion());
+
   return (
     <button
       type="button"
@@ -48,20 +54,39 @@ function GearTile({ image, alt, label, selected, onSelect, className, sizes }: T
         className
       )}
     >
-      <Image
-        src={image}
-        alt={alt}
-        fill
-        sizes={sizes}
-        className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.04]"
-      />
+      {/* Crossfade : l'ancienne variante s'efface pendant que la nouvelle
+          apparaît — même grammaire que le slideshow des techniciens. */}
+      <AnimatePresence initial={false}>
+        <motion.div
+          key={image}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: reducedMotion ? 0.01 : 0.55, ease: EASE }}
+          className="absolute inset-0"
+        >
+          <Image
+            src={image}
+            alt={alt}
+            fill
+            sizes={sizes}
+            className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.04]"
+          />
+        </motion.div>
+      </AnimatePresence>
       <span
         aria-hidden
         className="pointer-events-none absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/65 to-transparent"
       />
-      <span className="absolute bottom-2 left-2.5 text-[10px] font-semibold uppercase tracking-wide text-white/90 sm:text-xs">
+      <motion.span
+        key={label}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: reducedMotion ? 0.01 : 0.4 }}
+        className="absolute bottom-2 left-2.5 text-[10px] font-semibold uppercase tracking-wide text-white/90 sm:text-xs"
+      >
         {label}
-      </span>
+      </motion.span>
       {selected && (
         <span className="absolute right-2 top-2 flex size-5 items-center justify-center rounded-full bg-accent text-accent-foreground shadow-sm">
           <Check className="size-3" />
@@ -71,7 +96,7 @@ function GearTile({ image, alt, label, selected, onSelect, className, sizes }: T
   );
 }
 
-// Emplacement d'un outil : crossfade propre quand la famille de nuisibles change.
+// Emplacement d'un outil : glissement + fondu quand la famille change.
 function ToolSlot({
   tool,
   selectedId,
@@ -112,9 +137,13 @@ export function TenueTechnicien() {
   const prefersReducedMotion = Boolean(useReducedMotion());
   const [selectedId, setSelectedId] = useState("combinaison");
   const [context, setContext] = useState<GearContextId>("insectes");
+  // La présentation tourne seule jusqu'à la première interaction : l'utilisateur
+  // qui clique prend la main, la rotation ne redémarre pas dans son dos.
+  const [autoRotate, setAutoRotate] = useState(true);
+  const rootRef = useRef<HTMLDivElement>(null);
+  const inView = useInView(rootRef, { amount: 0.25 });
 
   const tools = useMemo(() => FIELD_TOOLS.filter((tool) => tool.context === context), [context]);
-  const fiche = EQUIPMENT_FICHE_BY_ID[selectedId] ?? EQUIPMENT_FICHE_BY_ID.combinaison;
 
   const pieceBySlot = useMemo(() => {
     const map = new Map<SuitPiece["slot"], SuitPiece>();
@@ -122,12 +151,50 @@ export function TenueTechnicien() {
     return map;
   }, []);
 
+  // La fiche dépend aussi du contexte : en famille « Insectes », le slot casque
+  // présente la cagoule anti-piqûres avec sa propre fiche.
+  const fiche = useMemo(() => {
+    const tool = FIELD_TOOLS.find((entry) => entry.id === selectedId);
+    if (tool) return tool;
+    const piece = SUIT_PIECES.find((entry) => entry.ficheId === selectedId);
+    return (
+      piece?.contextVariants?.[context]?.fiche ??
+      EQUIPMENT_FICHE_BY_ID[selectedId] ??
+      EQUIPMENT_FICHE_BY_ID.combinaison
+    );
+  }, [selectedId, context]);
+
+  // Rotation automatique, uniquement section visible et hors reduced-motion.
+  // setTimeout replanifié à chaque tour : un clic manuel repart d'un cycle plein.
+  useEffect(() => {
+    if (!autoRotate || prefersReducedMotion || !inView) return;
+    const timer = setTimeout(() => {
+      const index = GEAR_CONTEXTS.findIndex((option) => option.id === context);
+      const next = GEAR_CONTEXTS[(index + 1) % GEAR_CONTEXTS.length].id;
+      setContext(next);
+      // Si la fiche ouverte était un outil, sa tuile disparaît avec l'ancienne
+      // famille : on enchaîne sur le premier outil de la nouvelle. Les pièces de
+      // la tenue, elles, restent sélectionnées (leur fiche suit le contexte).
+      setSelectedId((current) => {
+        const isTool = FIELD_TOOLS.some((tool) => tool.id === current);
+        if (!isTool) return current;
+        return FIELD_TOOLS.find((tool) => tool.context === next)?.id ?? current;
+      });
+    }, AUTO_ROTATE_MS);
+    return () => clearTimeout(timer);
+  }, [autoRotate, prefersReducedMotion, inView, context]);
+
+  function handleSelect(id: string) {
+    setAutoRotate(false);
+    setSelectedId(id);
+  }
+
   function changeContext(next: GearContextId) {
+    setAutoRotate(false);
     if (next === context) return;
     setContext(next);
     // Choisir une famille = vouloir voir son matériel : on ouvre directement la
-    // fiche du premier outil, pour que le changement soit lisible immédiatement
-    // (les tuiles seules, sombres et en périphérie, ne suffisent pas).
+    // fiche du premier outil, pour que le changement soit lisible immédiatement.
     const firstTool = FIELD_TOOLS.find((tool) => tool.context === next);
     if (firstTool) setSelectedId(firstTool.id);
   }
@@ -147,14 +214,15 @@ export function TenueTechnicien() {
   function renderPiece(slot: SuitPiece["slot"], index: number, className: string, sizes: string) {
     const piece = pieceBySlot.get(slot);
     if (!piece) return null;
+    const variant = piece.contextVariants?.[context];
     return (
       <motion.div custom={index} variants={tileVariants} className={cn("relative", className)}>
         <GearTile
-          image={piece.image}
-          alt={piece.alt}
-          label={piece.label}
+          image={variant?.image ?? piece.image}
+          alt={variant?.alt ?? piece.alt}
+          label={variant?.label ?? piece.label}
           selected={selectedId === piece.ficheId}
-          onSelect={() => setSelectedId(piece.ficheId)}
+          onSelect={() => handleSelect(piece.ficheId)}
           className="absolute inset-0"
           sizes={sizes}
         />
@@ -163,7 +231,7 @@ export function TenueTechnicien() {
   }
 
   return (
-    <div className="relative mt-10">
+    <div ref={rootRef} className="relative mt-10">
       <div className="mx-auto max-w-2xl text-center">
         <span className="inline-flex items-center gap-2 rounded-full border border-border bg-background/80 px-3.5 py-1.5 text-xs font-semibold uppercase tracking-wider text-secondary shadow-sm backdrop-blur-sm">
           <ShieldCheck className="size-3.5" />
@@ -178,7 +246,7 @@ export function TenueTechnicien() {
         </p>
       </div>
 
-      {/* Sélecteur de famille : adapte le matériel présenté autour de la tenue. */}
+      {/* Sélecteur de famille : adapte la tenue et le matériel présentés. */}
       <div className="mt-5 flex justify-center">
         <div
           role="group"
@@ -231,7 +299,7 @@ export function TenueTechnicien() {
               <ToolSlot
                 tool={tools[0]}
                 selectedId={selectedId}
-                onSelect={setSelectedId}
+                onSelect={handleSelect}
                 reducedMotion={prefersReducedMotion}
               />
             </motion.div>
@@ -251,7 +319,7 @@ export function TenueTechnicien() {
               <ToolSlot
                 tool={tools[1]}
                 selectedId={selectedId}
-                onSelect={setSelectedId}
+                onSelect={handleSelect}
                 reducedMotion={prefersReducedMotion}
               />
             </motion.div>

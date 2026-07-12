@@ -10,9 +10,9 @@ import { cn } from "@/lib/utils";
 import { technicianPhotos } from "@/data/equipment";
 import { TenueTechnicien } from "./TenueTechnicien";
 
-// Tempo posé : 1,5 s par photo se lisait comme un GIF nerveux — la compétence
-// est calme. Chaque photo respire ~3,6 s avec une lente dérive de zoom.
-const SLIDE_DURATION = 3600;
+// Rythme rapide voulu (~1,5 s par photo) — l'effet cinéma reste porté par le
+// crossfade et la dérive de zoom Ken Burns, qui ne changent pas.
+const SLIDE_DURATION = 1500;
 
 // Preuves opérationnelles concrètes — uniquement des faits déjà revendiqués
 // ailleurs sur le site (Garantie, Hero Certibiocide), jamais de sur-promesse.
