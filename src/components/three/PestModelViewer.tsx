@@ -2,7 +2,7 @@
 
 import { Suspense, useMemo } from "react";
 import { Canvas } from "@react-three/fiber";
-import { Html, OrbitControls, useGLTF } from "@react-three/drei";
+import { ContactShadows, Html, OrbitControls, useGLTF } from "@react-three/drei";
 import * as THREE from "three";
 
 export type ModelTuning = {
@@ -48,10 +48,15 @@ function NormalizedModel({
   );
 }
 
-function LoadingSpinner() {
+// Skeleton shimmer plutôt qu'un spinner : "ça arrive" au lieu de "ça rame" —
+// important pour les GLB lourds sur connexion mobile.
+function LoadingSkeleton() {
   return (
     <Html center>
-      <div className="size-8 animate-spin rounded-full border-2 border-secondary/30 border-t-secondary" />
+      <div className="flex flex-col items-center gap-3">
+        <div className="h-20 w-28 animate-pulse rounded-[2rem] bg-secondary/15" />
+        <div className="h-2 w-16 animate-pulse rounded-full bg-secondary/10" />
+      </div>
     </Html>
   );
 }
@@ -69,8 +74,19 @@ export default function PestModelViewer({ url, ...tuning }: { url: string } & Mo
       <directionalLight position={[-6, 3, -5]} intensity={0.5} color="#dce8ff" />
       <hemisphereLight args={["#ffffff", "#7c9443", 0.5]} />
 
-      <Suspense fallback={<LoadingSpinner />}>
+      <Suspense fallback={<LoadingSkeleton />}>
         <NormalizedModel url={url} {...tuning} />
+        {/* Ombre de contact : ancre le modèle "en studio" au lieu de le laisser
+            flotter. Modèles normalisés sur une sphère de rayon 1 → sol à -1.12. */}
+        <ContactShadows
+          position={[0, -1.12, 0]}
+          opacity={0.35}
+          scale={4.5}
+          blur={2.6}
+          far={2.2}
+          resolution={256}
+          color="#12250f"
+        />
       </Suspense>
 
       <OrbitControls

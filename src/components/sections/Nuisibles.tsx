@@ -132,7 +132,7 @@ export function Nuisibles() {
 
       <p className="mt-3 flex items-center justify-center gap-1.5 text-xs text-muted-foreground sm:hidden">
         <MousePointerClick className="size-3.5" />
-        Glissez pour découvrir tous les nuisibles
+        Glissez pour explorer — touchez une carte pour ouvrir sa fiche
       </p>
     </Section>
   );

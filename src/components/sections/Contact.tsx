@@ -13,7 +13,15 @@ import { cn } from "@/lib/utils";
 import { siteConfig } from "@/config/site";
 import { services } from "@/data/services";
 import { NUISIBLE_ZONE_OPTIONS } from "@/data/nuisibleZoneOptions";
-import { QUOTE_CITY_EVENT, QUOTE_ZONE_EVENT, type QuoteCityDetail, type QuoteZoneDetail } from "@/lib/quoteEvents";
+import {
+  QUOTE_CITY_EVENT,
+  QUOTE_PEST_EVENT,
+  QUOTE_ZONE_EVENT,
+  flushPendingQuote,
+  type QuoteCityDetail,
+  type QuotePestDetail,
+  type QuoteZoneDetail,
+} from "@/lib/quoteEvents";
 import type { PlausibleEvents } from "@/lib/analytics";
 
 const inputStyles =
@@ -73,6 +81,7 @@ function ContactForm() {
   const [mailtoHref, setMailtoHref] = useState(`mailto:${siteConfig.email}`);
   const [zoneSeen, setZoneSeen] = useState("");
   const [zoneOther, setZoneOther] = useState("");
+  const [serviceSeen, setServiceSeen] = useState("");
   const [justPrefilled, setJustPrefilled] = useState(false);
   const messageRef = useRef<HTMLTextAreaElement>(null);
   const plausible = usePlausible<PlausibleEvents>();
@@ -97,11 +106,25 @@ function ContactForm() {
       flashPrefilled();
     }
 
+    function onPestSelect(event: Event) {
+      const { serviceId, message } = (event as CustomEvent<QuotePestDetail>).detail;
+      setServiceSeen(services.some((s) => s.id === serviceId) ? serviceId : "autre");
+      if (messageRef.current && !messageRef.current.value.trim()) {
+        messageRef.current.value = message;
+      }
+      flashPrefilled();
+    }
+
     window.addEventListener(QUOTE_ZONE_EVENT, onZoneSelect);
     window.addEventListener(QUOTE_CITY_EVENT, onCitySelect);
+    window.addEventListener(QUOTE_PEST_EVENT, onPestSelect);
+    // Rejoue une éventuelle demande initiée depuis une autre page (ex. fiche
+    // nuisible ou villa 3D sur /galerie-3d) — les listeners viennent d'être posés.
+    flushPendingQuote();
     return () => {
       window.removeEventListener(QUOTE_ZONE_EVENT, onZoneSelect);
       window.removeEventListener(QUOTE_CITY_EVENT, onCitySelect);
+      window.removeEventListener(QUOTE_PEST_EVENT, onPestSelect);
     };
   }, []);
 
@@ -221,7 +244,8 @@ function ContactForm() {
             <select
               id="service"
               name="service"
-              defaultValue=""
+              value={serviceSeen}
+              onChange={(event) => setServiceSeen(event.target.value)}
               className={selectStyles}
               style={selectChevronStyle}
             >

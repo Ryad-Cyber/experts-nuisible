@@ -49,11 +49,10 @@ export function Hero() {
       <div className="relative grid gap-8 lg:grid-cols-2 lg:items-center lg:gap-10">
         <StaggerGroup className="flex flex-col items-center gap-4 text-center lg:items-start lg:text-left">
           <StaggerItem>
+            {/* Dot statique : le seul battement du Hero vit sur le badge
+                "Un technicien vous répond" — un cœur unique, pas un sapin. */}
             <span className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-3.5 py-1 text-xs font-medium text-white/85 backdrop-blur-sm">
-              <span className="relative flex size-2">
-                <span className="absolute inline-flex size-full animate-ping rounded-full bg-accent opacity-75" />
-                <span className="relative inline-flex size-2 rounded-full bg-accent" />
-              </span>
+              <span className="inline-flex size-2 rounded-full bg-accent" />
               Urgence 24h/24 — 7j/7
             </span>
           </StaggerItem>
@@ -75,17 +74,14 @@ export function Hero() {
           </StaggerItem>
 
           <StaggerItem className="flex w-full flex-col items-stretch gap-3 sm:w-auto sm:flex-row sm:items-center">
-            {/* Call — light pill on dark bg, "live" pulsing dot, phone tilts on hover (matches navbar). */}
+            {/* Call — light pill on dark bg, static dot, phone tilts on hover (matches navbar). */}
             <Button
               href={siteConfig.phone.href}
               variant="secondary"
               size="lg"
               className="group relative gap-2 whitespace-nowrap bg-white px-4 text-xs text-primary-dark shadow-md hover:bg-white/90 sm:px-5 sm:text-sm lg:text-base"
             >
-              <span className="relative flex size-2 shrink-0 items-center justify-center">
-                <span className="absolute inline-flex size-2 animate-ping rounded-full bg-accent/80" />
-                <span className="relative inline-flex size-1.5 rounded-full bg-accent-dark" />
-              </span>
+              <span className="inline-flex size-1.5 shrink-0 rounded-full bg-accent-dark" />
               <Phone className="size-4 shrink-0 transition-transform duration-300 group-hover:-rotate-12" />
               {siteConfig.cta.callNow} — {siteConfig.phone.display}
             </Button>
@@ -194,12 +190,13 @@ export function Hero() {
                 aria-hidden
                 className="pointer-events-none absolute -inset-px rounded-2xl shadow-[inset_0_1px_0_rgba(255,255,255,0.45)]"
               />
+              {/* Étoiles fixes : une note de 4,8/5 se montre sereine — le clignotement
+                  est le code visuel de la promo discount, l'inverse du premium. */}
               <div className="relative flex gap-0.5">
                 {Array.from({ length: 5 }).map((_, index) => (
                   <Star
                     key={index}
                     className="size-4 fill-accent text-accent drop-shadow-[0_1px_3px_rgba(0,0,0,0.4)]"
-                    style={{ animation: `starPulse 2.4s ease-in-out ${index * 0.15}s infinite` }}
                   />
                 ))}
               </div>

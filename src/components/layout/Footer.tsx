@@ -121,7 +121,7 @@ export function Footer() {
 
           <a
             href={siteConfig.phone.href}
-            className="cta-pulse group flex items-center gap-2.5 rounded-2xl bg-accent px-4 py-3.5 text-accent-foreground shadow-lg transition-transform hover:scale-[1.02]"
+            className="group flex items-center gap-2.5 rounded-2xl bg-accent px-4 py-3.5 text-accent-foreground shadow-lg transition-transform hover:scale-[1.02]"
           >
             <span className="flex size-9 shrink-0 items-center justify-center rounded-full bg-accent-foreground/10">
               <Phone className="size-4" />

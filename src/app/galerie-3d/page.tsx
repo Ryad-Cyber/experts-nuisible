@@ -1,16 +1,18 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import Image from "next/image";
 import { ShieldCheck, Sparkles } from "lucide-react";
-import { GalerieNuisibles3D } from "@/components/sections/GalerieNuisibles3D";
+import { PestIdentifier } from "@/components/sections/PestIdentifier";
+import { GuideNuisibles } from "@/components/sections/GuideNuisibles";
 import { Configurateur } from "@/components/sections/Configurateur";
 import { Section } from "@/components/ui/Section";
 import { Reveal, StaggerGroup, StaggerItem } from "@/components/ui/Reveal";
 import { PROFESSIONAL_PARTNERS } from "@/data/professionalPartners";
 import { siteConfig } from "@/config/site";
 
-const title = `Galerie 3D des nuisibles — ${siteConfig.name}`;
+const title = `Identifiez votre nuisible en 3D — ${siteConfig.name}`;
 const description =
-  "Explorez en 3D les principaux nuisibles traités par Experts Nuisible : rongeurs, insectes, reptiles et plus encore.";
+  "Identifiez votre nuisible en 3D : signes de présence, niveau d'urgence, erreurs à éviter et premiers gestes pour les rats, souris, punaises de lit, cafards, guêpes, frelons et bien d'autres.";
 
 export const metadata: Metadata = {
   title,
@@ -124,10 +126,57 @@ function SolutionsProfessionnelles() {
   );
 }
 
+const identifierHeroStyle = {
+  backgroundImage:
+    "radial-gradient(circle at 15% 0%, rgb(124 148 67 / 0.16), transparent 55%), " +
+    "radial-gradient(circle at 85% 100%, rgb(245 196 51 / 0.1), transparent 55%), " +
+    "linear-gradient(to bottom, rgb(8 31 20 / 0.97), rgb(8 31 20 / 0.99) 50%, rgb(8 31 20 / 0.97))",
+};
+
+function IdentifierHero() {
+  return (
+    <div className="relative overflow-hidden py-16 md:py-20" style={identifierHeroStyle}>
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 opacity-[0.07]"
+        style={{
+          backgroundImage: "radial-gradient(circle, white 1px, transparent 1px)",
+          backgroundSize: "22px 22px",
+        }}
+      />
+      {/* Exit seam — fades into the (light) identifier below. */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-muted to-transparent"
+      />
+
+      <Reveal className="relative mx-auto max-w-2xl px-4 text-center sm:px-6 lg:px-8">
+        <span className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-4 py-2 text-xs font-semibold uppercase tracking-wider text-accent-light backdrop-blur-sm">
+          Identification interactive
+        </span>
+        <h1 className="mt-4 text-2xl font-semibold tracking-tight text-balance text-white md:text-3xl">
+          Qu&apos;avez-vous vu ou entendu chez vous ?
+        </h1>
+        <p className="mx-auto mt-3 max-w-xl text-sm text-white/60">
+          Identifiez votre nuisible en 3D — rats, souris, punaises de lit, cafards, guêpes,
+          frelons… Pour chacun : les signes de présence, le niveau d&apos;urgence, les
+          erreurs à éviter et la première action à faire avant l&apos;arrivée du technicien.
+        </p>
+      </Reveal>
+    </div>
+  );
+}
+
 export default function Galerie3DPage() {
   return (
     <>
-      <GalerieNuisibles3D />
+      <IdentifierHero />
+      {/* useSearchParams (sélection par URL) impose une frontière Suspense
+          pour conserver le prérendu statique de la page. */}
+      <Suspense fallback={<div className="min-h-[60vh] bg-muted" aria-hidden />}>
+        <PestIdentifier />
+      </Suspense>
+      <GuideNuisibles />
       <SolutionsProfessionnelles />
       <Configurateur />
     </>

@@ -56,4 +56,7 @@ export type Pest = {
   name: string;
   image: string;
   serviceId: string;
+  /** Id de la fiche correspondante dans src/data/pestGuide.ts —
+   *  rend la carte cliquable vers /galerie-3d?nuisible=<guideId>. */
+  guideId?: string;
 };

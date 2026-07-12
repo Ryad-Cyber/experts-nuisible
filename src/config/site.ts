@@ -2,6 +2,12 @@ import type { BusinessHours, NavLink } from "@/types";
 
 const phoneDigits = "0766909033";
 
+/** Lien WhatsApp vers le numéro de l'entreprise avec un message pré-rempli.
+ *  Source unique pour tous les messages contextualisés (fiches nuisibles, CTA). */
+export function whatsappHrefFor(message: string): string {
+  return `https://wa.me/33${phoneDigits.slice(1)}?text=${encodeURIComponent(message)}`;
+}
+
 export const siteConfig = {
   name: "Experts Nuisible",
   tagline: "Intervention rapide contre les nuisibles, 24h/24 et 7j/7",
@@ -14,9 +20,9 @@ export const siteConfig = {
   },
   whatsapp: {
     display: "07 66 90 90 33",
-    href: `https://wa.me/33${phoneDigits.slice(1)}?text=${encodeURIComponent(
+    href: whatsappHrefFor(
       "Bonjour, j'ai un problème de nuisible. Je vous envoie quelques photos de la situation."
-    )}`,
+    ),
   },
   email: "Contact@expertsnuisible.com",
   serviceArea: "Réseau de techniciens dans de nombreuses agglomérations françaises",

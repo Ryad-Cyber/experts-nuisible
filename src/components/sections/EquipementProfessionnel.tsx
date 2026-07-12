@@ -9,7 +9,9 @@ import { Reveal } from "@/components/ui/Reveal";
 import { cn } from "@/lib/utils";
 import { technicianPhotos } from "@/data/equipment";
 
-const SLIDE_DURATION = 1500;
+// Tempo posé : 1,5 s par photo se lisait comme un GIF nerveux — la compétence
+// est calme. Chaque photo respire 4,2 s avec une lente dérive de zoom.
+const SLIDE_DURATION = 4200;
 
 // Preuves opérationnelles concrètes — uniquement des faits déjà revendiqués
 // ailleurs sur le site (Garantie, Hero Certibiocide), jamais de sur-promesse.
@@ -31,7 +33,7 @@ const PARTNERS: Partner[] = [
   { name: "Buzzbusters", logo: "/buzbuster.png" },
 ];
 
-const PARTNER_ROTATE_MS = 3200;
+const PARTNER_ROTATE_MS = 4600;
 
 function TechnicianSlideshow() {
   const prefersReducedMotion = useReducedMotion();
@@ -52,10 +54,18 @@ function TechnicianSlideshow() {
       <AnimatePresence mode="sync">
         <motion.div
           key={photo.id}
-          initial={prefersReducedMotion ? undefined : { opacity: 0, scale: 1.04 }}
-          animate={{ opacity: 1, scale: 1 }}
+          initial={prefersReducedMotion ? undefined : { opacity: 0 }}
+          animate={{
+            opacity: 1,
+            // Ken Burns discret : la photo vit pendant son affichage au lieu de
+            // rester figée entre deux fondus.
+            scale: prefersReducedMotion ? 1 : [1, 1.06],
+          }}
           exit={prefersReducedMotion ? undefined : { opacity: 0 }}
-          transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+          transition={{
+            opacity: { duration: 0.9, ease: [0.16, 1, 0.3, 1] },
+            scale: { duration: (SLIDE_DURATION + 900) / 1000, ease: "linear" },
+          }}
           className="absolute inset-0"
         >
           <Image

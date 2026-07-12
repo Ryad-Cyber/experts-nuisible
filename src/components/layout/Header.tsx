@@ -101,17 +101,15 @@ function ServicesDropdown() {
 function HeaderCtas() {
   return (
     <div className="hidden items-center gap-2.5 md:flex">
-      {/* Call — dark green, "live" pulsing dot to signal immediate availability. */}
+      {/* Call — dark green, static dot. Le seul élément qui bat dans le premier
+          écran est le badge disponibilité du Hero : un cœur unique. */}
       <Button
         href={siteConfig.phone.href}
         variant="secondary"
         size="md"
         className="group relative gap-2.5 pl-4 hover:bg-primary-light"
       >
-        <span className="relative flex size-2.5 items-center justify-center">
-          <span className="absolute inline-flex size-2.5 animate-ping rounded-full bg-accent-light/80" />
-          <span className="relative inline-flex size-2 rounded-full bg-accent-light" />
-        </span>
+        <span className="inline-flex size-2 rounded-full bg-accent-light" />
         <Phone className="size-4 transition-transform duration-300 group-hover:-rotate-12" />
         <span className="hidden lg:inline">Appelez-nous</span>
         <span className="lg:hidden">Appeler</span>
