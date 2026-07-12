@@ -38,28 +38,29 @@ export const siteConfig = {
     },
   },
   // Ancres préfixées de "/" : le lien navigue vers la homepage puis scrolle,
-  // ce qui le rend fonctionnel depuis n'importe quelle page (ex. /galerie-3d).
+  // ce qui le rend fonctionnel depuis n'importe quelle page (ex. /identifier).
   nav: [
     { label: "Accueil", href: "/" },
     { label: "Services", href: "/#nuisibles" },
     { label: "Pourquoi nous", href: "/#agence" },
-    { label: "Galerie 3D", href: "/galerie-3d" },
+    { label: "Identifier mon nuisible", href: "/identifier" },
     { label: "FAQ", href: "/#faq" },
     { label: "Contact", href: "/#contact" },
   ] as NavLink[],
-  // Dropdown shown under the "Services" nav item. All entries point to the "Nuisibles"
-  // showcase. Swap the hrefs for dedicated pages once they exist.
+  // Dropdown du menu "Services" : mélange volontaire de pages services (intention
+  // "je cherche une prestation") et de fiches nuisibles (intention "j'ai identifié
+  // mon problème") — chaque entrée pointe vers sa vraie page dédiée.
   servicesMenu: [
-    { label: "Dératisation", href: "/#nuisibles" },
-    { label: "Désinsectisation", href: "/#nuisibles" },
-    { label: "Désinfection", href: "/#nuisibles" },
-    { label: "Guêpes & frelons", href: "/#nuisibles" },
-    { label: "Punaises de lit", href: "/#nuisibles" },
-    { label: "Cafards", href: "/#nuisibles" },
-    { label: "Fourmis", href: "/#nuisibles" },
-    { label: "Souris & rats", href: "/#nuisibles" },
-    { label: "Frelons asiatiques", href: "/#nuisibles" },
-    { label: "Autres nuisibles", href: "/#nuisibles" },
+    { label: "Dératisation", href: "/services/deratisation" },
+    { label: "Désinsectisation", href: "/services/desinsectisation" },
+    { label: "Désinfection", href: "/services/desinfection" },
+    { label: "Guêpes & frelons", href: "/services/nuisibles-volants" },
+    { label: "Punaises de lit", href: "/nuisibles/punaises" },
+    { label: "Cafards", href: "/nuisibles/cafards" },
+    { label: "Fourmis", href: "/nuisibles/fourmis" },
+    { label: "Souris & rats", href: "/nuisibles/rats" },
+    { label: "Frelons asiatiques", href: "/nuisibles/frelons" },
+    { label: "Autres nuisibles", href: "/nuisibles" },
   ] as NavLink[],
   cta: {
     callNow: "Appeler maintenant",

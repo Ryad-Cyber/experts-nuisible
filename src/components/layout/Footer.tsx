@@ -26,8 +26,9 @@ function InstagramIcon(props: SVGProps<SVGSVGElement>) {
 
 const footerNav = [
   { label: "Services", href: "/#nuisibles" },
+  { label: "Nuisibles", href: "/nuisibles" },
   { label: "Agence", href: "/#agence" },
-  { label: "Galerie 3D", href: "/galerie-3d" },
+  { label: "Identifier mon nuisible", href: "/identifier" },
   { label: "Zones d'intervention", href: "/#zone-intervention" },
   { label: "FAQ", href: "/#faq" },
   { label: "Contact", href: "/#contact" },
@@ -101,7 +102,7 @@ export function Footer() {
             {services.map((service) => (
               <Link
                 key={service.id}
-                href="/#nuisibles"
+                href={`/services/${service.id}`}
                 className="inline-flex items-center rounded-full border border-white/15 bg-white/5 px-2.5 py-1 text-xs font-medium text-white/75 transition-colors hover:border-accent/50 hover:bg-white/10 hover:text-white"
               >
                 {service.title}
@@ -156,7 +157,17 @@ export function Footer() {
 
       <div className="relative border-t border-white/10 py-3.5">
         <Container className="flex flex-col items-center justify-between gap-3 text-xs text-white/55 sm:flex-row">
-          <span>© {year} {siteConfig.name}. Tous droits réservés.</span>
+          <span className="flex flex-wrap items-center justify-center gap-x-2 gap-y-1">
+            © {year} {siteConfig.name}. Tous droits réservés.
+            <span aria-hidden className="text-white/30">·</span>
+            <Link href="/mentions-legales" className="transition-colors hover:text-white">
+              Mentions légales
+            </Link>
+            <span aria-hidden className="text-white/30">·</span>
+            <Link href="/confidentialite" className="transition-colors hover:text-white">
+              Confidentialité
+            </Link>
+          </span>
 
           <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1.5">
             <BadgeCheck className="size-3.5 shrink-0 text-accent-light" />

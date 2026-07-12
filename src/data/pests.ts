@@ -1,7 +1,7 @@
 import type { Pest } from "@/types";
 
 // Rail homepage. `guideId` relie chaque carte à sa fiche d'identification
-// (src/data/pestGuide.ts) sur /galerie-3d — migration progressive vers cette
+// (src/data/pestGuide.ts) sur /identifier — migration progressive vers cette
 // source unique.
 export const pests: Pest[] = [
   { id: "punaise", name: "Punaise de lit", image: "/punaise.jpg", serviceId: "desinsectisation", guideId: "punaises" },

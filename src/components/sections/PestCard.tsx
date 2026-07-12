@@ -22,14 +22,15 @@ type PestCardProps = {
 
 const springConfig = { stiffness: 220, damping: 20, mass: 0.6 };
 
-// Carte cliquable dès qu'une fiche d'identification existe : le rail devient
-// l'entrée de l'entonnoir "j'identifie mon nuisible" (/galerie-3d).
+// Carte cliquable dès qu'une fiche existe : le rail alimente désormais les
+// pages dédiées /nuisibles/[slug] (meilleur atterrissage + maillage SEO) —
+// chaque fiche relaie ensuite vers l'identificateur 3D.
 function CardShell({ pest, children }: { pest: Pest; children: ReactNode }) {
   if (!pest.guideId) return <>{children}</>;
   return (
     <Link
-      href={`/galerie-3d?nuisible=${pest.guideId}`}
-      aria-label={`${pest.name} — ouvrir la fiche d'identification`}
+      href={`/nuisibles/${pest.guideId}`}
+      aria-label={`${pest.name} — lire la fiche complète`}
       className="block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
     >
       {children}

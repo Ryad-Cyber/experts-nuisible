@@ -3,7 +3,7 @@
 // quote request" intent to the contact form without a shared React context.
 //
 // The contact form lives on the homepage (/#contact). When the intent is emitted from
-// another page (e.g. /galerie-3d), the payload is parked in sessionStorage and the
+// another page (e.g. /identifier), the payload is parked in sessionStorage and the
 // browser navigates to /#contact; Contact.tsx flushes it on mount via flushPendingQuote().
 
 export const QUOTE_ZONE_EVENT = "quote:zone";

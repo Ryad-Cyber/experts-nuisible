@@ -18,12 +18,12 @@ export const metadata: Metadata = {
   title,
   description,
   alternates: {
-    canonical: `${siteConfig.url}/galerie-3d`,
+    canonical: `${siteConfig.url}/identifier`,
   },
   openGraph: {
     type: "website",
     locale: "fr_FR",
-    url: `${siteConfig.url}/galerie-3d`,
+    url: `${siteConfig.url}/identifier`,
     siteName: siteConfig.name,
     title,
     description,
@@ -167,7 +167,7 @@ function IdentifierHero() {
   );
 }
 
-export default function Galerie3DPage() {
+export default function IdentifierPage() {
   return (
     <>
       <IdentifierHero />

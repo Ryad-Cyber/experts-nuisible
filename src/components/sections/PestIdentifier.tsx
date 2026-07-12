@@ -28,6 +28,9 @@ import {
   DEFAULT_PEST_ID,
   PEST_BY_ID,
   PEST_CATEGORIES,
+  URGENCY_COLORS,
+  URGENCY_LABELS,
+  URGENCY_TEXT,
   pestsInCategory,
   type PestGuideEntry,
 } from "@/data/pestGuide";
@@ -45,25 +48,8 @@ const PestModelViewer = dynamic(() => import("@/components/three/PestModelViewer
   ),
 });
 
-const URGENCY_LABELS: Record<1 | 2 | 3, string> = {
-  1: "À surveiller",
-  2: "À traiter rapidement",
-  3: "Urgence élevée",
-};
-
-// Le niveau 3 sort volontairement de la palette de marque (rouge sémantique) :
-// l'urgence est une information, pas une décoration.
-const URGENCY_COLORS: Record<1 | 2 | 3, string> = {
-  1: "bg-secondary",
-  2: "bg-accent",
-  3: "bg-red-500",
-};
-
-const URGENCY_TEXT: Record<1 | 2 | 3, string> = {
-  1: "text-secondary",
-  2: "text-accent-dark",
-  3: "text-red-600",
-};
+// Libellés et couleurs d'urgence : source unique dans pestGuide.ts, partagée
+// avec les pages /nuisibles/[slug].
 
 function UrgencyMeter({ pest }: { pest: PestGuideEntry }) {
   const prefersReducedMotion = useReducedMotion();
@@ -203,7 +189,7 @@ export function PestIdentifier() {
   const hasInteracted = useRef(false);
 
   // Sélection pilotée par l'URL : partageable, et les cartes de la homepage
-  // ouvrent directement la bonne fiche via /galerie-3d?nuisible=<id>.
+  // ouvrent directement la bonne fiche via /identifier?nuisible=<id>.
   const param = searchParams.get("nuisible");
   const pest = (param && PEST_BY_ID[param]) || PEST_BY_ID[DEFAULT_PEST_ID];
   const categoryPests = pestsInCategory(pest.category);

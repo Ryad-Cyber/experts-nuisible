@@ -25,6 +25,10 @@ export type Testimonial = {
   quote: string;
   /** Type d'intervention (ex. "Dératisation") — affiché sur la carte si présent. */
   service?: string;
+  /** Id du service concerné (src/data/services.ts) — permet aux pages services
+   *  d'afficher l'avis réel correspondant. Étiquetage factuel : la citation
+   *  mentionne explicitement le sujet. */
+  serviceId?: string;
   /** Date de l'intervention ou de l'avis. */
   date?: string;
   /** Provenance de l'avis — "google" active le badge vérifié. */
@@ -57,6 +61,6 @@ export type Pest = {
   image: string;
   serviceId: string;
   /** Id de la fiche correspondante dans src/data/pestGuide.ts —
-   *  rend la carte cliquable vers /galerie-3d?nuisible=<guideId>. */
+   *  rend la carte cliquable vers /nuisibles/<guideId>. */
   guideId?: string;
 };

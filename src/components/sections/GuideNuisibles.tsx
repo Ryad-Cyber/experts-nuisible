@@ -64,13 +64,21 @@ export function GuideNuisibles() {
                       </strong>
                       {pest.whenToCall}
                     </p>
-                    <Link
-                      href={`/galerie-3d?nuisible=${pest.id}#identifier`}
-                      className="mt-auto inline-flex w-fit items-center gap-1 pt-1 text-sm font-semibold text-secondary transition-colors hover:text-foreground"
-                    >
-                      Ouvrir la fiche interactive
-                      <ArrowRight className="size-3.5" />
-                    </Link>
+                    <div className="mt-auto flex flex-wrap items-center gap-x-4 gap-y-1 pt-1">
+                      <Link
+                        href={`/nuisibles/${pest.id}`}
+                        className="inline-flex items-center gap-1 text-sm font-semibold text-secondary transition-colors hover:text-foreground"
+                      >
+                        Lire la fiche complète
+                        <ArrowRight className="size-3.5" />
+                      </Link>
+                      <Link
+                        href={`/identifier?nuisible=${pest.id}#identifier`}
+                        className="inline-flex items-center gap-1 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+                      >
+                        Voir en 3D
+                      </Link>
+                    </div>
                   </article>
                 ))}
               </div>

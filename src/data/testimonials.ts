@@ -8,6 +8,7 @@ export const testimonials: Testimonial[] = [
     rating: 5,
     quote:
       "Intervention le jour même pour un problème de rats, équipe très professionnelle et discrète.",
+    serviceId: "deratisation",
   },
   {
     id: "2",
@@ -16,6 +17,7 @@ export const testimonials: Testimonial[] = [
     rating: 5,
     quote:
       "Nid de guêpes traité en moins d'une heure, je recommande vivement Experts Nuisible.",
+    serviceId: "nuisibles-volants",
   },
   {
     id: "3",
@@ -24,6 +26,7 @@ export const testimonials: Testimonial[] = [
     rating: 5,
     quote:
       "Contrat annuel de prévention pour notre restaurant, suivi rigoureux et rapports détaillés.",
+    serviceId: "professionnels",
   },
   {
     id: "4",
@@ -32,6 +35,7 @@ export const testimonials: Testimonial[] = [
     rating: 4,
     quote:
       "Punaises de lit éliminées définitivement, bon accompagnement pendant tout le traitement.",
+    serviceId: "desinsectisation",
   },
 ];
 

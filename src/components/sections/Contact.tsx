@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { usePlausible } from "next-plausible";
 import { AlertCircle, Clock, Loader2, Mail, MapPin, Phone, Send } from "lucide-react";
 import { Card } from "@/components/ui/Card";
@@ -119,7 +120,7 @@ function ContactForm() {
     window.addEventListener(QUOTE_CITY_EVENT, onCitySelect);
     window.addEventListener(QUOTE_PEST_EVENT, onPestSelect);
     // Rejoue une éventuelle demande initiée depuis une autre page (ex. fiche
-    // nuisible ou villa 3D sur /galerie-3d) — les listeners viennent d'être posés.
+    // nuisible ou villa 3D sur /identifier) — les listeners viennent d'être posés.
     flushPendingQuote();
     return () => {
       window.removeEventListener(QUOTE_ZONE_EVENT, onZoneSelect);
@@ -348,6 +349,17 @@ function ContactForm() {
           )}
           {status === "loading" ? "Envoi en cours..." : "Demander un devis gratuit"}
         </Button>
+
+        {/* Information RGPD au point de collecte (article 13). */}
+        <p className="text-center text-xs text-muted-foreground">
+          Vos informations servent uniquement à traiter votre demande.{" "}
+          <Link
+            href="/confidentialite"
+            className="underline underline-offset-2 transition-colors hover:text-foreground"
+          >
+            Politique de confidentialité
+          </Link>
+        </p>
       </form>
     </div>
   );

@@ -2,20 +2,14 @@
 
 import Image from "next/image";
 import { motion, useReducedMotion } from "framer-motion";
-import {
-  CalendarCheck,
-  EyeOff,
-  Handshake,
-  MessageSquareText,
-  Phone,
-  SearchCheck,
-} from "lucide-react";
+import { EyeOff, Handshake, Phone } from "lucide-react";
 import { Section } from "@/components/ui/Section";
 import { Button } from "@/components/ui/Button";
 import { Reveal } from "@/components/ui/Reveal";
 import { WhatsAppIcon } from "@/components/ui/WhatsAppIcon";
 import { siteConfig } from "@/config/site";
 import { onDutyTechnician } from "@/data/team";
+import { INTERVENTION_STEPS } from "@/data/interventionSteps";
 
 const PROMISES = [
   { icon: Handshake, label: "Aucun engagement au téléphone" },
@@ -35,25 +29,11 @@ export function EtapesAppel() {
   const prefersReducedMotion = useReducedMotion();
   const tech = onDutyTechnician;
 
-  const steps = [
-    {
-      icon: MessageSquareText,
-      title: "Vous décrivez ce que vous avez vu",
-      description: "Bruits, traces, piqûres… expliquez simplement, avec vos mots. 30 secondes suffisent.",
-    },
-    {
-      icon: SearchCheck,
-      title: tech
-        ? `${tech.firstName} identifie le nuisible`
-        : "Un technicien identifie le nuisible",
-      description: "Il vous dit de quoi il s'agit, si c'est urgent, et comment nous le traitons.",
-    },
-    {
-      icon: CalendarCheck,
-      title: "Vous obtenez un prix et un créneau",
-      description: "Le prix est annoncé avant intervention. Aucun supplément sans votre accord.",
-    },
-  ];
+  // Textes des étapes : source unique (interventionSteps.ts), avec le prénom du
+  // technicien de garde injecté sur l'étape 2 quand l'identité réelle est connue.
+  const steps = INTERVENTION_STEPS.map((step, index) =>
+    index === 1 && tech ? { ...step, title: `${tech.firstName} identifie le nuisible` } : step
+  );
 
   return (
     <Section id="votre-appel" variant="muted" className="relative overflow-hidden py-10 md:py-14">

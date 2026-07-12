@@ -1,7 +1,7 @@
 import type { ModelTuning } from "@/components/three/PestModelViewer";
 
 // ---------------------------------------------------------------------------
-// SOURCE UNIQUE des nuisibles — alimente l'identificateur 3D (/galerie-3d),
+// SOURCE UNIQUE des nuisibles — alimente l'identificateur 3D (/identifier),
 // le guide SEO rendu côté serveur, les CTA contextualisés (WhatsApp, devis)
 // et, à terme, les futures pages /nuisibles/[slug].
 //
@@ -46,6 +46,28 @@ export type PestGuideEntry = {
 };
 
 export const DEFAULT_PEST_ID = "rats";
+
+// Vocabulaire et couleurs du niveau d'urgence — partagés entre l'identificateur
+// 3D et les pages /nuisibles/[slug] pour une cohérence stricte.
+// Le niveau 3 sort volontairement de la palette de marque (rouge sémantique) :
+// l'urgence est une information, pas une décoration.
+export const URGENCY_LABELS: Record<1 | 2 | 3, string> = {
+  1: "À surveiller",
+  2: "À traiter rapidement",
+  3: "Urgence élevée",
+};
+
+export const URGENCY_COLORS: Record<1 | 2 | 3, string> = {
+  1: "bg-secondary",
+  2: "bg-accent",
+  3: "bg-red-500",
+};
+
+export const URGENCY_TEXT: Record<1 | 2 | 3, string> = {
+  1: "text-secondary",
+  2: "text-accent-dark",
+  3: "text-red-600",
+};
 
 export const PEST_GUIDE: PestGuideEntry[] = [
   // ------------------------------------------------------------- Rongeurs
