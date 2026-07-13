@@ -132,11 +132,11 @@ export function Nuisibles() {
             </span>
             <p className="text-sm font-semibold tracking-tight">Autres nuisibles</p>
             <p className="text-xs text-muted-foreground">
-              Poisson d&apos;argent, lérot, mulot, loir, taupe, mites… et bien d&apos;autres.
+              Mulot, loir, lérot, taupe, poisson d&apos;argent, cloportes, coléoptères, mites,
+              autres insectes domestiques et petits animaux nuisibles.
             </p>
             <p className="mt-1 text-xs font-medium text-secondary">
-              Votre nuisible n&apos;apparaît pas ? Nos techniciens interviennent aussi sur
-              d&apos;autres espèces.
+              Vous ne trouvez pas votre nuisible ? Contactez-nous.
             </p>
           </a>
         </StaggerGroup>

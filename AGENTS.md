@@ -88,6 +88,28 @@ Le site doit être pensé pour une entreprise locale : structure SEO propre, per
 
 ## Workflow
 
-Avant une modification importante : expliquer quels fichiers vont être modifiés et pourquoi. Éviter de modifier des fichiers non nécessaires.
+Avant toute modification :
+expliquer brièvement les fichiers concernés et pourquoi ils sont nécessaires. Éviter de modifier des fichiers non nécessaires.
 
 Toujours chercher à améliorer : expérience utilisateur, conversion, performance, qualité du code.
+
+## Méthode de travail
+
+Le projet doit évoluer par petites étapes.
+
+Avant toute modification :
+- analyser uniquement les fichiers nécessaires ;
+- éviter de parcourir tout le projet sans raison ;
+- proposer la solution la plus locale possible ;
+- modifier le minimum de fichiers nécessaires.
+
+Ne pas lancer de refonte globale lorsqu'une correction locale suffit.
+
+Chaque étape doit viser une seule amélioration clairement définie.
+
+Si une amélioration apporte peu de valeur par rapport au coût technique, la signaler et proposer de la reporter.
+
+Après une modification :
+- fournir un résumé court ;
+- indiquer uniquement les fichiers modifiés ;
+- indiquer les vérifications effectuées (Build, ESLint, TypeScript).
