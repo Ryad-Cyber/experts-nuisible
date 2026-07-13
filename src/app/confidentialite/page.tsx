@@ -20,8 +20,12 @@ export default function ConfidentialitePage() {
     >
       <LegalSection title="1. Responsable du traitement">
         <p>
-          {legalConfig.companyName} ({legalConfig.address}) est responsable du traitement des
-          données collectées sur ce site. Pour toute question :{" "}
+          {legalConfig.tradeName}
+          {legalConfig.companyName && ` (${legalConfig.companyName})`}, service de techniciens
+          mobiles intervenant en {legalConfig.serviceArea}
+          {legalConfig.address ? `, dont le siège social est situé ${legalConfig.address}` : ""}
+          , est responsable du traitement des données collectées sur ce site. Pour toute
+          question :{" "}
           <a href={`mailto:${siteConfig.email}`} className="font-medium text-secondary underline underline-offset-2 hover:text-foreground">
             {siteConfig.email}
           </a>
@@ -63,9 +67,9 @@ export default function ConfidentialitePage() {
       <LegalSection title="4. Destinataires et sous-traitants">
         <p>
           Vos données ne sont ni vendues ni cédées. Elles sont accessibles uniquement à
-          l&apos;équipe de {siteConfig.name}{" "}et transitent par nos sous-traitants techniques :
-          l&apos;hébergeur du site ({legalConfig.host.name}) et le service d&apos;acheminement
-          d&apos;e-mails (Resend), chacun agissant conformément au RGPD.
+          l&apos;équipe de {legalConfig.tradeName}{" "}et transitent par nos sous-traitants
+          techniques : l&apos;hébergeur du site ({legalConfig.host.name}) et le service
+          d&apos;acheminement d&apos;e-mails (Resend), chacun agissant conformément au RGPD.
         </p>
       </LegalSection>
 

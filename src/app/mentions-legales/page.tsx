@@ -20,14 +20,25 @@ export default function MentionsLegalesPage() {
     >
       <LegalSection title="1. Éditeur du site">
         <p>
-          Le site {siteConfig.url} est édité par <strong className="font-medium text-foreground/90">{legalConfig.companyName}</strong>{" "}
-          ({legalConfig.legalForm}), immatriculée sous le numéro SIRET {legalConfig.siret}, dont le
-          siège social est situé : {legalConfig.address}.
+          Le site {siteConfig.url} est édité sous le nom commercial{" "}
+          <strong className="font-medium text-foreground/90">{legalConfig.tradeName}</strong>,
+          service de techniciens mobiles intervenant en {legalConfig.serviceArea}.
+          {legalConfig.companyName && (
+            <>
+              {" "}
+              Raison sociale : {legalConfig.companyName}
+              {legalConfig.legalForm ? ` (${legalConfig.legalForm})` : ""}
+              {legalConfig.siret ? `, SIRET ${legalConfig.siret}` : ""}.
+            </>
+          )}
         </p>
+        {legalConfig.address && <p>Siège social : {legalConfig.address}.</p>}
         <p>
           Téléphone : {siteConfig.phone.display} — E-mail : {siteConfig.email}
         </p>
-        <p>Directeur de la publication : {legalConfig.publicationDirector}.</p>
+        {legalConfig.publicationDirector && (
+          <p>Directeur de la publication : {legalConfig.publicationDirector}.</p>
+        )}
       </LegalSection>
 
       <LegalSection title="2. Hébergement">
@@ -39,21 +50,22 @@ export default function MentionsLegalesPage() {
 
       <LegalSection title="3. Activité">
         <p>
-          {siteConfig.name} exerce une activité de lutte contre les nuisibles (dératisation,
-          désinsectisation, désinfection) auprès des particuliers et des professionnels. Les
-          techniciens utilisent des produits biocides dans le cadre de la certification
-          Certibiocide (certification reconnue par le Ministère de l&apos;Agriculture).
+          {legalConfig.tradeName} exerce une activité de lutte contre les nuisibles
+          (dératisation, désinsectisation, désinfection) auprès des particuliers et des
+          professionnels, en {legalConfig.serviceArea}. Les techniciens utilisent des produits
+          biocides dans le cadre de la certification Certibiocide (certification reconnue par
+          le Ministère de l&apos;Agriculture).
         </p>
       </LegalSection>
 
       <LegalSection title="4. Propriété intellectuelle">
         <p>
           L&apos;ensemble des contenus de ce site (textes, visuels, modèles 3D, logo, structure)
-          est la propriété de {siteConfig.name} ou fait l&apos;objet d&apos;une autorisation
-          d&apos;utilisation. Toute reproduction, représentation ou diffusion, totale ou
-          partielle, sans autorisation écrite préalable est interdite et constituerait une
-          contrefaçon au sens des articles L.335-2 et suivants du Code de la propriété
-          intellectuelle.
+          est la propriété de {legalConfig.tradeName}{" "}ou fait l&apos;objet d&apos;une
+          autorisation d&apos;utilisation. Toute reproduction, représentation ou diffusion,
+          totale ou partielle, sans autorisation écrite préalable est interdite et
+          constituerait une contrefaçon au sens des articles L.335-2 et suivants du Code de la
+          propriété intellectuelle.
         </p>
       </LegalSection>
 
@@ -61,9 +73,10 @@ export default function MentionsLegalesPage() {
         <p>
           Les informations publiées sur ce site (fiches nuisibles, conseils, délais indicatifs)
           sont fournies à titre informatif et ne remplacent pas un diagnostic réalisé sur place
-          par un technicien. {siteConfig.name} s&apos;efforce d&apos;assurer l&apos;exactitude des
-          informations mais ne saurait être tenue responsable des omissions ou des résultats
-          obtenus à la suite d&apos;une utilisation autonome de ces conseils.
+          par un technicien. {legalConfig.tradeName} s&apos;efforce d&apos;assurer
+          l&apos;exactitude des informations mais ne saurait être tenu responsable des
+          omissions ou des résultats obtenus à la suite d&apos;une utilisation autonome de ces
+          conseils.
         </p>
         <p>
           Les liens externes (WhatsApp, Instagram) renvoient vers des services tiers dont les
