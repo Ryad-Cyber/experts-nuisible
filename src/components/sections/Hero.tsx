@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { ArrowRight, BadgeCheck, Building2, EyeOff, FileCheck2, Headset, Phone, ShieldCheck, Star } from "lucide-react";
-import { Section } from "@/components/ui/Section";
+import { Container } from "@/components/ui/Container";
 import { Button } from "@/components/ui/Button";
 import { Reveal, StaggerGroup, StaggerItem } from "@/components/ui/Reveal";
 import { siteConfig } from "@/config/site";
@@ -19,13 +19,13 @@ const trustPoints = [
   { icon: Building2, label: "Particuliers & professionnels" },
 ];
 
-const heroBackgroundStyle = {
+// Overlays dégradés seuls — la photo passe désormais par <Image fill priority>
+// (WebP/AVIF dimensionné + préchargé) pour un LCP optimal, au lieu d'un fond CSS
+// non optimisé. Les deux dégradés sont strictement identiques à l'ancien fond.
+const heroOverlayStyle = {
   backgroundImage:
     "linear-gradient(to right, rgb(8 31 20 / 0.92), rgb(8 31 20 / 0.78) 55%, rgb(8 31 20 / 0.55)), " +
-    "linear-gradient(to top, rgb(8 31 20 / 0.55), transparent 45%, rgb(8 31 20 / 0.25)), " +
-    "url('/pic_header.jpg')",
-  backgroundSize: "cover",
-  backgroundPosition: "center",
+    "linear-gradient(to top, rgb(8 31 20 / 0.55), transparent 45%, rgb(8 31 20 / 0.25))",
 };
 
 // Discreet, artistic silhouettes (wasp, rodent, roach) tiled as a near-invisible watermark —
@@ -40,13 +40,21 @@ const badgeWatermark = {
 
 export function Hero() {
   return (
-    <Section
-      className="relative overflow-hidden pt-16 pb-12 md:pt-20 md:pb-14 lg:py-16"
-      style={heroBackgroundStyle}
-    >
+    <section className="relative isolate overflow-hidden bg-primary-dark pt-16 pb-12 md:pt-20 md:pb-14 lg:py-16">
+      {/* Photo LCP : Next sert du WebP/AVIF dimensionné et la précharge (priority). */}
+      <Image
+        src="/pic_header.jpg"
+        alt=""
+        fill
+        priority
+        sizes="100vw"
+        className="absolute inset-0 -z-30 object-cover object-center"
+      />
+      <div aria-hidden className="absolute inset-0 -z-20" style={heroOverlayStyle} />
       <HeroBackdrop />
 
-      <div className="relative grid gap-8 lg:grid-cols-2 lg:items-center lg:gap-10">
+      <Container>
+        <div className="relative grid gap-8 lg:grid-cols-2 lg:items-center lg:gap-10">
         <StaggerGroup className="flex flex-col items-center gap-4 text-center lg:items-start lg:text-left">
           <StaggerItem>
             {/* Dot statique : le seul battement du Hero vit sur le badge
@@ -221,7 +229,8 @@ export function Hero() {
             </div>
           </div>
         </Reveal>
-      </div>
-    </Section>
+        </div>
+      </Container>
+    </section>
   );
 }

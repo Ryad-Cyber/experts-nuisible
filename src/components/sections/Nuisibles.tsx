@@ -1,10 +1,11 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import Link from "next/link";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useReducedMotion } from "framer-motion";
-import { ChevronLeft, ChevronRight, MousePointerClick, Sparkles } from "lucide-react";
+import { ArrowRight, ChevronLeft, ChevronRight, MousePointerClick, Sparkles } from "lucide-react";
 import { Section } from "@/components/ui/Section";
 import { Reveal, StaggerGroup } from "@/components/ui/Reveal";
 import { services } from "@/data/services";
@@ -64,6 +65,14 @@ export function Nuisibles() {
             principaux nuisibles que nous traitons. Notre équipe intervient aussi sur de
             nombreuses autres espèces de rongeurs, insectes, oiseaux et reptiles.
           </p>
+          {/* Lien de maillage vers le hub services (peu lié auparavant). */}
+          <Link
+            href="/services"
+            className="group mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-secondary transition-colors hover:text-foreground"
+          >
+            Découvrir tous nos services
+            <ArrowRight className="size-3.5 transition-transform duration-300 group-hover:translate-x-0.5" />
+          </Link>
         </Reveal>
 
         <Reveal delay={0.1} className="hidden gap-2 sm:flex">
