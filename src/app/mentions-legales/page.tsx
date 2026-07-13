@@ -7,6 +7,9 @@ export const metadata: Metadata = {
   title: "Mentions légales — Experts Nuisible",
   description:
     "Mentions légales du site Experts Nuisible : éditeur, hébergeur, propriété intellectuelle et conditions d'utilisation.",
+  // Canonical explicite : sans cela, la page hérite du canonical racine défini
+  // dans layout.tsx et se déclarerait comme un doublon de la page d'accueil.
+  alternates: { canonical: "/mentions-legales" },
 };
 
 export default function MentionsLegalesPage() {

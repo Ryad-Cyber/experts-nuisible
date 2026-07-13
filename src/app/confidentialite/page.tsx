@@ -7,6 +7,9 @@ export const metadata: Metadata = {
   title: "Politique de confidentialité — Experts Nuisible",
   description:
     "Politique de confidentialité d'Experts Nuisible : données collectées via le formulaire de contact, finalités, durées de conservation et droits RGPD.",
+  // Canonical explicite : sans cela, la page hérite du canonical racine défini
+  // dans layout.tsx et se déclarerait comme un doublon de la page d'accueil.
+  alternates: { canonical: "/confidentialite" },
 };
 
 export default function ConfidentialitePage() {
