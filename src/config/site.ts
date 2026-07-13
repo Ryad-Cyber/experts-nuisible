@@ -52,13 +52,14 @@ export const siteConfig = {
   // "Frelons asiatiques" ; "Dératisation" ne coexiste plus avec "Souris & rats").
   servicesMenu: [
     { label: "Rats", href: "/nuisibles/rats" },
-    { label: "Souris", href: "/nuisibles/souris" },
     { label: "Punaises de lit", href: "/nuisibles/punaises" },
     { label: "Cafards & blattes", href: "/nuisibles/cafards" },
     { label: "Puces & parasites", href: "/services/desinsectisation" },
     { label: "Fourmis", href: "/nuisibles/fourmis" },
+    { label: "Mouches", href: "/nuisibles/mouches" },
     { label: "Guêpes & frelons", href: "/services/nuisibles-volants" },
     { label: "Chenilles processionnaires", href: "/nuisibles/chenilles" },
+    { label: "Acariens", href: "/nuisibles/acariens" },
     { label: "Désinfection & assainissement", href: "/services/desinfection" },
     { label: "Tous les nuisibles", href: "/nuisibles" },
   ] as NavLink[],
