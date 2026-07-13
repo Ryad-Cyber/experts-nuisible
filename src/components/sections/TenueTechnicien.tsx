@@ -19,7 +19,7 @@ const EASE = [0.16, 1, 0.3, 1] as const;
 
 // Rotation automatique des familles : toute la tenue « tourne » (cagoule, gants,
 // combinaison, surchaussures, matériel) tant que le visiteur n'a pas interagi.
-const AUTO_ROTATE_MS = 3800;
+const AUTO_ROTATE_MS = 2000;
 
 // -----------------------------------------------------------------------------
 // Plateau d'inspection de la tenue : combinaison au centre, casque en haut,
