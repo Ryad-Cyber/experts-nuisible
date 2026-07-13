@@ -380,6 +380,45 @@ export const PEST_GUIDE: PestGuideEntry[] = [
     whatsappMessage:
       "Bonjour, je suspecte des termites (bois abîmé). Je vous envoie des photos des dégâts.",
   },
+  {
+    id: "vrillettes",
+    name: "Vrillettes",
+    category: "rampants",
+    photo: "/vrillette.jpeg",
+    serviceId: "prevention",
+    description:
+      "La vrillette est un petit coléoptère dont les larves creusent le bois pendant des années — meubles anciens, charpentes et parquets sont les premières cibles.",
+    signs: [
+      "Petits trous ronds (1 à 3 mm) à la surface du bois",
+      "Sciure fine et claire (vermoulure) sous les meubles ou les poutres",
+      "Léger bruit de grignotement dans le bois par temps calme",
+      "Bois qui s'effrite au toucher le long des galeries",
+    ],
+    hidingSpots: [
+      "Meubles et boiseries anciens",
+      "Charpentes, poutres et solives",
+      "Parquets et lambris",
+      "Bois humide ou peu ventilé",
+    ],
+    urgency: {
+      level: 2,
+      reason:
+        "Les larves travaillent le bois pendant des années : plus l'attaque dure, plus la charpente ou le meuble se fragilise.",
+    },
+    mistakes: [
+      "Reboucher les trous sans traiter : les larves continuent à l'intérieur",
+      "Se fier au nombre de trous visibles — ils datent des sorties passées, pas de l'activité actuelle",
+      "Déplacer un meuble infesté près d'autres boiseries (risque de propagation)",
+    ],
+    firstAction:
+      "Repérez les trous frais entourés de sciure claire et évitez de déplacer les bois atteints avant diagnostic.",
+    prevention:
+      "Bois traité et sec, bonne ventilation, surveillance des meubles et charpentes anciens.",
+    whenToCall:
+      "Dès que la sciure réapparaît après nettoyage ou qu'un bois porteur est touché : l'activité est en cours.",
+    whatsappMessage:
+      "Bonjour, je pense avoir des vrillettes dans mon bois (trous et sciure). Je vous envoie des photos.",
+  },
 
   // ------------------------------------------------------- Insectes volants
   {
@@ -562,6 +601,45 @@ export const PEST_GUIDE: PestGuideEntry[] = [
       "Si les papillons reviennent après un grand nettoyage : un foyer caché persiste.",
     whatsappMessage:
       "Bonjour, j'ai des mites alimentaires dans mes placards. Je vous envoie des photos.",
+  },
+  {
+    id: "mouches",
+    name: "Mouches",
+    category: "volants",
+    photo: "/mouche.jpeg",
+    serviceId: "desinsectisation",
+    description:
+      "Les mouches se multiplient vite dès qu'une matière organique est disponible ; au-delà de la nuisance, elles posent un vrai problème d'hygiène dans les cuisines et les locaux alimentaires.",
+    signs: [
+      "Présence soudaine et nombreuse, surtout près des poubelles ou de la cuisine",
+      "Petits points noirs (déjections) sur les murs, plafonds et luminaires",
+      "Asticots dans une poubelle, un siphon ou une matière en décomposition",
+      "Bourdonnement persistant contre les vitres",
+    ],
+    hidingSpots: [
+      "Poubelles et composts",
+      "Siphons et canalisations",
+      "Zones de stockage alimentaire",
+      "Combles et fenêtres exposées au sud, à l'automne",
+    ],
+    urgency: {
+      level: 2,
+      reason:
+        "La reproduction est très rapide et le risque sanitaire réel dès qu'elles circulent entre déchets et aliments, en particulier chez les professionnels.",
+    },
+    mistakes: [
+      "Se contenter d'un spray sur les adultes sans supprimer la source de ponte",
+      "Laisser poubelles ouvertes ou matières organiques accessibles",
+      "Négliger les siphons et canalisations où se développent les larves",
+    ],
+    firstAction:
+      "Identifiez et supprimez la source (poubelle, matière en décomposition, siphon encrassé) : sans elle, le foyer se relance.",
+    prevention:
+      "Poubelles fermées, surfaces propres, moustiquaires et siphons entretenus.",
+    whenToCall:
+      "Si les mouches reviennent malgré le nettoyage, ou dans un local alimentaire où l'hygiène est en jeu.",
+    whatsappMessage:
+      "Bonjour, je suis envahi de mouches. Je vous envoie des photos de la situation.",
   },
 
   // ------------------------------------------------------ Jardin & extérieur
@@ -748,6 +826,45 @@ export const PEST_GUIDE: PestGuideEntry[] = [
       "Dès l'apparition de filaments blancs ou d'un bois qui s'effrite : le diagnostic mérule est urgent.",
     whatsappMessage:
       "Bonjour, je pense avoir de la mérule ou des moisissures. Je vous envoie des photos.",
+  },
+  {
+    id: "acariens",
+    name: "Acariens",
+    category: "autres",
+    photo: "/acarien.jpeg",
+    serviceId: "desinfection",
+    description:
+      "Invisibles à l'œil nu, les acariens de la poussière prolifèrent dans la literie et les textiles ; ils sont surtout en cause dans les allergies respiratoires et l'asthme.",
+    signs: [
+      "Éternuements, nez bouché ou yeux irrités au réveil ou pendant le ménage",
+      "Gêne respiratoire aggravée dans les pièces poussiéreuses ou peu aérées",
+      "Symptômes qui s'atténuent en dehors du logement",
+      "Aggravation dans les chambres chargées en textiles",
+    ],
+    hidingSpots: [
+      "Matelas, oreillers et couettes",
+      "Tapis, moquettes et rideaux",
+      "Canapés et peluches",
+      "Poussière des pièces peu ventilées",
+    ],
+    urgency: {
+      level: 1,
+      reason:
+        "Sans danger immédiat, mais une exposition prolongée entretient allergies et troubles respiratoires tant que les foyers ne sont pas réduits.",
+    },
+    mistakes: [
+      "Multiplier les textiles et tapis dans les chambres sensibles",
+      "Aérer trop peu — l'humidité favorise leur développement",
+      "Se fier aux sprays seuls sans traiter la literie et les textiles",
+    ],
+    firstAction:
+      "Aérez, lavez la literie à haute température et réduisez les textiles autour du couchage.",
+    prevention:
+      "Aération quotidienne, humidité maîtrisée, housses anti-acariens et lavage régulier de la literie.",
+    whenToCall:
+      "Si les symptômes allergiques persistent malgré l'entretien : un assainissement des textiles et des surfaces peut être nécessaire.",
+    whatsappMessage:
+      "Bonjour, je souhaite un traitement contre les acariens (allergies, literie). Je vous envoie des précisions.",
   },
 ];
 
