@@ -27,6 +27,8 @@ export const COVERAGE_REGIONS: CoverageRegion[] = [
     departments: [
       { name: "Yonne", code: "89" },
       { name: "Nièvre", code: "58" },
+      { name: "Côte-d'Or", code: "21" },
+      { name: "Aube", code: "10" },
     ],
   },
   {
@@ -38,12 +40,22 @@ export const COVERAGE_REGIONS: CoverageRegion[] = [
       { name: "Indre-et-Loire", code: "37" },
       { name: "Eure-et-Loir", code: "28" },
       { name: "Cher", code: "18" },
+      { name: "Indre", code: "36" },
     ],
   },
   {
     name: "Île-de-France",
     lead: "Interventions sur Paris et sa proche couronne.",
-    departments: [{ name: "Paris", code: "75" }],
+    departments: [
+      { name: "Paris", code: "75" },
+      { name: "Seine-et-Marne", code: "77" },
+      { name: "Essonne", code: "91" },
+      { name: "Yvelines", code: "78" },
+      { name: "Hauts-de-Seine", code: "92" },
+      { name: "Seine-Saint-Denis", code: "93" },
+      { name: "Val-de-Marne", code: "94" },
+      { name: "Val-d'Oise", code: "95" },
+    ],
   },
 ];
 

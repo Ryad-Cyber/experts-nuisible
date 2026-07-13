@@ -91,7 +91,8 @@ export default function ZonesInterventionPage() {
             <p className="mt-3 text-base leading-relaxed text-muted-foreground">
               Experts Nuisible est un réseau de techniciens mobiles, avec un ancrage principal
               autour d&apos;Auxerre et de Sens. Nous intervenons aussi en Centre-Val de Loire
-              (Orléans, Blois, Tours, Chartres) et en Île-de-France — et bien au-delà.
+              (Orléans, Blois, Tours, Chartres) et en Île-de-France, ainsi que dans de nombreux
+              départements et communes environnants selon les besoins.
             </p>
 
             <div className="mt-7 flex flex-col gap-6">

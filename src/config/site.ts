@@ -53,7 +53,8 @@ export const siteConfig = {
   servicesMenu: [
     { label: "Rats", href: "/nuisibles/rats" },
     { label: "Punaises de lit", href: "/nuisibles/punaises" },
-    { label: "Cafards & blattes", href: "/nuisibles/cafards" },
+    { label: "Cafards", href: "/nuisibles/cafards" },
+    { label: "Termites", href: "/nuisibles/termites" },
     { label: "Puces & parasites", href: "/services/desinsectisation" },
     { label: "Fourmis", href: "/nuisibles/fourmis" },
     { label: "Mouches", href: "/nuisibles/mouches" },
@@ -61,7 +62,7 @@ export const siteConfig = {
     { label: "Chenilles processionnaires", href: "/nuisibles/chenilles" },
     { label: "Acariens", href: "/nuisibles/acariens" },
     { label: "Désinfection & assainissement", href: "/services/desinfection" },
-    { label: "Tous les nuisibles", href: "/nuisibles" },
+    { label: "Autres nuisibles", href: "/nuisibles/autres" },
   ] as NavLink[],
   cta: {
     callNow: "Appeler maintenant",
