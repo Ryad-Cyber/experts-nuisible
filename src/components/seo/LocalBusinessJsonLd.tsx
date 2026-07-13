@@ -1,4 +1,5 @@
 import { siteConfig } from "@/config/site";
+import { COVERAGE_DEPARTMENTS, COVERAGE_REGION_NAMES } from "@/data/coverage";
 
 const DAY_ORDER = ["lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi", "dimanche"] as const;
 
@@ -63,8 +64,13 @@ export function LocalBusinessJsonLd() {
     telephone: siteConfig.phone.href.replace("tel:", ""),
     email: siteConfig.email,
     image: `${siteConfig.url}/logo_nuisible.jpeg`,
-    // No fixed premises: service area only, no fabricated street address.
-    areaServed: ["Centre-Val de Loire", "Bourgogne-Franche-Comté", "Île-de-France"],
+    // No fixed premises: service area only, no fabricated street address. Régions
+    // et départements réellement desservis (source unique data/coverage.ts) —
+    // rien d'inventé, chaque zone figure sur la page /zones-intervention.
+    areaServed: [
+      ...COVERAGE_REGION_NAMES.map((name) => ({ "@type": "AdministrativeArea", name })),
+      ...COVERAGE_DEPARTMENTS.map((dept) => ({ "@type": "AdministrativeArea", name: dept.name })),
+    ],
     openingHoursSpecification,
     sameAs: Object.values(siteConfig.social).map((entry) => entry.href),
   };

@@ -42,6 +42,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.7,
     })),
     {
+      url: `${siteConfig.url}/zones-intervention`,
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.7,
+    },
+    {
       url: `${siteConfig.url}/mentions-legales`,
       lastModified: new Date(),
       changeFrequency: "yearly",

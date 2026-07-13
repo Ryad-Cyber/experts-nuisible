@@ -28,7 +28,7 @@ const footerNav = [
   { label: "Services", href: "/#nuisibles" },
   { label: "Nuisibles", href: "/nuisibles" },
   { label: "Identifier mon nuisible", href: "/identifier" },
-  { label: "Zones d'intervention", href: "/#zone-intervention" },
+  { label: "Zones d'intervention", href: "/zones-intervention" },
   { label: "FAQ", href: "/#faq" },
   { label: "Contact", href: "/#contact" },
 ];
