@@ -64,16 +64,22 @@ export function CoverageMap({ moreHref = "#contact" }: { moreHref?: string }) {
           className={`group absolute -translate-x-1/2 -translate-y-1/2 cursor-pointer rounded-full border shadow-md backdrop-blur-sm transition-all duration-200 hover:z-10 hover:scale-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent ${
             hub.primary
               ? "border-white bg-accent px-3 py-1.5 text-xs font-bold text-accent-foreground shadow-[0_0_18px_rgba(245,196,51,0.6)]"
-              : "border-border bg-background/90 px-2.5 py-1 text-[11px] font-semibold text-foreground/85 hover:border-accent hover:text-foreground"
+              : hub.secondary
+                ? "border-secondary/60 bg-background px-2.5 py-1.5 text-[11px] font-bold text-secondary shadow-[0_0_10px_-2px_rgba(124,148,67,0.45)] hover:border-secondary"
+                : "border-border bg-background/90 px-2.5 py-1 text-[11px] font-semibold text-foreground/85 hover:border-accent hover:text-foreground"
           }`}
         >
           <span className="flex items-center gap-1">
             <span
               className={`inline-block size-1.5 rounded-full ${
-                hub.primary ? "bg-accent-foreground" : "bg-secondary group-hover:bg-accent"
+                hub.primary
+                  ? "bg-accent-foreground"
+                  : hub.secondary
+                    ? "bg-secondary"
+                    : "bg-secondary group-hover:bg-accent"
               }`}
             />
-            {hub.primary ? hub.name : hub.short}
+            {hub.primary || hub.secondary ? hub.name : hub.short}
           </span>
         </button>
       ))}

@@ -108,7 +108,7 @@ export function Disponibilite() {
               <div className="grid grid-cols-2 gap-5">
                 <div>
                   <p className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-                    <AnimatedStat value={200} prefix="+" />
+                    <AnimatedStat value={500} prefix="+" />
                   </p>
                   <p className="mt-1 text-sm font-medium text-foreground/80">interventions réalisées</p>
                   <p className="text-xs text-muted-foreground">Dans de nombreuses agglomérations</p>

@@ -252,8 +252,57 @@ export const FIELD_TOOLS: FieldTool[] = [
   },
 ];
 
+// Matériel spécialisé pour interventions complexes en hauteur ou à distance
+// (nids de guêpes/frelons en toiture, zones difficiles d'accès). Présenté comme
+// du matériel de lutte antiparasitaire professionnel — jamais comme une arme :
+// les fiches restent volontairement factuelles sur l'usage et le bénéfice.
+export type SpecializedTool = EquipmentFiche & {
+  label: string;
+  image: string;
+  alt: string;
+};
+
+export const SPECIALIZED_TOOLS: SpecializedTool[] = [
+  {
+    id: "drone-inspection",
+    label: "Drone d'inspection",
+    name: "Drone professionnel",
+    image: "/drone.jpg",
+    alt: "Drone professionnel équipé d'une caméra d'inspection",
+    why: "Inspecte les toitures, façades et zones difficiles d'accès sans mettre de technicien en hauteur avant d'avoir localisé le nid.",
+    benefit: "Un diagnostic précis avant intervention, sans risque inutile pour l'équipe.",
+  },
+  {
+    id: "perche-carbone",
+    label: "Perche télescopique",
+    name: "Perche carbone professionnelle",
+    image: "/kits.jpg",
+    alt: "Kit de matériel professionnel de traitement (pulvérisateurs, perche, accessoires)",
+    why: "Perche télescopique de plus de 20 mètres utilisée pour traiter certains nids en hauteur sans nacelle ni échelle.",
+    benefit: "Le traitement est appliqué à bonne distance, en toute sécurité pour le technicien comme pour vous.",
+  },
+  {
+    id: "combinaison-volants",
+    label: "Combinaison renforcée",
+    name: "Combinaison professionnelle",
+    image: "/combinaison_volant.jpg",
+    alt: "Technicien en combinaison de protection intégrale avec voile facial, équipé pour une intervention sur nid",
+    why: "Protection intégrale du visage et du corps pour les interventions sur nids de guêpes ou de frelons.",
+    benefit: "Le technicien travaille au contact du nid sans risque de piqûre.",
+  },
+  {
+    id: "traitement-distance",
+    label: "Traitement à distance",
+    name: "Applicateur de traitement à distance",
+    image: "/paintball.jpg",
+    alt: "Applicateur professionnel de traitement à distance pour nids en hauteur",
+    why: "Projette un produit de traitement adapté directement sur certains nids de frelons, à distance et sans contact.",
+    benefit: "Neutralise le nid avant toute approche, pour une intervention plus sûre.",
+  },
+];
+
 export const EQUIPMENT_FICHE_BY_ID: Record<string, EquipmentFiche> = Object.fromEntries(
-  [...SUIT_FICHES, ...FIELD_TOOLS].map((fiche) => [fiche.id, fiche])
+  [...SUIT_FICHES, ...FIELD_TOOLS, ...SPECIALIZED_TOOLS].map((fiche) => [fiche.id, fiche])
 );
 
 // Photos réelles du carousel "Notre équipement professionnel".

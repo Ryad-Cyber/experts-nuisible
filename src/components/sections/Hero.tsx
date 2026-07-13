@@ -110,26 +110,39 @@ export function Hero() {
             ))}
           </StaggerItem>
 
-          <StaggerItem className="flex flex-wrap items-center justify-center gap-2.5 lg:justify-start">
-            {/* Certibiocide — carte premium sobre : verre dépoli, liseré tricolore très
-                discret (certification française réelle du Ministère de l'Agriculture),
-                aucun emblème officiel copié, aucune texture parasite. */}
-            <div className="relative flex items-center gap-2.5 overflow-hidden rounded-xl border border-white/15 bg-white/[0.06] px-3.5 py-2.5 shadow-sm backdrop-blur-md transition-colors duration-300 hover:border-white/25">
+          <StaggerItem className="flex w-full flex-col items-stretch gap-2.5 xl:flex-row xl:items-center">
+            {/* Certibiocide — carte premium élargie. Fond dégradé tricolore original
+                (PAS le logo Marianne officiel : cette image évoquerait une certification
+                d'État directe, ce qui serait trompeur — la certification est réelle mais
+                délivrée dans un cadre réglementaire, pas une accréditation gouvernementale
+                affichée comme telle). Hiérarchie claire : icône, nom, organisme. */}
+            <div className="relative flex items-center gap-3 overflow-hidden rounded-2xl border border-white/20 bg-white/[0.09] pl-0 pr-4 py-3 shadow-sm backdrop-blur-md transition-colors duration-300 hover:border-white/30">
               <span
                 aria-hidden
-                className="absolute inset-x-0 top-0 h-[3px] bg-gradient-to-r from-[#3d5aa8] via-white to-[#c8383f]"
+                className="pointer-events-none absolute inset-y-0 left-0 w-1.5"
+                style={{
+                  backgroundImage:
+                    "linear-gradient(to bottom, #3d5aa8 0%, #3d5aa8 33%, #fafafa 33%, #fafafa 66%, #c8383f 66%, #c8383f 100%)",
+                }}
               />
-              <span className="flex size-9 shrink-0 items-center justify-center rounded-lg border border-white/20 bg-white/10 text-white">
-                <BadgeCheck className="size-4" />
+              <span
+                aria-hidden
+                className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/70 to-transparent"
+              />
+              <span className="relative flex size-10 shrink-0 items-center justify-center rounded-xl border border-white/25 bg-white/10 text-white shadow-inner ml-4">
+                <BadgeCheck className="size-5" />
               </span>
-              <div className="text-left leading-tight">
-                <p className="text-xs font-semibold text-white">Certibiocide</p>
-                <p className="text-[10px] text-white/60">Ministère de l&apos;Agriculture</p>
+              <div className="relative text-left leading-tight">
+                <p className="text-sm font-semibold text-white">Certibiocide</p>
+                <p className="mt-0.5 text-[11px] text-white/70">
+                  Certification reconnue par le Ministère de l&apos;Agriculture
+                </p>
               </div>
             </div>
 
-            {/* Réponse rapide — même grammaire de carte, accent émeraude. Le point qui
-                pulse reste le seul battement du Hero (promesse 24/7 réelle, rien de simulé). */}
+            {/* Technicien disponible rapidement — bénéfice explicite plutôt qu'un label
+                vague. Même grammaire de carte, accent émeraude. Le point qui pulse reste
+                le seul battement du Hero (promesse 24/7 réelle, rien de simulé). */}
             <div className="relative flex items-center gap-2.5 overflow-hidden rounded-xl border border-white/15 bg-white/[0.06] px-3.5 py-2.5 shadow-sm backdrop-blur-md transition-colors duration-300 hover:border-white/25">
               <span className="relative flex size-9 shrink-0 items-center justify-center rounded-lg border border-white/20 bg-white/10 text-white">
                 <Headset className="size-4" />
@@ -139,8 +152,8 @@ export function Hero() {
                 </span>
               </span>
               <div className="text-left leading-tight">
-                <p className="text-xs font-semibold text-white">Réponse rapide</p>
-                <p className="text-[10px] text-white/60">Week-ends &amp; jours fériés inclus</p>
+                <p className="text-xs font-semibold text-white">Technicien disponible rapidement</p>
+                <p className="text-[10px] text-white/60">24h/24 — 7j/7, week-ends &amp; jours fériés inclus</p>
               </div>
             </div>
           </StaggerItem>

@@ -5,6 +5,7 @@ import { ShieldCheck, Sparkles } from "lucide-react";
 import { PestIdentifier } from "@/components/sections/PestIdentifier";
 import { GuideNuisibles } from "@/components/sections/GuideNuisibles";
 import { TenueTechnicien } from "@/components/sections/TenueTechnicien";
+import { MaterielSpecialise } from "@/components/sections/MaterielSpecialise";
 import { Configurateur } from "@/components/sections/Configurateur";
 import { Section } from "@/components/ui/Section";
 import { Reveal, StaggerGroup, StaggerItem } from "@/components/ui/Reveal";
@@ -182,6 +183,7 @@ export default function IdentifierPage() {
           naturelle est cette page d'exploration, ancrée pour le teaser home. */}
       <Section id="tenue" variant="muted" className="scroll-mt-20 py-12 md:py-16">
         <TenueTechnicien />
+        <MaterielSpecialise />
       </Section>
       <SolutionsProfessionnelles />
       <Configurateur />

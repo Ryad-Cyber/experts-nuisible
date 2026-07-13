@@ -4,7 +4,7 @@ import { Bug, Car, CheckCircle2, Star, type LucideIcon } from "lucide-react";
 // aperçu des nuisibles traités (segue vers la section Nuisibles), devis, mobilité.
 // Le 24/7, le délai et le prix vivent dans le Hero — pas de répétition adjacente.
 const MESSAGES: { icon: LucideIcon; text: string }[] = [
-  { icon: Star, text: "Plus de 200 interventions réalisées" },
+  { icon: Star, text: "Plus de 500 interventions réalisées" },
   { icon: Bug, text: "Guêpes • Frelons • Rongeurs • Punaises de lit • et bien d'autres" },
   { icon: CheckCircle2, text: "Devis gratuit et sans engagement" },
   { icon: Car, text: "Déplacement rapide dans de nombreuses régions" },
