@@ -1,11 +1,14 @@
 import Link from "next/link";
-import { ArrowRight, BookOpen } from "lucide-react";
+import { ArrowRight, BookOpen, ChevronDown } from "lucide-react";
 import { Section } from "@/components/ui/Section";
 import { PEST_CATEGORIES, PEST_GUIDE } from "@/data/pestGuide";
 
-// Rendu 100 % côté serveur : ce guide est la couche indexable de la page
-// (l'identificateur interactif au-dessus est client). Chaque bloc H3 est la
-// graine d'une future page dédiée /nuisibles/[slug] — même source de données.
+// Rendu 100 % côté serveur, zéro JS : ce guide est la couche indexable de la
+// page (l'identificateur interactif au-dessus est client). Chaque catégorie est
+// un <details> natif — le contenu reste dans le DOM même replié (donc crawlé et
+// indexé), tout en raccourcissant fortement la page pour que la silhouette et la
+// villa 3D en dessous restent atteignables. Chaque bloc H3 alimente sa page
+// dédiée /nuisibles/[slug].
 export function GuideNuisibles() {
   return (
     <Section id="guide-nuisibles" className="relative overflow-hidden py-12 md:py-16">
@@ -25,21 +28,36 @@ export function GuideNuisibles() {
         <p className="mt-3 text-base text-muted-foreground">
           Rats, souris, punaises de lit, cafards, guêpes, frelons… Pour chaque nuisible,
           les signes qui doivent alerter, les gestes de prévention et le bon moment pour
-          faire appel à un professionnel.
+          faire appel à un professionnel. Dépliez une catégorie pour l&apos;explorer.
         </p>
       </div>
 
-      <div className="relative mx-auto mt-10 flex max-w-5xl flex-col gap-10">
-        {PEST_CATEGORIES.map((category) => {
+      <div className="relative mx-auto mt-8 max-w-5xl overflow-hidden rounded-3xl border border-border bg-background/40">
+        {PEST_CATEGORIES.map((category, index) => {
           const pests = PEST_GUIDE.filter((pest) => pest.category === category.id);
           if (pests.length === 0) return null;
 
           return (
-            <div key={category.id}>
-              <p className="text-sm font-semibold uppercase tracking-wider text-secondary">
-                {category.label}
-              </p>
-              <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            <details
+              key={category.id}
+              // Première catégorie ouverte : la page n'est jamais vide, et le
+              // crawler comme l'utilisateur ont du contenu immédiat.
+              open={index === 0}
+              className="group border-b border-border last:border-b-0"
+            >
+              <summary className="flex cursor-pointer select-none list-none items-center justify-between gap-4 px-5 py-4 transition-colors hover:bg-muted/40 [&::-webkit-details-marker]:hidden">
+                <span className="flex items-center gap-2.5">
+                  <span className="text-sm font-semibold uppercase tracking-wider text-secondary">
+                    {category.label}
+                  </span>
+                  <span className="rounded-full bg-secondary/10 px-2 py-0.5 text-xs font-medium tabular-nums text-secondary">
+                    {pests.length}
+                  </span>
+                </span>
+                <ChevronDown className="size-5 shrink-0 text-muted-foreground transition-transform duration-300 group-open:rotate-180" />
+              </summary>
+
+              <div className="grid gap-4 px-5 pb-6 sm:grid-cols-2 lg:grid-cols-3">
                 {pests.map((pest) => (
                   <article
                     key={pest.id}
@@ -82,9 +100,26 @@ export function GuideNuisibles() {
                   </article>
                 ))}
               </div>
-            </div>
+            </details>
           );
         })}
+      </div>
+
+      {/* Repère de continuité : signale explicitement que la page ne s'arrête pas
+          au guide et guide l'œil vers la silhouette technicien (#tenue). */}
+      <div className="relative mx-auto mt-12 flex flex-col items-center gap-3 text-center">
+        <span aria-hidden className="h-10 w-px bg-gradient-to-b from-transparent to-border" />
+        <a href="#tenue" className="group flex flex-col items-center gap-2">
+          <span className="text-xs font-semibold uppercase tracking-wider text-secondary">
+            La visite continue
+          </span>
+          <span className="text-base font-medium text-foreground">
+            Inspectez la tenue d&apos;intervention du technicien
+          </span>
+          <span className="mt-1 flex size-9 items-center justify-center rounded-full border border-border bg-background text-secondary shadow-sm transition-transform duration-300 group-hover:translate-y-0.5">
+            <ChevronDown className="size-5" />
+          </span>
+        </a>
       </div>
     </Section>
   );
