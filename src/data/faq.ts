@@ -32,7 +32,7 @@ export const faqItems: FaqItem[] = [
   {
     question: "Dans quelles zones intervenez-vous ?",
     answer:
-      "Nous intervenons grâce à un réseau de techniciens couvrant de nombreuses agglomérations françaises, notamment à Orléans et dans le Loiret, à Blois, Tours et Chartres, ainsi que plus largement en Centre-Val de Loire et en Île-de-France. Contactez-nous pour vérifier la disponibilité de nos équipes dans votre secteur avant de programmer votre intervention.",
+      "Nous intervenons grâce à un réseau de techniciens couvrant de nombreuses agglomérations françaises, avec un ancrage principal autour d'Auxerre et de Sens, ainsi qu'à Orléans, Blois, Tours et Chartres, en Bourgogne-Franche-Comté, en Centre-Val de Loire et en Île-de-France. Contactez-nous pour vérifier la disponibilité de nos équipes dans votre secteur avant de programmer votre intervention.",
   },
   {
     question: "Comment obtenir un devis pour une intervention ?",

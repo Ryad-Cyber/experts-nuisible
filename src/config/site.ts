@@ -60,7 +60,7 @@ export const siteConfig = {
     { label: "Guêpes & frelons", href: "/services/nuisibles-volants" },
     { label: "Chenilles processionnaires", href: "/nuisibles/chenilles" },
     { label: "Désinfection & assainissement", href: "/services/desinfection" },
-    { label: "Autres nuisibles", href: "/nuisibles" },
+    { label: "Tous les nuisibles", href: "/nuisibles" },
   ] as NavLink[],
   cta: {
     callNow: "Appeler maintenant",

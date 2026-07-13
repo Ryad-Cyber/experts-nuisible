@@ -22,8 +22,16 @@ export type CoverageRegion = {
 // chez moi ? »), et calqué sur le `areaServed` déjà déclaré dans le schema.
 export const COVERAGE_REGIONS: CoverageRegion[] = [
   {
+    name: "Bourgogne-Franche-Comté",
+    lead: "Notre ancrage principal, autour d'Auxerre et de Sens.",
+    departments: [
+      { name: "Yonne", code: "89" },
+      { name: "Nièvre", code: "58" },
+    ],
+  },
+  {
     name: "Centre-Val de Loire",
-    lead: "Le cœur de notre réseau, autour d'Orléans.",
+    lead: "Une présence forte, notamment autour d'Orléans.",
     departments: [
       { name: "Loiret", code: "45" },
       { name: "Loir-et-Cher", code: "41" },
@@ -36,14 +44,6 @@ export const COVERAGE_REGIONS: CoverageRegion[] = [
     name: "Île-de-France",
     lead: "Interventions sur Paris et sa proche couronne.",
     departments: [{ name: "Paris", code: "75" }],
-  },
-  {
-    name: "Bourgogne-Franche-Comté",
-    lead: "Autour d'Auxerre et de Sens, en lien avec le Centre-Val de Loire.",
-    departments: [
-      { name: "Yonne", code: "89" },
-      { name: "Nièvre", code: "58" },
-    ],
   },
 ];
 
@@ -60,21 +60,21 @@ export type CoverageHub = {
   short: string;
   x: number;
   y: number;
-  /** Hub central du réseau (un seul : Orléans) — style plein accent. */
+  /** Hub central du réseau (un seul : Auxerre) — style plein accent. */
   primary?: boolean;
-  /** Pôle régional fort (Auxerre, Sens) — se distingue des villes secondaires
+  /** Pôle régional fort (Sens, Orléans) — se distingue des villes secondaires
    *  sans rivaliser visuellement avec le hub central. */
   secondary?: boolean;
 };
 
-// Placement relatif approximatif (0–100) des principaux hubs autour d'Orléans.
+// Placement relatif approximatif (0–100) des principaux hubs autour d'Auxerre.
 // Carte abstraite, pas cartographique : les anneaux évoquent le rayon d'action.
 export const COVERAGE_HUBS: CoverageHub[] = [
   { name: "Paris / Île-de-France", short: "Paris", x: 60, y: 12 },
   { name: "Chartres", short: "Chartres", x: 30, y: 24 },
   { name: "Sens", short: "Sens", x: 84, y: 26, secondary: true },
-  { name: "Auxerre", short: "Auxerre", x: 80, y: 46, secondary: true },
-  { name: "Orléans", short: "Orléans", x: 48, y: 48, primary: true },
+  { name: "Auxerre", short: "Auxerre", x: 80, y: 46, primary: true },
+  { name: "Orléans", short: "Orléans", x: 48, y: 48, secondary: true },
   { name: "Blois", short: "Blois", x: 26, y: 58 },
   { name: "Tours", short: "Tours", x: 12, y: 70 },
   { name: "Bourges", short: "Bourges", x: 62, y: 72 },
