@@ -10,14 +10,25 @@ import {
   useSpring,
   useTransform,
 } from "framer-motion";
-import { ArrowUpRight, type LucideIcon } from "lucide-react";
+import { AlertTriangle, ArrowUpRight, type LucideIcon } from "lucide-react";
 import type { Pest } from "@/types";
+import { PEST_BY_ID, URGENCY_LABELS } from "@/data/pestGuide";
+import { cn } from "@/lib/utils";
 
 type PestCardProps = {
   pest: Pest;
   index: number;
   serviceTitle: string;
   serviceIcon: LucideIcon;
+};
+
+// Pilule de badge par niveau d'urgence — même sémantique de couleur que
+// /nuisibles/[slug] et /identifier (vert → or → rouge), adaptée au style
+// "pilule pleine" déjà utilisé sur ces cartes à fond photo sombre.
+const URGENCY_BADGE_STYLES: Record<1 | 2 | 3, string> = {
+  1: "bg-secondary text-secondary-foreground",
+  2: "bg-accent text-accent-foreground",
+  3: "bg-red-500 text-white",
 };
 
 const springConfig = { stiffness: 220, damping: 20, mass: 0.6 };
@@ -39,6 +50,14 @@ function CardShell({ pest, children }: { pest: Pest; children: ReactNode }) {
 }
 
 export function PestCard({ pest, index, serviceTitle, serviceIcon: Icon }: PestCardProps) {
+  // Badge d'urgence (pestGuide) plutôt que le badge de service : le service se
+  // répète d'une carte à l'autre (Souris/Fouine → "Dératisation", Guêpe/Frelon →
+  // "Nuisibles volants"), alors que l'urgence varie par nuisible et répond à la
+  // vraie question du visiteur pressé ("dois-je m'inquiéter ?"). Repli sur le
+  // badge service pour les rares nuisibles sans fiche dédiée.
+  const guideEntry = pest.guideId ? PEST_BY_ID[pest.guideId] : undefined;
+  const urgency = guideEntry?.urgency;
+
   const ref = useRef<HTMLDivElement>(null);
   const [canTilt] = useState(
     () => typeof window !== "undefined" && window.matchMedia("(pointer: fine)").matches
@@ -114,10 +133,22 @@ export function PestCard({ pest, index, serviceTitle, serviceIcon: Icon }: PestC
           )}
 
           <div className="absolute inset-x-0 bottom-0 flex flex-col gap-1 p-3">
-            <span className="inline-flex w-fit items-center gap-1.5 rounded-full bg-accent px-2 py-0.5 text-[11px] font-semibold uppercase tracking-wide text-accent-foreground">
-              <Icon className="size-3" />
-              {serviceTitle}
-            </span>
+            {urgency ? (
+              <span
+                className={cn(
+                  "inline-flex w-fit items-center gap-1.5 rounded-full px-2 py-0.5 text-[11px] font-semibold uppercase tracking-wide",
+                  URGENCY_BADGE_STYLES[urgency.level]
+                )}
+              >
+                <AlertTriangle className="size-3" />
+                {URGENCY_LABELS[urgency.level]}
+              </span>
+            ) : (
+              <span className="inline-flex w-fit items-center gap-1.5 rounded-full bg-accent px-2 py-0.5 text-[11px] font-semibold uppercase tracking-wide text-accent-foreground">
+                <Icon className="size-3" />
+                {serviceTitle}
+              </span>
+            )}
             <h3 className="text-base font-semibold tracking-tight text-white">{pest.name}</h3>
           </div>
         </motion.div>

@@ -62,8 +62,7 @@ export function Nuisibles() {
           </h2>
           <p className="mt-3 text-base text-muted-foreground">
             Rats, souris, punaises de lit, cafards, guêpes, frelons… Retrouvez ci-dessous les
-            principaux nuisibles que nous traitons. Notre équipe intervient aussi sur de
-            nombreuses autres espèces de rongeurs, insectes, oiseaux et reptiles.
+            principaux nuisibles que nous traitons.
           </p>
           {/* Lien de maillage vers le hub services (peu lié auparavant). */}
           <Link
@@ -131,9 +130,13 @@ export function Nuisibles() {
             <span className="flex size-8 items-center justify-center rounded-full bg-secondary/10 text-secondary">
               <Sparkles className="size-4" />
             </span>
-            <p className="text-sm font-semibold tracking-tight">Et bien d&apos;autres nuisibles</p>
+            <p className="text-sm font-semibold tracking-tight">Autres nuisibles</p>
             <p className="text-xs text-muted-foreground">
-              Cette liste n&apos;est pas exhaustive. Contactez-nous pour tout autre nuisible.
+              Poisson d&apos;argent, lérot, mulot, loir, taupe, mites… et bien d&apos;autres.
+            </p>
+            <p className="mt-1 text-xs font-medium text-secondary">
+              Votre nuisible n&apos;apparaît pas ? Nos techniciens interviennent aussi sur
+              d&apos;autres espèces.
             </p>
           </a>
         </StaggerGroup>

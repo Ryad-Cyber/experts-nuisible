@@ -22,8 +22,11 @@ export const legalConfig = {
   address: "Auxerre, France" as string | null,
   /** Nom du directeur ou de la directrice de la publication. */
   publicationDirector: null as string | null,
-  /** Zone géographique réellement couverte par le réseau de techniciens mobiles. */
-  serviceArea: "Île-de-France, Centre-Val de Loire et Bourgogne-Franche-Comté",
+  /** Zone d'intervention : cœur de réseau, formulée sans frontière absolue —
+   *  le réseau de techniciens mobiles peut intervenir au-delà selon les demandes.
+   *  Rédigée pour s'insérer après "intervenant en" / "en" dans les pages légales. */
+  serviceArea:
+    "Île-de-France, Centre-Val de Loire et Bourgogne-Franche-Comté — et au-delà selon les demandes",
   /** Hébergeur du site (obligatoire : nom, adresse, moyen de contact). */
   host: {
     name: "Vercel Inc.",

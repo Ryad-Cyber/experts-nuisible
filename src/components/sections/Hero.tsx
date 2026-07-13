@@ -28,16 +28,6 @@ const heroOverlayStyle = {
     "linear-gradient(to top, rgb(8 31 20 / 0.55), transparent 45%, rgb(8 31 20 / 0.25))",
 };
 
-// Discreet, artistic silhouettes (wasp, rodent, roach) tiled as a near-invisible watermark —
-// an original in-house motif, not a photo and not any external certification body's mark.
-// Reused as the shared "credential" background for both trust badges below.
-const badgeWatermark = {
-  backgroundImage:
-    "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'%3E%3Cg fill='none' stroke='%23ffffff' stroke-width='1' stroke-linecap='round' stroke-linejoin='round' opacity='0.5'%3E%3Cellipse cx='22' cy='20' rx='5.5' ry='7' transform='rotate(-16 22 20)'/%3E%3Cpath d='M22 13 L17 7 M22 13 L27 7 M16 18 L8 15 M28 18 L36 15 M16 23 L8 27 M28 23 L36 27'/%3E%3Cellipse cx='92' cy='30' rx='8' ry='5'/%3E%3Ccircle cx='99' cy='28' r='2.3'/%3E%3Cpath d='M85 29 L79 26 M85 32 L79 35'/%3E%3Cpath d='M22 85 Q30 78 40 85 Q35 92 30 98 Q26 92 22 85 Z'/%3E%3Cpath d='M14 85 L8 82 M14 90 L7 91'/%3E%3Crect x='78' y='78' width='16' height='10' rx='4' transform='rotate(8 86 83)'/%3E%3Cpath d='M82 76 L80 71 M90 77 L92 72 M78 84 L72 83 M94 85 L100 86'/%3E%3C/g%3E%3C/svg%3E\")",
-  backgroundSize: "150px 150px",
-  backgroundRepeat: "repeat",
-};
-
 export function Hero() {
   return (
     <section className="relative isolate overflow-hidden bg-primary-dark pt-16 pb-12 md:pt-20 md:pb-14 lg:py-16">
@@ -59,8 +49,8 @@ export function Hero() {
           <StaggerItem>
             {/* Dot statique : le seul battement du Hero vit sur le badge
                 "Un technicien vous répond" — un cœur unique, pas un sapin. */}
-            <span className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-3.5 py-1 text-xs font-medium text-white/85 backdrop-blur-sm">
-              <span className="inline-flex size-2 rounded-full bg-accent" />
+            <span className="inline-flex items-center gap-2 whitespace-nowrap rounded-full border border-white/15 bg-white/10 px-3.5 py-1 text-xs font-medium text-white/85 backdrop-blur-sm">
+              <span className="inline-flex size-2 shrink-0 rounded-full bg-accent" />
               Urgence 24h/24 — 7j/7
             </span>
           </StaggerItem>
@@ -69,15 +59,14 @@ export function Hero() {
             <h1 className="max-w-xl text-[1.7rem] font-semibold tracking-tight text-balance text-white sm:text-3xl md:text-4xl lg:text-[2.7rem]">
               Un nuisible chez vous ?
               <br />
-              <span className="text-white/70">Intervention sous 24 h. Prix annoncé avant.</span>
+              <span className="text-white/70">Diagnostic gratuit, intervention rapide.</span>
             </h1>
           </StaggerItem>
 
           <StaggerItem>
             <p className="max-w-xl text-sm text-white/75 md:text-base">
-              Dératisation, désinsectisation, désinfection — Experts Nuisible traite tous les
-              types de nuisibles, chez les particuliers comme chez les professionnels, grâce à
-              un réseau de techniciens couvrant de nombreuses agglomérations françaises.
+              Dératisation, désinsectisation, désinfection — pour les particuliers comme pour
+              les professionnels.
             </p>
           </StaggerItem>
 
@@ -112,54 +101,45 @@ export function Hero() {
             </Button>
           </StaggerItem>
 
-          <StaggerItem className="grid grid-cols-1 gap-2.5 sm:grid-cols-3 sm:gap-5">
+          <StaggerItem className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1.5 lg:justify-start">
             {trustPoints.map(({ icon: Icon, label }) => (
-              <div
-                key={label}
-                className="flex items-center justify-center gap-1.5 text-xs font-medium text-white/70 lg:justify-start"
-              >
-                <Icon className="size-3.5 text-white" />
+              <div key={label} className="flex items-center gap-1.5 text-xs font-medium text-white/70">
+                <Icon className="size-3.5 shrink-0 text-white" />
                 {label}
               </div>
             ))}
           </StaggerItem>
 
           <StaggerItem className="flex flex-wrap items-center justify-center gap-2.5 lg:justify-start">
-            {/* Certibiocide — premium credential badge: faint tiled pest-silhouette watermark
-                across the whole card (near-invisible, gives it a "certified document" texture)
-                plus a gold accent glow, no official emblem, no external site's layout copied. */}
-            <div className="group relative flex items-center gap-2.5 overflow-hidden rounded-xl border border-white/15 bg-gradient-to-br from-white/[0.08] to-white/[0.02] px-3.5 py-2.5 backdrop-blur-md transition-colors duration-300 hover:border-accent-light/30">
-              <span aria-hidden className="pointer-events-none absolute inset-0" style={badgeWatermark} />
+            {/* Certibiocide — carte premium sobre : verre dépoli, liseré tricolore très
+                discret (certification française réelle du Ministère de l'Agriculture),
+                aucun emblème officiel copié, aucune texture parasite. */}
+            <div className="relative flex items-center gap-2.5 overflow-hidden rounded-xl border border-white/15 bg-white/[0.06] px-3.5 py-2.5 shadow-sm backdrop-blur-md transition-colors duration-300 hover:border-white/25">
               <span
                 aria-hidden
-                className="pointer-events-none absolute -left-6 -top-6 size-20 rounded-full bg-accent-light/20 blur-2xl"
+                className="absolute inset-x-0 top-0 h-[3px] bg-gradient-to-r from-[#3d5aa8] via-white to-[#c8383f]"
               />
-              <span className="relative flex size-9 shrink-0 items-center justify-center rounded-lg border border-accent-light/30 bg-accent-light/10 text-accent-light shadow-[0_0_16px_-2px_rgba(245,196,51,0.35)]">
+              <span className="flex size-9 shrink-0 items-center justify-center rounded-lg border border-white/20 bg-white/10 text-white">
                 <BadgeCheck className="size-4" />
               </span>
-              <div className="relative text-left leading-tight">
+              <div className="text-left leading-tight">
                 <p className="text-xs font-semibold text-white">Certibiocide</p>
                 <p className="text-[10px] text-white/60">Ministère de l&apos;Agriculture</p>
               </div>
             </div>
 
-            {/* Availability — same watermark texture, emerald accent. No fake live counter:
-                the pulsing dot expresses the genuine 24/7 answering promise, nothing simulated. */}
-            <div className="group relative flex items-center gap-2.5 overflow-hidden rounded-xl border border-white/15 bg-gradient-to-br from-white/[0.08] to-white/[0.02] px-3.5 py-2.5 backdrop-blur-md transition-colors duration-300 hover:border-emerald-300/30">
-              <span aria-hidden className="pointer-events-none absolute inset-0" style={badgeWatermark} />
-              <span
-                aria-hidden
-                className="pointer-events-none absolute -left-6 -top-6 size-20 rounded-full bg-emerald-400/20 blur-2xl"
-              />
-              <span className="relative flex size-9 shrink-0 items-center justify-center rounded-lg border border-emerald-300/30 bg-emerald-400/10 text-emerald-300 shadow-[0_0_16px_-2px_rgba(52,211,153,0.35)]">
+            {/* Réponse rapide — même grammaire de carte, accent émeraude. Le point qui
+                pulse reste le seul battement du Hero (promesse 24/7 réelle, rien de simulé). */}
+            <div className="relative flex items-center gap-2.5 overflow-hidden rounded-xl border border-white/15 bg-white/[0.06] px-3.5 py-2.5 shadow-sm backdrop-blur-md transition-colors duration-300 hover:border-white/25">
+              <span className="relative flex size-9 shrink-0 items-center justify-center rounded-lg border border-white/20 bg-white/10 text-white">
                 <Headset className="size-4" />
                 <span className="absolute -right-1 -top-1 flex size-3">
                   <span className="absolute inline-flex size-full animate-ping rounded-full bg-emerald-400 opacity-75" />
                   <span className="relative inline-flex size-3 rounded-full border border-primary-dark bg-emerald-400" />
                 </span>
               </span>
-              <div className="relative text-left leading-tight">
-                <p className="text-xs font-semibold text-white">Un technicien vous répond</p>
+              <div className="text-left leading-tight">
+                <p className="text-xs font-semibold text-white">Réponse rapide</p>
                 <p className="text-[10px] text-white/60">Week-ends &amp; jours fériés inclus</p>
               </div>
             </div>

@@ -46,19 +46,19 @@ export const siteConfig = {
     { label: "FAQ", href: "/#faq" },
     { label: "Contact", href: "/#contact" },
   ] as NavLink[],
-  // Dropdown du menu "Services" : mélange volontaire de pages services (intention
-  // "je cherche une prestation") et de fiches nuisibles (intention "j'ai identifié
-  // mon problème") — chaque entrée pointe vers sa vraie page dédiée.
+  // Dropdown du menu "Services" : une entrée par problème (pas par page), chacune
+  // orientée vers sa fiche nuisible quand elle existe, sinon vers le service
+  // générique. Plus aucun doublon (ex. "Guêpes & frelons" ne coexiste plus avec
+  // "Frelons asiatiques" ; "Dératisation" ne coexiste plus avec "Souris & rats").
   servicesMenu: [
-    { label: "Dératisation", href: "/services/deratisation" },
-    { label: "Désinsectisation", href: "/services/desinsectisation" },
-    { label: "Désinfection", href: "/services/desinfection" },
-    { label: "Guêpes & frelons", href: "/services/nuisibles-volants" },
+    { label: "Rats & souris", href: "/nuisibles/rats" },
     { label: "Punaises de lit", href: "/nuisibles/punaises" },
-    { label: "Cafards", href: "/nuisibles/cafards" },
+    { label: "Cafards & blattes", href: "/nuisibles/cafards" },
+    { label: "Puces & parasites", href: "/services/desinsectisation" },
     { label: "Fourmis", href: "/nuisibles/fourmis" },
-    { label: "Souris & rats", href: "/nuisibles/rats" },
-    { label: "Frelons asiatiques", href: "/nuisibles/frelons" },
+    { label: "Guêpes & frelons", href: "/services/nuisibles-volants" },
+    { label: "Désinfection & assainissement", href: "/services/desinfection" },
+    { label: "Chenilles processionnaires", href: "/nuisibles/chenilles" },
     { label: "Autres nuisibles", href: "/nuisibles" },
   ] as NavLink[],
   cta: {
