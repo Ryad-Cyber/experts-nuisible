@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import { ArrowRight, CheckCircle2, ShieldCheck, Sparkles } from "lucide-react";
+import { ArrowRight, CheckCircle2, ShieldCheck, Sparkles, Truck } from "lucide-react";
 import { Section } from "@/components/ui/Section";
 import { Reveal } from "@/components/ui/Reveal";
 import { technicianPhotos } from "@/data/equipment";
@@ -71,6 +71,42 @@ function TechnicianSlideshow() {
         </motion.div>
       </AnimatePresence>
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-primary-dark/40 via-transparent to-transparent" />
+    </div>
+  );
+}
+
+// Camion floqué — preuve d'ancrage physique (entreprise réelle qui se déplace),
+// distincte du portrait technicien. Image unique statique (pas dans la rotation :
+// mélanger un plan large de véhicule avec des portraits verticaux diluerait les
+// deux). object-contain sur carte claire : le fond blanc du visuel studio se fond,
+// et la légende recentre le message sur la présence terrain, pas sur le véhicule.
+function CamionBand() {
+  return (
+    <div className="overflow-hidden rounded-2xl border border-border bg-background shadow-sm">
+      <div className="grid items-center gap-2 sm:grid-cols-[1.5fr_1fr] sm:gap-6">
+        <div className="relative aspect-[2/1] w-full bg-white">
+          <Image
+            src="/camion.jpeg"
+            alt="Camion utilitaire blanc floqué Experts Nuisible — dératisation, désinsectisation, désinfection"
+            fill
+            sizes="(min-width: 640px) 55vw, 100vw"
+            className="object-contain"
+          />
+        </div>
+        <div className="p-5 pt-0 text-center sm:p-6 sm:pl-0 sm:text-left">
+          <span className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-secondary">
+            <Truck className="size-3.5" />
+            Présence terrain
+          </span>
+          <h3 className="mt-1.5 text-lg font-semibold tracking-tight text-balance">
+            Une entreprise qui se déplace jusqu&apos;à vous
+          </h3>
+          <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+            Nos techniciens interviennent avec des véhicules identifiés Experts Nuisible,
+            équipés du matériel nécessaire à chaque type d&apos;intervention.
+          </p>
+        </div>
+      </div>
     </div>
   );
 }
@@ -165,7 +201,11 @@ export function EquipementProfessionnel() {
         </div>
       </Reveal>
 
-      <Reveal delay={0.1} className="relative mt-8">
+      <Reveal delay={0.05} className="relative mt-8">
+        <CamionBand />
+      </Reveal>
+
+      <Reveal delay={0.1} className="relative mt-6">
         <PartnersStrip />
       </Reveal>
     </Section>
