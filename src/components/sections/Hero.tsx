@@ -111,30 +111,33 @@ export function Hero() {
           </StaggerItem>
 
           <StaggerItem className="flex w-full flex-col items-stretch gap-2.5 xl:flex-row xl:items-center">
-            {/* Certibiocide — carte premium élargie. Fond dégradé tricolore original
-                (PAS le logo Marianne officiel : cette image évoquerait une certification
-                d'État directe, ce qui serait trompeur — la certification est réelle mais
-                délivrée dans un cadre réglementaire, pas une accréditation gouvernementale
-                affichée comme telle). Hiérarchie claire : icône, nom, organisme. */}
-            <div className="relative flex items-center gap-3 overflow-hidden rounded-2xl border border-white/20 bg-white/[0.09] pl-0 pr-4 py-3 shadow-sm backdrop-blur-md transition-colors duration-300 hover:border-white/30">
-              <span
+            {/* Certibiocide — carte premium. L'image tricolore République française sert
+                de TEXTURE décorative de fond uniquement : floutée + assombrie par un overlay,
+                l'emblème (Marianne) n'est pas lisible comme un logo net — on ne perçoit qu'une
+                ambiance bleu-blanc-rouge. Ce n'est donc PAS présenté comme une certification
+                ou une affiliation d'État (usage esthétique, pas un tampon officiel). */}
+            <div className="relative flex items-center gap-3 overflow-hidden rounded-2xl border border-white/20 bg-primary-dark/25 px-4 py-3 shadow-sm backdrop-blur-md transition-colors duration-300 hover:border-white/30">
+              <Image
+                src="/republique_france.jpg"
+                alt=""
                 aria-hidden
-                className="pointer-events-none absolute inset-y-0 left-0 w-1.5"
-                style={{
-                  backgroundImage:
-                    "linear-gradient(to bottom, #3d5aa8 0%, #3d5aa8 33%, #fafafa 33%, #fafafa 66%, #c8383f 66%, #c8383f 100%)",
-                }}
+                fill
+                sizes="(min-width: 640px) 360px, 100vw"
+                className="pointer-events-none absolute inset-0 scale-110 object-cover opacity-70 blur-[7px]"
               />
+              {/* Overlay neutre léger : préserve la teinte tricolore tout en dissolvant
+                  encore l'emblème. La lisibilité du texte est assurée par l'ombre portée. */}
+              <span aria-hidden className="pointer-events-none absolute inset-0 bg-black/35" />
               <span
                 aria-hidden
                 className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/70 to-transparent"
               />
-              <span className="relative flex size-10 shrink-0 items-center justify-center rounded-xl border border-white/25 bg-white/10 text-white shadow-inner ml-4">
+              <span className="relative flex size-10 shrink-0 items-center justify-center rounded-xl border border-white/25 bg-white/10 text-white shadow-inner">
                 <BadgeCheck className="size-5" />
               </span>
-              <div className="relative text-left leading-tight">
+              <div className="relative text-left leading-tight [text-shadow:0_1px_3px_rgba(0,0,0,0.75)]">
                 <p className="text-sm font-semibold text-white">Certibiocide</p>
-                <p className="mt-0.5 text-[11px] text-white/70">
+                <p className="mt-0.5 text-[11px] text-white/85">
                   Certification reconnue par le Ministère de l&apos;Agriculture
                 </p>
               </div>
