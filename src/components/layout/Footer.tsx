@@ -106,10 +106,10 @@ export function Footer() {
           </ul>
         </div>
 
-        {/* Nos interventions — services, nuisible phare et pages locales. */}
+        {/* Nos services — aperçu des principales interventions. */}
         <div>
           <p className="text-xs font-semibold uppercase tracking-widest text-accent-light">
-            Nos interventions
+            Nos services
           </p>
           <div className="mt-4 flex flex-wrap gap-1.5">
             {footerLinks.map((link) => (

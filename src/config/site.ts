@@ -31,9 +31,9 @@ export const siteConfig = {
   // description SEO (qui, elle, reste spécifique pour le référencement) : montre
   // l'étendue de l'activité et le caractère NON exhaustif des zones citées.
   footerAbout:
-    "Experts Nuisible traite un large éventail de nuisibles et de problématiques — rongeurs, insectes rampants et volants, désinfection et bien d'autres. Notre principal secteur d'intervention est Auxerre, Sens et l'Yonne ; nos techniciens interviennent aussi dans les communes, départements et régions voisins (Bourgogne-Franche-Comté, Centre-Val de Loire, Île-de-France…) et au-delà selon les besoins.",
+    "Experts Nuisible est un réseau de techniciens mobiles spécialisé dans le traitement de nombreux nuisibles : rongeurs, insectes rampants, insectes volants, parasites et autres problématiques liées à l'habitat et aux professionnels. Nous intervenons notamment autour d'Auxerre, Sens et dans l'Yonne, mais également dans les secteurs voisins en Bourgogne-Franche-Comté, Centre-Val de Loire, Île-de-France ainsi que dans de nombreuses communes et départements environnants.",
   serviceArea:
-    "Auxerre, Sens et l'Yonne (secteur principal) — et les communes, départements et régions voisins selon les besoins.",
+    "Interventions autour d'Auxerre, Sens et dans l'Yonne, ainsi que dans les secteurs voisins en Bourgogne-Franche-Comté, Centre-Val de Loire, Île-de-France et au-delà.",
   // Ancrage géographique réel = ville de base du réseau (Auxerre). Réseau de
   // techniciens mobiles : pas d'adresse de rue publique, on ne déclare donc que
   // le niveau ville/région (honnête) — consommé par le JSON-LD LocalBusiness
