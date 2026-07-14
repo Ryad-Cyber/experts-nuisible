@@ -23,7 +23,7 @@ export type CoverageRegion = {
 export const COVERAGE_REGIONS: CoverageRegion[] = [
   {
     name: "Bourgogne-Franche-Comté",
-    lead: "Notre ancrage principal, autour d'Auxerre et de Sens.",
+    lead: "Notre ancrage principal autour d'Auxerre et de Sens, avec des interventions dans l'ensemble de la région et les secteurs voisins.",
     departments: [
       { name: "Yonne", code: "89" },
       { name: "Nièvre", code: "58" },
@@ -33,7 +33,7 @@ export const COVERAGE_REGIONS: CoverageRegion[] = [
   },
   {
     name: "Centre-Val de Loire",
-    lead: "Une présence forte, notamment autour d'Orléans.",
+    lead: "Présence régulière dans toute la région, notamment autour d'Orléans et des principales villes.",
     departments: [
       { name: "Loiret", code: "45" },
       { name: "Loir-et-Cher", code: "41" },
@@ -45,7 +45,7 @@ export const COVERAGE_REGIONS: CoverageRegion[] = [
   },
   {
     name: "Île-de-France",
-    lead: "Interventions sur Paris et sa proche couronne.",
+    lead: "Interventions régulières en Île-de-France selon les besoins.",
     departments: [
       { name: "Paris", code: "75" },
       { name: "Seine-et-Marne", code: "77" },

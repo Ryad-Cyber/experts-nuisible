@@ -21,7 +21,7 @@ import { LOCAL_AREAS } from "@/data/localAreas";
 
 const title = "Zone d'intervention — Auxerre, Sens, Yonne et régions voisines";
 const description =
-  "Où intervenons-nous ? Un réseau de techniciens mobiles ancré autour d'Auxerre et de Sens (Yonne), en Bourgogne-Franche-Comté, Centre-Val de Loire et Île-de-France, sous 24 h, week-ends et jours fériés inclus. Votre ville n'est pas listée ? Appelez-nous.";
+  "Quelques secteurs où nous intervenons : un réseau de techniciens mobiles ancré autour d'Auxerre et de Sens (Yonne), avec des interventions en Bourgogne-Franche-Comté, Centre-Val de Loire, Île-de-France et au-delà selon les besoins. Votre ville n'est pas listée ? Appelez-nous.";
 
 export const metadata: Metadata = {
   title: `${title} — ${siteConfig.name}`,
@@ -88,7 +88,7 @@ export default function ZonesInterventionPage() {
         <div className="mt-6 grid gap-8 lg:grid-cols-[1fr_360px] lg:items-start">
           <div className="max-w-2xl">
             <h1 className="text-3xl font-semibold tracking-tight text-balance md:text-4xl">
-              Où intervenons-nous ?
+              Quelques secteurs où nous intervenons
             </h1>
             <p className="mt-3 text-base leading-relaxed text-muted-foreground">
               Experts Nuisible est un réseau de techniciens mobiles, avec un ancrage principal
@@ -137,6 +137,10 @@ export default function ZonesInterventionPage() {
                         </span>
                       </span>
                     ))}
+                    {/* Marque explicitement la liste comme non exhaustive. */}
+                    <span className="inline-flex items-center rounded-full border border-dashed border-border px-3.5 py-1.5 text-sm text-muted-foreground">
+                      et d&apos;autres secteurs
+                    </span>
                   </div>
                 </section>
               ))}
