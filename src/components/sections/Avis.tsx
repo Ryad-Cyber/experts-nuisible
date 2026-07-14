@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, useReducedMotion } from "framer-motion";
-import { BadgeCheck, Quote, Star } from "lucide-react";
+import { BadgeCheck, Clock, MapPin, Quote, ShieldCheck, Star, type LucideIcon } from "lucide-react";
 import { Section } from "@/components/ui/Section";
 import { Reveal, StaggerGroup, StaggerItem } from "@/components/ui/Reveal";
 import { cn } from "@/lib/utils";
@@ -16,6 +16,15 @@ const AVATAR_GRADIENTS = [
   "from-accent-dark to-secondary",
 ];
 
+// Réassurance de clôture — uniquement des engagements déjà affichés ailleurs sur
+// le site (Garantie, Hero Certibiocide, disponibilité). Aucune donnée nouvelle,
+// aucune répétition de la note (portée par l'en-tête).
+const TRUST_SIGNALS: { icon: LucideIcon; label: string }[] = [
+  { icon: ShieldCheck, label: "Garantie résultat 30 jours" },
+  { icon: BadgeCheck, label: "Techniciens certifiés Certibiocide" },
+  { icon: Clock, label: "Disponible 24h/24, 7j/7" },
+];
+
 function initials(name: string) {
   return name
     .split(" ")
@@ -24,6 +33,21 @@ function initials(name: string) {
     .slice(0, 2)
     .join("")
     .toUpperCase();
+}
+
+function Stars({ rating }: { rating: number }) {
+  return (
+    <div className="flex gap-0.5" aria-label={`${rating} sur 5`}>
+      {Array.from({ length: 5 }).map((_, index) => (
+        <Star
+          key={index}
+          className={cn("size-4", index < rating ? "text-accent" : "text-border")}
+          fill={index < rating ? "currentColor" : "none"}
+          strokeWidth={index < rating ? 0 : 1.5}
+        />
+      ))}
+    </div>
+  );
 }
 
 function TestimonialCard({
@@ -39,55 +63,54 @@ function TestimonialCard({
     <motion.div
       whileHover={prefersReducedMotion ? undefined : { y: -6 }}
       transition={{ type: "spring", stiffness: 300, damping: 22 }}
-      className="group relative flex h-full flex-col gap-3 overflow-hidden rounded-2xl border border-white/60 bg-white/70 p-4 shadow-md backdrop-blur-xl transition-shadow duration-300 hover:shadow-xl hover:shadow-secondary/10"
+      className="group relative flex h-full flex-col gap-4 overflow-hidden rounded-2xl border border-white/60 bg-white/70 p-5 shadow-md backdrop-blur-xl transition-shadow duration-300 hover:shadow-xl hover:shadow-secondary/10"
     >
       {/* Soft glow that blooms in on hover */}
       <div className="pointer-events-none absolute -right-10 -top-10 size-32 rounded-full bg-accent/0 blur-2xl transition-colors duration-500 group-hover:bg-accent/20" />
 
+      {/* Note en tête : la première information (réassurance immédiate). */}
       <div className="relative flex items-center justify-between">
-        <div className="flex gap-0.5" aria-label={`${testimonial.rating} sur 5`}>
-          {Array.from({ length: 5 }).map((_, index) => (
-            <Star
-              key={index}
-              className={cn(
-                "size-3.5",
-                index < testimonial.rating ? "text-accent" : "text-border"
-              )}
-              fill={index < testimonial.rating ? "currentColor" : "none"}
-              strokeWidth={index < testimonial.rating ? 0 : 1.5}
-            />
-          ))}
-        </div>
-        <Quote className="size-6 text-secondary/25" strokeWidth={1.5} />
+        <Stars rating={testimonial.rating} />
+        {/* Badge affiché uniquement pour les futurs avis Google vérifiés. */}
+        {testimonial.source === "google" && testimonial.verified && (
+          <span className="inline-flex shrink-0 items-center gap-1 rounded-full bg-secondary/10 px-2 py-0.5 text-[10px] font-semibold text-secondary">
+            <BadgeCheck className="size-3" />
+            Avis Google
+          </span>
+        )}
       </div>
 
-      <p className="relative flex-1 text-sm leading-relaxed text-foreground/90">
-        &ldquo;{testimonial.quote}&rdquo;
+      {/* Guillemet décoratif — signe "témoignage", motif premium discret. */}
+      <Quote
+        aria-hidden
+        className="relative -mb-1.5 size-7 shrink-0 text-secondary/25"
+        fill="currentColor"
+        strokeWidth={0}
+      />
+
+      {/* L'avis : élément focal de la carte. */}
+      <p className="relative flex-1 text-[15px] leading-relaxed text-foreground/90">
+        {testimonial.quote}
       </p>
 
-      <div className="relative flex items-center gap-2.5 border-t border-border/60 pt-2.5">
+      {/* Auteur : nom + vraie localisation, clairement hiérarchisés. */}
+      <div className="relative flex items-center gap-3 border-t border-border/60 pt-3.5">
         <span
           className={cn(
-            "flex size-9 shrink-0 items-center justify-center rounded-full bg-gradient-to-br text-xs font-semibold text-white shadow-sm",
+            "flex size-10 shrink-0 items-center justify-center rounded-full bg-gradient-to-br text-sm font-semibold text-white shadow-sm",
             gradient
           )}
         >
           {initials(testimonial.author)}
         </span>
         <div className="min-w-0">
-          <p className="text-sm font-semibold leading-tight">{testimonial.author}</p>
-          <p className="truncate text-xs text-muted-foreground">
+          <p className="text-sm font-semibold leading-tight text-foreground">{testimonial.author}</p>
+          <p className="mt-0.5 flex items-center gap-1 truncate text-xs text-muted-foreground">
+            <MapPin className="size-3 shrink-0 text-secondary/70" />
             {testimonial.location}
             {testimonial.service && <> · {testimonial.service}</>}
           </p>
         </div>
-        {/* Badge affiché uniquement pour les futurs avis Google vérifiés. */}
-        {testimonial.source === "google" && testimonial.verified && (
-          <span className="ml-auto inline-flex shrink-0 items-center gap-1 rounded-full bg-secondary/10 px-2 py-0.5 text-[10px] font-semibold text-secondary">
-            <BadgeCheck className="size-3" />
-            Avis Google
-          </span>
-        )}
       </div>
     </motion.div>
   );
@@ -122,19 +145,7 @@ export function Avis() {
         </p>
 
         <div className="mt-3.5 inline-flex items-center gap-2 rounded-full border border-border bg-background/80 px-3.5 py-1.5 shadow-sm backdrop-blur-sm">
-          <div className="flex gap-0.5">
-            {Array.from({ length: 5 }).map((_, index) => (
-              <Star
-                key={index}
-                className={cn(
-                  "size-3.5",
-                  index < Math.round(averageRating) ? "text-accent" : "text-border"
-                )}
-                fill={index < Math.round(averageRating) ? "currentColor" : "none"}
-                strokeWidth={index < Math.round(averageRating) ? 0 : 1.5}
-              />
-            ))}
-          </div>
+          <Stars rating={Math.round(averageRating)} />
           <span className="text-sm font-semibold">
             {averageRating.toLocaleString("fr-FR")}/5
           </span>
@@ -154,6 +165,19 @@ export function Avis() {
           </StaggerItem>
         ))}
       </StaggerGroup>
+
+      {/* Réassurance avant la suite du parcours de conversion. */}
+      <Reveal
+        delay={0.1}
+        className="relative mx-auto mt-8 flex max-w-3xl flex-wrap items-center justify-center gap-x-6 gap-y-2.5 rounded-2xl border border-border/70 bg-background/70 px-6 py-4 text-sm font-medium text-foreground/85 shadow-sm backdrop-blur-sm"
+      >
+        {TRUST_SIGNALS.map(({ icon: Icon, label }) => (
+          <span key={label} className="inline-flex items-center gap-2">
+            <Icon className="size-4 shrink-0 text-secondary" />
+            {label}
+          </span>
+        ))}
+      </Reveal>
     </Section>
   );
 }

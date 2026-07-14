@@ -17,9 +17,9 @@ import { siteConfig } from "@/config/site";
 import { services } from "@/data/services";
 import { COVERAGE_REGIONS } from "@/data/coverage";
 
-const title = "Zone d'intervention — Île-de-France, Centre-Val de Loire";
+const title = "Zone d'intervention — Auxerre, Sens, Yonne et régions voisines";
 const description =
-  "Où intervenons-nous ? Un réseau de techniciens mobiles en Île-de-France, Centre-Val de Loire et Bourgogne-Franche-Comté, sous 24 h, week-ends et jours fériés inclus. Votre ville n'est pas listée ? Appelez-nous.";
+  "Où intervenons-nous ? Un réseau de techniciens mobiles ancré autour d'Auxerre et de Sens (Yonne), en Bourgogne-Franche-Comté, Centre-Val de Loire et Île-de-France, sous 24 h, week-ends et jours fériés inclus. Votre ville n'est pas listée ? Appelez-nous.";
 
 export const metadata: Metadata = {
   title: `${title} — ${siteConfig.name}`,

@@ -38,6 +38,19 @@ export function CoverageMap({ moreHref = "#contact" }: { moreHref?: string }) {
           />
         ))}
 
+        {/* Territoire du pôle principal — Bourgogne-Franche-Comté (Sens + Auxerre) :
+            un contour discret transforme le halo déjà présent en zone identifiable. */}
+        <ellipse
+          cx={82}
+          cy={36}
+          rx={16}
+          ry={18}
+          fill="none"
+          className="stroke-secondary/45"
+          strokeWidth={0.5}
+          strokeDasharray="2 2"
+        />
+
         {!prefersReducedMotion &&
           [0, 1].map((i) => (
             <motion.circle
@@ -53,6 +66,21 @@ export function CoverageMap({ moreHref = "#contact" }: { moreHref?: string }) {
             />
           ))}
       </svg>
+
+      {/* Repères de régions — discrets : les villes restent les éléments lisibles,
+          les régions se comprennent d'un coup d'œil, le pôle principal ressort. */}
+      <span className="pointer-events-none absolute left-[52%] top-[1%] -translate-x-1/2 text-[9px] font-semibold uppercase tracking-wider text-muted-foreground/70">
+        Île-de-France
+      </span>
+      <span className="pointer-events-none absolute right-[2.5%] top-[2%] max-w-[30%] text-right text-[9px] font-bold uppercase leading-tight tracking-wider text-secondary">
+        Bourgogne-Franche-Comté
+        <span className="mt-0.5 block text-[7.5px] font-semibold tracking-wide text-accent-dark">
+          Pôle principal
+        </span>
+      </span>
+      <span className="pointer-events-none absolute bottom-[4%] left-[2.5%] max-w-[28%] text-[9px] font-semibold uppercase leading-tight tracking-wider text-muted-foreground/70">
+        Centre-Val de Loire
+      </span>
 
       {COVERAGE_HUBS.map((hub) => (
         <button

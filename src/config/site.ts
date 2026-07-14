@@ -12,9 +12,9 @@ export function whatsappHrefFor(message: string): string {
 
 export const siteConfig = {
   name: "Experts Nuisible",
-  tagline: "Intervention rapide contre les nuisibles, 24h/24 et 7j/7",
+  tagline: "Anti-nuisibles à Auxerre, Sens et dans l'Yonne — 24h/24",
   description:
-    "Experts Nuisible intervient en urgence pour la dératisation, la désinsectisation et la désinfection, grâce à un réseau de techniciens couvrant de nombreuses agglomérations françaises.",
+    "Experts Nuisible intervient en urgence pour la dératisation, la désinsectisation et la désinfection à Auxerre, Sens et dans l'Yonne, ainsi qu'en Bourgogne-Franche-Comté, Centre-Val de Loire et Île-de-France — auprès des particuliers comme des professionnels (restaurants, commerces, entreprises).",
   url: "https://www.experts-nuisible.fr",
   phone: {
     display: "07 66 90 90 33",
@@ -27,7 +27,8 @@ export const siteConfig = {
     ),
   },
   email: "Contact@expertsnuisible.com",
-  serviceArea: "Réseau de techniciens dans de nombreuses agglomérations françaises",
+  serviceArea:
+    "Auxerre, Sens et l'Yonne · Bourgogne-Franche-Comté, Centre-Val de Loire et Île-de-France",
   hours: [
     { days: "Disponibilité", hours: "24h/24 · 7j/7 · week-ends et jours fériés inclus" },
   ] as BusinessHours[],

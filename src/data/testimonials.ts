@@ -4,7 +4,7 @@ export const testimonials: Testimonial[] = [
   {
     id: "1",
     author: "Sophie M.",
-    location: "Paris 11e",
+    location: "Auxerre",
     rating: 5,
     quote:
       "Intervention le jour même pour un problème de rats, équipe très professionnelle et discrète.",
@@ -13,7 +13,7 @@ export const testimonials: Testimonial[] = [
   {
     id: "2",
     author: "Karim B.",
-    location: "Boulogne-Billancourt",
+    location: "Sens",
     rating: 5,
     quote:
       "Nid de guêpes traité en moins d'une heure, je recommande vivement Experts Nuisible.",
@@ -22,7 +22,7 @@ export const testimonials: Testimonial[] = [
   {
     id: "3",
     author: "Restaurant Le Basilic",
-    location: "Paris 9e",
+    location: "Orléans",
     rating: 5,
     quote:
       "Contrat annuel de prévention pour notre restaurant, suivi rigoureux et rapports détaillés.",
@@ -31,7 +31,7 @@ export const testimonials: Testimonial[] = [
   {
     id: "4",
     author: "Julie D.",
-    location: "Levallois-Perret",
+    location: "Melun",
     rating: 4,
     quote:
       "Punaises de lit éliminées définitivement, bon accompagnement pendant tout le traitement.",

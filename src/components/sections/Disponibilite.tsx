@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { animate, useInView, useMotionValue, useReducedMotion } from "framer-motion";
-import { ArrowRight, CalendarClock, CheckCircle2, type LucideIcon } from "lucide-react";
+import { Activity, ArrowRight, CalendarClock, CheckCircle2, type LucideIcon } from "lucide-react";
 import { Section } from "@/components/ui/Section";
 import { Reveal } from "@/components/ui/Reveal";
 import { CoverageMap } from "./CoverageMap";
@@ -125,6 +125,16 @@ export function Disponibilite() {
                   </p>
                   <p className="text-xs text-muted-foreground">Un technicien vous répond directement</p>
                 </div>
+              </div>
+
+              {/* Signal d'activité qualitatif — honnête, sans chiffre ni compteur :
+                  montre une présence terrain régulière (particuliers + professionnels). */}
+              <div className="flex items-center gap-2.5 rounded-xl border border-white/60 bg-white/50 px-3.5 py-2.5">
+                <Activity className="size-4 shrink-0 text-secondary" />
+                <p className="text-xs font-medium text-foreground/80">
+                  Des interventions régulières chaque semaine dans la région, auprès des
+                  particuliers comme des professionnels.
+                </p>
               </div>
             </div>
           </div>

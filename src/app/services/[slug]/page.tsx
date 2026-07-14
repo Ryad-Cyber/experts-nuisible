@@ -169,7 +169,7 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
                 className="group mt-4 inline-flex items-center gap-1.5 text-sm font-medium text-secondary transition-colors hover:text-foreground"
               >
                 <MapPin className="size-4 shrink-0" />
-                Intervention en Île-de-France et Centre-Val de Loire
+                Intervention à Auxerre, Sens et dans l&apos;Yonne — et régions voisines
                 <ArrowRight className="size-3.5 transition-transform duration-300 group-hover:translate-x-0.5" />
               </Link>
             </header>
