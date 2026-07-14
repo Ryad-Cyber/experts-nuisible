@@ -64,6 +64,20 @@ export function LocalBusinessJsonLd() {
     telephone: siteConfig.phone.href.replace("tel:", ""),
     email: siteConfig.email,
     image: `${siteConfig.url}/logo_nuisible.jpeg`,
+    // Ancrage ville réel (Auxerre) — sans streetAddress (réseau mobile, pas de
+    // premises public) : renforce la pertinence locale sans rien inventer.
+    address: {
+      "@type": "PostalAddress",
+      addressLocality: siteConfig.location.city,
+      postalCode: siteConfig.location.postalCode,
+      addressRegion: siteConfig.location.region,
+      addressCountry: siteConfig.location.country,
+    },
+    geo: {
+      "@type": "GeoCoordinates",
+      latitude: siteConfig.location.latitude,
+      longitude: siteConfig.location.longitude,
+    },
     // No fixed premises: service area only, no fabricated street address. Régions
     // et départements réellement desservis (source unique data/coverage.ts) —
     // rien d'inventé, chaque zone figure sur la page /zones-intervention.

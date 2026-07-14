@@ -6,14 +6,14 @@ import { siteConfig } from "@/config/site";
 import { services } from "@/data/services";
 
 export const metadata: Metadata = {
-  title: `Nos services anti-nuisibles : dératisation, désinsectisation, désinfection — ${siteConfig.name}`,
+  title: `Services anti-nuisibles à Auxerre et dans l'Yonne : dératisation, désinsectisation — ${siteConfig.name}`,
   description:
-    "Dératisation, désinsectisation, désinfection, nuisibles volants, prévention et contrats professionnels — intervention rapide, prix annoncé avant intervention.",
+    "Dératisation, désinsectisation, désinfection, nuisibles volants, prévention et contrats professionnels à Auxerre, Sens et dans l'Yonne — intervention rapide, prix annoncé avant intervention.",
   alternates: { canonical: "/services" },
   openGraph: {
-    title: "Nos services anti-nuisibles",
+    title: "Services anti-nuisibles à Auxerre et dans l'Yonne",
     description:
-      "Dératisation, désinsectisation, désinfection, nuisibles volants, prévention et contrats professionnels.",
+      "Dératisation, désinsectisation, désinfection, nuisibles volants, prévention et contrats professionnels à Auxerre et dans l'Yonne.",
     url: "/services",
   },
 };

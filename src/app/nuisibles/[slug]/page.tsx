@@ -92,6 +92,29 @@ function BreadcrumbJsonLd({ pest }: { pest: PestGuideEntry }) {
   );
 }
 
+// Schema Article : ce contenu est un vrai guide rédigé par l'entreprise (E-E-A-T).
+// Pas de date inventée — datePublished/dateModified omis tant qu'ils ne sont pas réels.
+function ArticleJsonLd({ pest }: { pest: PestGuideEntry }) {
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: `${pest.name} : signes de présence, urgence et traitement`,
+    description: metaDescription(pest),
+    inLanguage: "fr-FR",
+    mainEntityOfPage: `${siteConfig.url}/nuisibles/${pest.id}`,
+    ...(pest.photo ? { image: `${siteConfig.url}${pest.photo}` } : {}),
+    author: { "@type": "Organization", name: siteConfig.name, url: siteConfig.url },
+    publisher: {
+      "@type": "Organization",
+      name: siteConfig.name,
+      logo: { "@type": "ImageObject", url: `${siteConfig.url}/logo_nuisible.jpeg` },
+    },
+  };
+  return (
+    <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+  );
+}
+
 // Même grammaire visuelle que la fiche de l'identificateur : icône + titre en
 // petites capitales + liste à puces ; ton "warning" pour les erreurs à éviter.
 function FicheBlock({
@@ -174,6 +197,7 @@ export default async function PestPage({ params }: { params: Promise<{ slug: str
   return (
     <main className="bg-background py-10 md:py-14">
       <BreadcrumbJsonLd pest={pest} />
+      <ArticleJsonLd pest={pest} />
       <Container>
         {/* Fil d'Ariane */}
         <nav aria-label="Fil d'Ariane" className="flex flex-wrap items-center gap-1.5 text-xs text-muted-foreground">

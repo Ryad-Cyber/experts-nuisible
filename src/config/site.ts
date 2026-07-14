@@ -29,6 +29,18 @@ export const siteConfig = {
   email: "Contact@expertsnuisible.com",
   serviceArea:
     "Auxerre, Sens et l'Yonne · Bourgogne-Franche-Comté, Centre-Val de Loire et Île-de-France",
+  // Ancrage géographique réel = ville de base du réseau (Auxerre). Réseau de
+  // techniciens mobiles : pas d'adresse de rue publique, on ne déclare donc que
+  // le niveau ville/région (honnête) — consommé par le JSON-LD LocalBusiness
+  // (PostalAddress sans streetAddress + GeoCoordinates du centre-ville d'Auxerre).
+  location: {
+    city: "Auxerre",
+    postalCode: "89000",
+    region: "Bourgogne-Franche-Comté",
+    country: "FR",
+    latitude: 47.7982,
+    longitude: 3.5674,
+  },
   hours: [
     { days: "Disponibilité", hours: "24h/24 · 7j/7 · week-ends et jours fériés inclus" },
   ] as BusinessHours[],

@@ -37,12 +37,12 @@ export function generateStaticParams() {
 // Titres SEO différenciés par intention de recherche — composés uniquement à
 // partir des descriptions de services.ts (aucune promesse nouvelle).
 const SEO_TITLES: Record<string, string> = {
-  deratisation: "Dératisation : élimination rapide des rats et souris",
-  desinsectisation: "Désinsectisation : punaises de lit, cafards, fourmis",
-  desinfection: "Désinfection de locaux : bactéries, virus, odeurs",
-  professionnels: "Anti-nuisibles pour professionnels : contrats & interventions",
-  "nuisibles-volants": "Guêpes, frelons, pigeons : traitement des nids en sécurité",
-  prevention: "Prévention & suivi : diagnostic et plan anti-récidive",
+  deratisation: "Dératisation à Auxerre et dans l'Yonne : rats et souris",
+  desinsectisation: "Désinsectisation à Auxerre : punaises de lit, cafards, fourmis",
+  desinfection: "Désinfection de locaux à Auxerre et dans l'Yonne : bactéries, virus, odeurs",
+  professionnels: "Anti-nuisibles pour professionnels à Auxerre et dans l'Yonne",
+  "nuisibles-volants": "Guêpes, frelons, pigeons à Auxerre : traitement des nids en sécurité",
+  prevention: "Prévention & suivi anti-nuisibles à Auxerre et dans l'Yonne",
 };
 
 // Réassurance transverse — uniquement des engagements déjà affichés sur le site.

@@ -65,8 +65,8 @@ export function Hero() {
 
           <StaggerItem>
             <p className="max-w-xl text-sm text-white/75 md:text-base">
-              Dératisation, désinsectisation, désinfection — pour les particuliers comme pour
-              les professionnels.
+              Dératisation, désinsectisation, désinfection à Auxerre, Sens et dans l&apos;Yonne —
+              pour les particuliers comme pour les professionnels.
             </p>
           </StaggerItem>
 

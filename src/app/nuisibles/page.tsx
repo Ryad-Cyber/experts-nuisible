@@ -7,12 +7,12 @@ import { siteConfig } from "@/config/site";
 import { PEST_CATEGORIES, pestsInCategory } from "@/data/pestGuide";
 
 export const metadata: Metadata = {
-  title: `Nuisibles : identifier les signes et savoir quand agir — ${siteConfig.name}`,
+  title: `Nuisibles à Auxerre et dans l'Yonne : signes, urgence et traitement — ${siteConfig.name}`,
   description:
-    "Rats, souris, punaises de lit, cafards, guêpes, frelons… Pour chaque nuisible : les signes de présence, le niveau d'urgence, les erreurs à éviter et la première action à faire.",
+    "Rats, souris, punaises de lit, cafards, guêpes, frelons… Pour chaque nuisible : les signes de présence, le niveau d'urgence, les erreurs à éviter et la première action à faire. Intervention à Auxerre, Sens et dans l'Yonne.",
   alternates: { canonical: "/nuisibles" },
   openGraph: {
-    title: "Nuisibles : identifier les signes et savoir quand agir",
+    title: "Nuisibles à Auxerre et dans l'Yonne : signes, urgence et traitement",
     description:
       "Pour chaque nuisible : signes de présence, niveau d'urgence, erreurs à éviter et première action à faire avant l'arrivée du technicien.",
     url: "/nuisibles",
