@@ -21,6 +21,7 @@ import { services } from "@/data/services";
 import { PEST_GUIDE } from "@/data/pestGuide";
 import { testimonials } from "@/data/testimonials";
 import { INTERVENTION_STEPS } from "@/data/interventionSteps";
+import { SERVICE_CONTENT } from "@/data/serviceContent";
 
 // ---------------------------------------------------------------------------
 // Pages services — générées depuis services.ts. Chaque page a un objectif
@@ -120,6 +121,7 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
   const coveredPests = PEST_GUIDE.filter((pest) => pest.serviceId === service.id);
   const review = testimonials.find((entry) => entry.serviceId === service.id);
   const otherServices = services.filter((entry) => entry.id !== service.id);
+  const content = SERVICE_CONTENT[service.id];
 
   return (
     <main className="bg-background py-10 md:py-14">
@@ -174,6 +176,18 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
               </Link>
             </header>
 
+            {/* Le problème traité — contexte utile propre au service (serviceContent.ts). */}
+            {content && (
+              <section className="mt-9">
+                <h2 className="text-sm font-semibold uppercase tracking-wider text-secondary">
+                  Pourquoi il faut agir
+                </h2>
+                <p className="mt-3 text-sm leading-relaxed text-muted-foreground md:text-base">
+                  {content.intro}
+                </p>
+              </section>
+            )}
+
             {/* Nuisibles couverts — liens vers les fiches, pas de duplication. */}
             {coveredPests.length > 0 && (
               <section className="mt-9">
@@ -185,6 +199,18 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
                     <PestLinkCard key={pest.id} pest={pest} />
                   ))}
                 </div>
+              </section>
+            )}
+
+            {/* Notre méthode — approche technique propre au service. */}
+            {content && (
+              <section className="mt-9">
+                <h2 className="text-sm font-semibold uppercase tracking-wider text-secondary">
+                  Notre méthode d&apos;intervention
+                </h2>
+                <p className="mt-3 text-sm leading-relaxed text-muted-foreground md:text-base">
+                  {content.method}
+                </p>
               </section>
             )}
 
@@ -213,8 +239,55 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
               </ol>
             </section>
 
+            {/* Cas fréquents + publics concernés (particuliers/professionnels, local). */}
+            {content && (
+              <section className="mt-9">
+                <h2 className="text-sm font-semibold uppercase tracking-wider text-secondary">
+                  Cas fréquents
+                </h2>
+                <ul className="mt-4 space-y-2">
+                  {content.commonCases.map((item) => (
+                    <li
+                      key={item}
+                      className="flex items-start gap-2.5 text-sm leading-relaxed text-muted-foreground"
+                    >
+                      <span aria-hidden className="mt-2 size-1 shrink-0 rounded-full bg-secondary/60" />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+                <p className="mt-4 text-sm leading-relaxed text-muted-foreground md:text-base">
+                  {content.audiences}
+                </p>
+              </section>
+            )}
+
             {/* Preuve terrain : médias réels d'interventions liés à ce service. */}
             <FieldProofGallery proofs={proofsForService(service.id)} />
+
+            {/* FAQ courte, spécifique au service (contenu utile + SEO). */}
+            {content && content.faq.length > 0 && (
+              <section className="mt-9">
+                <h2 className="text-sm font-semibold uppercase tracking-wider text-secondary">
+                  Questions fréquentes
+                </h2>
+                <div className="mt-4 flex flex-col gap-3">
+                  {content.faq.map((item) => (
+                    <div
+                      key={item.question}
+                      className="rounded-2xl border border-border bg-muted/40 p-4"
+                    >
+                      <h3 className="text-sm font-semibold tracking-tight text-foreground">
+                        {item.question}
+                      </h3>
+                      <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">
+                        {item.answer}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              </section>
+            )}
 
             {/* Avis réel correspondant au service, quand il existe. */}
             {review && (

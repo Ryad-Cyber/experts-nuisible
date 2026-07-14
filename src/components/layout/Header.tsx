@@ -185,9 +185,9 @@ export function Header() {
         scrolled ? "border-border/60 shadow-sm" : "border-transparent"
       )}
     >
-      <Container className="grid h-16 grid-cols-[1fr_auto] items-center md:h-18 md:grid-cols-[1fr_auto_1fr]">
+      <Container className="grid h-18 grid-cols-[1fr_auto] items-center md:grid-cols-[1fr_auto_1fr]">
         <Link href="/" className="flex items-center gap-2.5 justify-self-start">
-          <Logo size="md" className="size-15 md:size-17" />
+          <Logo size="md" className="size-17" />
           <span className="bg-gradient-to-r from-primary to-primary-light bg-clip-text text-base font-semibold tracking-tight text-transparent drop-shadow-[0_1px_4px_rgb(30_122_76_/_0.12)] md:text-lg">
             {siteConfig.name}
           </span>

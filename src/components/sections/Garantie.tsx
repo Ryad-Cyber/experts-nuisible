@@ -45,15 +45,17 @@ function GuaranteeMedallion() {
         />
       </motion.svg>
 
-      {/* Counter-rotating inner ring */}
+      {/* Counter-rotating inner ring — même boîte (inset-0 h-full w-full) que l'anneau
+          pointillé pour rester parfaitement concentrique ; rayon plus petit pour se
+          placer à l'intérieur, autour du cœur "30 jours". */}
       <motion.svg
         viewBox="0 0 100 100"
-        className="absolute inset-5 text-secondary"
+        className="absolute inset-0 h-full w-full text-secondary"
         aria-hidden
         animate={prefersReducedMotion ? undefined : { rotate: -360 }}
         transition={{ duration: 55, repeat: Infinity, ease: "linear" }}
       >
-        <circle cx="50" cy="50" r="46" fill="none" stroke="currentColor" strokeWidth="0.6" opacity="0.35" />
+        <circle cx="50" cy="50" r="41" fill="none" stroke="currentColor" strokeWidth="0.6" opacity="0.35" />
       </motion.svg>
 
       {/* Glass core */}
