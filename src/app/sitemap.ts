@@ -2,6 +2,7 @@ import type { MetadataRoute } from "next";
 import { siteConfig } from "@/config/site";
 import { PEST_GUIDE } from "@/data/pestGuide";
 import { services } from "@/data/services";
+import { LOCAL_AREAS } from "@/data/localAreas";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   return [
@@ -53,6 +54,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly",
       priority: 0.7,
     },
+    ...LOCAL_AREAS.map((area) => ({
+      url: `${siteConfig.url}/zones-intervention/${area.slug}`,
+      lastModified: new Date(),
+      changeFrequency: "monthly" as const,
+      priority: 0.8,
+    })),
     {
       url: `${siteConfig.url}/mentions-legales`,
       lastModified: new Date(),

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
 import {
+  ArrowRight,
   CalendarClock,
   ChevronRight,
   Clock,
@@ -16,6 +17,7 @@ import { WhatsAppIcon } from "@/components/ui/WhatsAppIcon";
 import { siteConfig } from "@/config/site";
 import { services } from "@/data/services";
 import { COVERAGE_REGIONS } from "@/data/coverage";
+import { LOCAL_AREAS } from "@/data/localAreas";
 
 const title = "Zone d'intervention — Auxerre, Sens, Yonne et régions voisines";
 const description =
@@ -94,6 +96,26 @@ export default function ZonesInterventionPage() {
               (Orléans, Blois, Tours, Chartres) et en Île-de-France, ainsi que dans de nombreux
               départements et communes environnants selon les besoins.
             </p>
+
+            {/* Pôles principaux — pages villes dédiées (référencement local). */}
+            <div className="mt-6">
+              <p className="text-xs font-semibold uppercase tracking-wider text-secondary">
+                Nos pôles principaux
+              </p>
+              <div className="mt-3 flex flex-wrap gap-3">
+                {LOCAL_AREAS.map((area) => (
+                  <Link
+                    key={area.slug}
+                    href={`/zones-intervention/${area.slug}`}
+                    className="group inline-flex items-center gap-2 rounded-full border border-secondary/40 bg-secondary/5 px-4 py-2 text-sm font-semibold text-foreground shadow-sm transition-colors hover:border-secondary hover:bg-secondary/10"
+                  >
+                    <MapPin className="size-4 text-secondary" />
+                    Nuisibles à {area.city}
+                    <ArrowRight className="size-3.5 text-secondary transition-transform duration-300 group-hover:translate-x-0.5" />
+                  </Link>
+                ))}
+              </div>
+            </div>
 
             <div className="mt-7 flex flex-col gap-6">
               {COVERAGE_REGIONS.map((region) => (
