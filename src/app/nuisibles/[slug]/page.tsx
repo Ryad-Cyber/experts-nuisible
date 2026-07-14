@@ -193,6 +193,16 @@ export default async function PestPage({ params }: { params: Promise<{ slug: str
 
   const category = PEST_CATEGORIES.find((entry) => entry.id === pest.category);
   const siblings = pestsInCategory(pest.category).filter((entry) => entry.id !== pest.id);
+  // Suggestions manuelles cross-catégorie (ex. Termites sur Rats, Acariens sur
+  // Punaises) — ajoutées aux voisins de même catégorie, sans doublon ni auto-lien.
+  const seenSiblingIds = new Set(siblings.map((entry) => entry.id));
+  const relatedManual = (pest.relatedIds ?? [])
+    .map((id) => PEST_BY_ID[id])
+    .filter(
+      (entry): entry is PestGuideEntry =>
+        Boolean(entry) && entry.id !== pest.id && !seenSiblingIds.has(entry.id)
+    );
+  const related = [...siblings, ...relatedManual];
 
   return (
     <main className="bg-background py-10 md:py-14">
@@ -298,20 +308,20 @@ export default async function PestPage({ params }: { params: Promise<{ slug: str
           </aside>
         </div>
 
-        {/* Maillage : autres nuisibles de la même catégorie */}
-        {siblings.length > 0 && category && (
+        {/* Maillage : nuisibles associés (même catégorie + suggestions manuelles). */}
+        {related.length > 0 && (
           <section className="mt-12 border-t border-border pt-8">
             <h2 className="text-sm font-semibold uppercase tracking-wider text-secondary">
-              Autres nuisibles — {category.label}
+              Nuisibles associés
             </h2>
             <div className="mt-4 flex flex-wrap gap-2.5">
-              {siblings.map((sibling) => (
+              {related.map((entry) => (
                 <Link
-                  key={sibling.id}
-                  href={`/nuisibles/${sibling.id}`}
+                  key={entry.id}
+                  href={`/nuisibles/${entry.id}`}
                   className="inline-flex items-center gap-1.5 rounded-full border border-border bg-background px-3.5 py-1.5 text-sm font-medium text-foreground/85 shadow-sm transition-colors hover:border-secondary/50 hover:text-foreground"
                 >
-                  {sibling.name}
+                  {entry.name}
                 </Link>
               ))}
               <Link

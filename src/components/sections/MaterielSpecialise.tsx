@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { Radar } from "lucide-react";
@@ -8,6 +8,9 @@ import { SPECIALIZED_TOOLS } from "@/data/equipment";
 import { cn } from "@/lib/utils";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
+
+// Défilement automatique discret des cartes (~3 s), cohérent avec le reste du site.
+const AUTO_ROTATE_MS = 3000;
 
 // -----------------------------------------------------------------------------
 // Matériel pour interventions complexes en hauteur ou à distance (nids en
@@ -18,7 +21,20 @@ const EASE = [0.16, 1, 0.3, 1] as const;
 export function MaterielSpecialise() {
   const prefersReducedMotion = Boolean(useReducedMotion());
   const [selectedId, setSelectedId] = useState(SPECIALIZED_TOOLS[0].id);
+  const [autoRotate, setAutoRotate] = useState(true);
   const selected = SPECIALIZED_TOOLS.find((tool) => tool.id === selectedId) ?? SPECIALIZED_TOOLS[0];
+
+  // setTimeout replanifié à chaque tour ; arrêt définitif dès la première interaction.
+  useEffect(() => {
+    if (!autoRotate || prefersReducedMotion) return;
+    const timer = setTimeout(() => {
+      setSelectedId((current) => {
+        const index = SPECIALIZED_TOOLS.findIndex((tool) => tool.id === current);
+        return SPECIALIZED_TOOLS[(index + 1) % SPECIALIZED_TOOLS.length].id;
+      });
+    }, AUTO_ROTATE_MS);
+    return () => clearTimeout(timer);
+  }, [autoRotate, prefersReducedMotion, selectedId]);
 
   return (
     <div className="mt-10">
@@ -43,7 +59,10 @@ export function MaterielSpecialise() {
             <button
               key={tool.id}
               type="button"
-              onClick={() => setSelectedId(tool.id)}
+              onClick={() => {
+                setAutoRotate(false);
+                setSelectedId(tool.id);
+              }}
               aria-pressed={isSelected}
               aria-label={`Voir : ${tool.label}`}
               className={cn(

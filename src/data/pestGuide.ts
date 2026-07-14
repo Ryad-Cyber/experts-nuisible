@@ -43,6 +43,9 @@ export type PestGuideEntry = {
   whenToCall: string;
   /** Message WhatsApp pré-écrit, contextualisé au nuisible. */
   whatsappMessage: string;
+  /** Suggestions manuelles de nuisibles liés (cross-catégorie), affichées en plus
+   *  des voisins de même catégorie dans la section « Nuisibles associés ». */
+  relatedIds?: string[];
 };
 
 export const DEFAULT_PEST_ID = "rats";
@@ -75,6 +78,7 @@ export const PEST_GUIDE: PestGuideEntry[] = [
     id: "rats",
     name: "Rats",
     category: "rongeurs",
+    relatedIds: ["termites"],
     model: { file: "/rat_3D.glb", tuning: { scale: 1.3, offsetY: 0.12 } },
     serviceId: "deratisation",
     description:
@@ -229,6 +233,7 @@ export const PEST_GUIDE: PestGuideEntry[] = [
     id: "punaises",
     name: "Punaises de lit",
     category: "rampants",
+    relatedIds: ["acariens"],
     model: { file: "/punaise_lit_3D.glb", tuning: { scale: 1.3 } },
     photo: "/punaise.jpg",
     serviceId: "desinsectisation",
