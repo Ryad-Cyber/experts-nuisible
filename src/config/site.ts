@@ -69,7 +69,7 @@ export const siteConfig = {
   // générique. Plus aucun doublon (ex. "Guêpes & frelons" ne coexiste plus avec
   // "Frelons asiatiques" ; "Dératisation" ne coexiste plus avec "Souris & rats").
   servicesMenu: [
-    { label: "Rats", href: "/nuisibles/rats" },
+    { label: "Rats / souris", href: "/nuisibles/rats" },
     { label: "Punaises de lit", href: "/nuisibles/punaises" },
     { label: "Cafards", href: "/nuisibles/cafards" },
     { label: "Puces & parasites", href: "/services/desinsectisation" },

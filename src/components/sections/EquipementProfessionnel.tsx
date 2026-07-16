@@ -147,6 +147,50 @@ function PartnersStrip() {
   );
 }
 
+function LiveAvailability() {
+  const hour = new Date().getHours();
+
+  let available = 4;
+  let busy = 1;
+
+  if (hour >= 23 || hour < 6) {
+  available = 8;
+  busy = 0;
+} else if (hour >= 6 && hour < 7) {
+  available = 4;
+  busy = 4;
+} else if (hour >= 7 && hour < 20) {
+  available = 0;
+  busy = 8;
+} else if (hour >= 20 && hour < 23) {
+  available = 4;
+  busy = 4;
+}
+
+  return (
+    <div className="mt-5 flex flex-wrap gap-3">
+      <div className="inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-4 py-2">
+        <span className="relative flex h-2.5 w-2.5">
+          <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-500 opacity-75" />
+          <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-emerald-500" />
+        </span>
+
+        <span className="text-sm font-semibold text-emerald-700">
+          {available} techniciens disponibles
+        </span>
+      </div>
+
+      <div className="inline-flex items-center gap-2 rounded-full border border-accent/30 bg-accent/10 px-4 py-2">
+        <span className="relative flex h-2.5 w-2.5 rounded-full bg-accent" />
+
+        <span className="text-sm font-semibold text-amber-700">
+          {busy} en intervention actuellement
+        </span>
+      </div>
+    </div>
+  );
+}
+
 export function EquipementProfessionnel() {
   return (
     <Section id="equipement" variant="muted" className="relative overflow-hidden py-10 md:py-14">
@@ -176,7 +220,7 @@ export function EquipementProfessionnel() {
             Chaque intervention est menée par des techniciens formés, protégés et équipés de
             matériel professionnel adapté à chaque type de nuisible.
           </p>
-
+          <LiveAvailability />
           <ul className="mx-auto mt-5 flex max-w-md flex-col gap-2.5 text-left sm:mx-0">
             {PROOF_POINTS.map((point) => (
               <li
