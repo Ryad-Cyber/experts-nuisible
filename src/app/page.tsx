@@ -7,6 +7,7 @@ import { EquipementProfessionnel } from "@/components/sections/EquipementProfess
 import { Avis } from "@/components/sections/Avis";
 import { Disponibilite } from "@/components/sections/Disponibilite";
 import { Urgence } from "@/components/sections/Urgence";
+import { ClientReferences } from "@/components/sections/ClientReferences";
 import { FAQ } from "@/components/sections/FAQ";
 import { Contact } from "@/components/sections/Contact";
 import { WaveDivider } from "@/components/ui/WaveDivider";
@@ -27,6 +28,7 @@ export default function Home() {
       <EtapesAppel />
       <Garantie />
       <EquipementProfessionnel />
+      <ClientReferences />
       <Avis />
       <Disponibilite />
       <WaveDivider fromColor="var(--color-background)" toColor="var(--color-accent)" />

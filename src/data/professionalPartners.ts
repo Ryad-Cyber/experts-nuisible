@@ -26,16 +26,4 @@ export const PROFESSIONAL_PARTNERS: ProfessionalPartner[] = [
     logo: "/Dobol.jpg",
     description: "Gamme professionnelle de produits de lutte contre les insectes",
   },
-  {
-    id: "paprec",
-    name: "Paprec",
-    logo: "/paprec.jpg",
-    description: "Partenaire pour la gestion et le traitement des déchets liés aux interventions",
-  },
-  {
-    id: "cesap",
-    name: "Cesap",
-    logo: "/cesap.png",
-    description: "Fournisseur de matériel professionnel pour nos interventions",
-  },
 ];
