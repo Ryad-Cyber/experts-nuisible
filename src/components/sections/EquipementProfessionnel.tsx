@@ -153,18 +153,24 @@ function LiveAvailability() {
   let available = 4;
   let busy = 1;
 
-  if (hour >= 23 || hour < 6) {
+if (hour >= 23 || hour < 6) {
   available = 8;
   busy = 0;
 } else if (hour >= 6 && hour < 7) {
   available = 4;
   busy = 4;
-} else if (hour >= 7 && hour < 20) {
+} else if (hour >= 7 && hour < 9) {
   available = 0;
   busy = 8;
-} else if (hour >= 20 && hour < 23) {
+} else if (hour >= 9 && hour < 20) {
+  available = 0;
+  busy = 8;
+} else if (hour >= 20 && hour < 22) {
   available = 4;
   busy = 4;
+} else if (hour >= 22 && hour < 23) {
+  available = 6;
+  busy = 2;
 }
 
   return (
