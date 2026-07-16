@@ -15,7 +15,7 @@ export const siteConfig = {
   tagline: "Anti-nuisibles à Auxerre, Sens et dans l'Yonne — 24h/24",
   description:
     "Experts Nuisible intervient en urgence pour la dératisation, la désinsectisation et la désinfection à Auxerre, Sens et dans l'Yonne, ainsi qu'en Bourgogne-Franche-Comté, Centre-Val de Loire et Île-de-France — auprès des particuliers comme des professionnels (restaurants, commerces, entreprises).",
-  url: "https://www.expertsnuisible.fr",
+  url: "https://expertsnuisible.fr",
   phone: {
     display: "07 66 90 90 33",
     href: `tel:+33${phoneDigits.slice(1)}`,
