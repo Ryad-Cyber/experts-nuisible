@@ -437,8 +437,12 @@ export function Contact() {
                 WhatsApp — envoyez des photos de votre situation
               </a>
 
-              <p className="flex items-center gap-3 text-sm">
+              <p className="flex items-center gap-3 text-sm font-medium">
                 <MapPin className="size-4 shrink-0 text-secondary" />
+                {siteConfig.basedInLine}
+              </p>
+              <p className="flex items-center gap-3 text-sm text-muted-foreground">
+                <span className="size-4 shrink-0" aria-hidden />
                 {siteConfig.serviceArea}
               </p>
 

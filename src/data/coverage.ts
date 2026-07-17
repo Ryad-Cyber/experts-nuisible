@@ -13,9 +13,14 @@ export type Department = { name: string; code: string };
 
 export type CoverageRegion = {
   name: string;
-  /** Ligne factuelle : le rôle de la région dans le réseau, sans sur-promesse. */
+  /** Paragraphe de contexte (≈40-60 mots) : nuisibles traités + villes/communes
+   *  couvertes, factuel et propre à chaque région (rendu sous le titre). */
   lead: string;
   departments: Department[];
+  /** Communes réellement couvertes, présentées comme des EXEMPLES (pas une
+   *  liste fermée, pas des pages dédiées) — renforce la crédibilité locale sans
+   *  suggérer une couverture limitée à ces seules villes. */
+  exampleTowns?: string[];
 };
 
 // Regroupement par région = contenu réellement utile (répond à « intervenez-vous
@@ -23,17 +28,18 @@ export type CoverageRegion = {
 export const COVERAGE_REGIONS: CoverageRegion[] = [
   {
     name: "Bourgogne-Franche-Comté",
-    lead: "Notre ancrage principal autour d'Auxerre et de Sens, avec des interventions dans l'ensemble de la région et les secteurs voisins.",
+    lead: "Autour d'Auxerre et de Sens, nos techniciens interviennent régulièrement contre les principaux nuisibles — rats, souris, punaises de lit, cafards, guêpes et frelons. Nous couvrons aussi bien les centres-villes que les communes plus rurales de l'Yonne et des départements voisins, avec une intervention rapide, week-ends et jours fériés inclus.",
     departments: [
       { name: "Yonne", code: "89" },
       { name: "Nièvre", code: "58" },
       { name: "Côte-d'Or", code: "21" },
       { name: "Aube", code: "10" },
     ],
+    exampleTowns: ["Auxerre", "Sens", "Joigny"],
   },
   {
     name: "Centre-Val de Loire",
-    lead: "Présence régulière dans toute la région, notamment autour d'Orléans et des principales villes.",
+    lead: "En Centre-Val de Loire, notamment autour d'Orléans, Blois, Tours et Chartres, nous traitons rongeurs, insectes rampants et nuisibles volants, chez les particuliers comme dans les locaux professionnels. Des grandes villes aux communes environnantes, nos techniciens se déplacent avec le matériel adapté à chaque situation, pour une intervention efficace et durable.",
     departments: [
       { name: "Loiret", code: "45" },
       { name: "Loir-et-Cher", code: "41" },
@@ -42,10 +48,23 @@ export const COVERAGE_REGIONS: CoverageRegion[] = [
       { name: "Cher", code: "18" },
       { name: "Indre", code: "36" },
     ],
+    exampleTowns: [
+      "Orléans",
+      "Montargis",
+      "Gien",
+      "Blois",
+      "Vendôme",
+      "Romorantin-Lanthenay",
+      "Chartres",
+      "Dreux",
+      "Chinon",
+      "Amboise",
+      "Joué-lès-Tours",
+    ],
   },
   {
     name: "Île-de-France",
-    lead: "Interventions régulières en Île-de-France selon les besoins.",
+    lead: "En Île-de-France, nos équipes interviennent à Paris comme en proche et grande couronne, contre les punaises de lit, cafards, rats et autres nuisibles fréquents en milieu urbain. Particuliers, commerces et copropriétés bénéficient d'une intervention discrète et rapide, avec un suivi jusqu'à la disparition complète du problème.",
     departments: [
       { name: "Paris", code: "75" },
       { name: "Seine-et-Marne", code: "77" },
@@ -56,6 +75,7 @@ export const COVERAGE_REGIONS: CoverageRegion[] = [
       { name: "Val-de-Marne", code: "94" },
       { name: "Val-d'Oise", code: "95" },
     ],
+    exampleTowns: ["Melun", "Fontainebleau", "Provins", "Montereau-Fault-Yonne"],
   },
 ];
 

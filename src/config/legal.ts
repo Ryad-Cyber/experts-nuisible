@@ -23,10 +23,10 @@ export const legalConfig = {
   /** Nom du directeur ou de la directrice de la publication. */
   publicationDirector: null as string | null,
   /** Zone d'intervention : cœur de réseau, formulée sans frontière absolue —
-   *  le réseau de techniciens mobiles peut intervenir au-delà selon les demandes.
+   *  le réseau de techniciens mobiles intervient aussi au-delà de cette liste.
    *  Rédigée pour s'insérer après "intervenant en" / "en" dans les pages légales. */
   serviceArea:
-    "Bourgogne-Franche-Comté (Auxerre, Sens), Centre-Val de Loire et Île-de-France — et au-delà selon les demandes",
+    "Bourgogne-Franche-Comté (Auxerre, Sens), Centre-Val de Loire et Île-de-France — et au-delà",
   /** Hébergeur du site (obligatoire : nom, adresse, moyen de contact). */
   host: {
     name: "Vercel Inc.",

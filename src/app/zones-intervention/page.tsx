@@ -21,7 +21,7 @@ import { LOCAL_AREAS } from "@/data/localAreas";
 
 const title = "Zone d'intervention — Auxerre, Sens, Yonne et régions voisines";
 const description =
-  "Quelques secteurs où nous intervenons : un réseau de techniciens mobiles ancré autour d'Auxerre et de Sens (Yonne), avec des interventions en Bourgogne-Franche-Comté, Centre-Val de Loire, Île-de-France et au-delà selon les besoins. Votre ville n'est pas listée ? Appelez-nous.";
+  "Quelques secteurs où nous intervenons : un réseau de techniciens mobiles avec une forte présence autour d'Auxerre et de Sens (Yonne), et des interventions en Bourgogne-Franche-Comté, Centre-Val de Loire, Île-de-France et au-delà. Votre ville n'est pas listée ? Appelez-nous.";
 
 export const metadata: Metadata = {
   title: `${title} — ${siteConfig.name}`,
@@ -91,10 +91,11 @@ export default function ZonesInterventionPage() {
               Quelques secteurs où nous intervenons
             </h1>
             <p className="mt-3 text-base leading-relaxed text-muted-foreground">
-              Experts Nuisible est un réseau de techniciens mobiles, avec un ancrage principal
-              autour d&apos;Auxerre et de Sens. Nous intervenons aussi en Centre-Val de Loire
-              (Orléans, Blois, Tours, Chartres) et en Île-de-France, ainsi que dans de nombreux
-              départements et communes environnants selon les besoins.
+              Experts Nuisible est un réseau de techniciens mobiles, avec une forte présence
+              autour d&apos;Auxerre et de Sens. Nous intervenons également en Centre-Val de Loire
+              (Orléans, Blois, Tours, Chartres), en Île-de-France, ainsi que dans de nombreux
+              départements et communes environnants, pour accompagner particuliers et
+              professionnels face à tous types de nuisibles.
             </p>
 
             {/* Pôles principaux — pages villes dédiées (référencement local). */}
@@ -124,8 +125,8 @@ export default function ZonesInterventionPage() {
                     <MapPin className="size-4 shrink-0" />
                     {region.name}
                   </h2>
-                  <p className="mt-1.5 text-sm text-muted-foreground">{region.lead}</p>
-                  <div className="mt-3 flex flex-wrap gap-2">
+                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{region.lead}</p>
+                  <div className="mt-3.5 flex flex-wrap gap-2">
                     {region.departments.map((dept) => (
                       <span
                         key={dept.code}
@@ -137,11 +138,15 @@ export default function ZonesInterventionPage() {
                         </span>
                       </span>
                     ))}
-                    {/* Marque explicitement la liste comme non exhaustive. */}
-                    <span className="inline-flex items-center rounded-full border border-dashed border-border px-3.5 py-1.5 text-sm text-muted-foreground">
-                      et d&apos;autres secteurs
-                    </span>
                   </div>
+                  {/* Villes-exemples + fin ouverte : crédibilité locale sans laisser
+                      croire à une liste fermée. */}
+                  {region.exampleTowns && region.exampleTowns.length > 0 && (
+                    <p className="mt-2.5 text-sm leading-relaxed text-muted-foreground">
+                      Nous intervenons notamment à {region.exampleTowns.join(", ")}, ainsi que dans
+                      les communes environnantes.
+                    </p>
+                  )}
                 </section>
               ))}
             </div>

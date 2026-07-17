@@ -34,6 +34,11 @@ export const siteConfig = {
     "Experts Nuisible est un réseau de techniciens mobiles spécialisé dans le traitement de nombreux nuisibles : rongeurs, insectes rampants, insectes volants, parasites et autres problématiques liées à l'habitat et aux professionnels. Nous intervenons notamment autour d'Auxerre, Sens et dans l'Yonne, mais également dans les secteurs voisins en Bourgogne-Franche-Comté, Centre-Val de Loire, Île-de-France ainsi que dans de nombreuses communes et départements environnants.",
   serviceArea:
     "Interventions autour d'Auxerre, Sens et dans l'Yonne, ainsi que dans les secteurs voisins en Bourgogne-Franche-Comté, Centre-Val de Loire, Île-de-France et au-delà.",
+  // Ligne courte "ville de base" (option B, sans adresse de rue — on ne reçoit
+  // pas de public). Distincte de `serviceArea` : celle-ci nomme juste la ville
+  // d'ancrage, `serviceArea` détaille la zone. Les deux se complètent sans se
+  // répéter à l'identique (ex. Contact.tsx affiche les deux l'une sous l'autre).
+  basedInLine: "Basé à Auxerre (89000)",
   // Ancrage géographique réel = ville de base du réseau (Auxerre). Réseau de
   // techniciens mobiles : pas d'adresse de rue publique, on ne déclare donc que
   // le niveau ville/région (honnête) — consommé par le JSON-LD LocalBusiness

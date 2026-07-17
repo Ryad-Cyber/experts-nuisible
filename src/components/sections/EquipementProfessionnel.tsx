@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import { ArrowRight, CheckCircle2, ShieldCheck, Sparkles, Truck } from "lucide-react";
+import { ArrowRight, CheckCircle2, EyeOff, ShieldCheck, Sparkles, Truck } from "lucide-react";
 import { Section } from "@/components/ui/Section";
 import { Reveal } from "@/components/ui/Reveal";
 import { technicianPhotos } from "@/data/equipment";
@@ -104,6 +104,10 @@ function CamionBand() {
           <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
             Nos techniciens interviennent avec des véhicules identifiés Experts Nuisible,
             équipés du matériel nécessaire à chaque type d&apos;intervention.
+          </p>
+          <p className="mt-3 inline-flex items-center gap-2 rounded-full border border-border bg-muted/50 px-3 py-1.5 text-xs font-medium text-foreground/80 sm:text-sm">
+            <EyeOff className="size-3.5 shrink-0 text-secondary" />
+            Intervention possible avec véhicule banalisé, sur simple demande.
           </p>
         </div>
       </div>
