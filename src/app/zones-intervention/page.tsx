@@ -21,7 +21,7 @@ import { LOCAL_AREAS } from "@/data/localAreas";
 
 const title = "Zone d'intervention — Auxerre, Sens, Yonne et régions voisines";
 const description =
-  "Quelques secteurs où nous intervenons : un réseau de techniciens mobiles avec une forte présence autour d'Auxerre et de Sens (Yonne), et des interventions en Bourgogne-Franche-Comté, Centre-Val de Loire, Île-de-France et au-delà. Votre ville n'est pas listée ? Appelez-nous.";
+  "Quelques secteurs où nous intervenons : un réseau de techniciens mobiles avec une forte présence autour d'Auxerre et de Sens (Yonne), et des interventions en Bourgogne-Franche-Comté et Centre-Val de Loire, et au-delà. Votre ville n'est pas listée ? Appelez-nous.";
 
 export const metadata: Metadata = {
   title: `${title} — ${siteConfig.name}`,
@@ -93,9 +93,9 @@ export default function ZonesInterventionPage() {
             <p className="mt-3 text-base leading-relaxed text-muted-foreground">
               Experts Nuisible est un réseau de techniciens mobiles, avec une forte présence
               autour d&apos;Auxerre et de Sens. Nous intervenons également en Centre-Val de Loire
-              (Orléans, Blois, Tours, Chartres), en Île-de-France, ainsi que dans de nombreux
-              départements et communes environnants, pour accompagner particuliers et
-              professionnels face à tous types de nuisibles.
+              (Orléans, Blois, Tours, Chartres), ainsi que dans de nombreux départements et
+              communes environnants, pour accompagner particuliers et professionnels face à tous
+              types de nuisibles.
             </p>
 
             {/* Pôles principaux — pages villes dédiées (référencement local). */}

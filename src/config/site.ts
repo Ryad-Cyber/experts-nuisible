@@ -14,7 +14,7 @@ export const siteConfig = {
   name: "Experts Nuisible",
   tagline: "Anti-nuisibles à Auxerre, Sens et dans l'Yonne — 24h/24",
   description:
-    "Experts Nuisible intervient en urgence pour la dératisation, la désinsectisation et la désinfection à Auxerre, Sens et dans l'Yonne, ainsi qu'en Bourgogne-Franche-Comté, Centre-Val de Loire et Île-de-France — auprès des particuliers comme des professionnels (restaurants, commerces, entreprises).",
+    "Experts Nuisible intervient en urgence pour la dératisation, la désinsectisation et la désinfection à Auxerre, Sens et dans l'Yonne, ainsi qu'en Bourgogne-Franche-Comté et Centre-Val de Loire — auprès des particuliers comme des professionnels (restaurants, commerces, entreprises).",
   url: "https://expertsnuisible.fr",
   phone: {
     display: "07 66 90 90 33",
@@ -31,9 +31,9 @@ export const siteConfig = {
   // description SEO (qui, elle, reste spécifique pour le référencement) : montre
   // l'étendue de l'activité et le caractère NON exhaustif des zones citées.
   footerAbout:
-    "Experts Nuisible est un réseau de techniciens mobiles spécialisé dans le traitement de nombreux nuisibles : rongeurs, insectes rampants, insectes volants, parasites et autres problématiques liées à l'habitat et aux professionnels. Nous intervenons notamment autour d'Auxerre, Sens et dans l'Yonne, mais également dans les secteurs voisins en Bourgogne-Franche-Comté, Centre-Val de Loire, Île-de-France ainsi que dans de nombreuses communes et départements environnants.",
+    "Experts Nuisible est un réseau de techniciens mobiles spécialisé dans le traitement de nombreux nuisibles : rongeurs, insectes rampants, insectes volants, parasites et autres problématiques liées à l'habitat et aux professionnels. Nous intervenons notamment autour d'Auxerre, Sens et dans l'Yonne, mais également dans les secteurs voisins en Bourgogne-Franche-Comté et Centre-Val de Loire, ainsi que dans de nombreuses communes et départements environnants.",
   serviceArea:
-    "Interventions autour d'Auxerre, Sens et dans l'Yonne, ainsi que dans les secteurs voisins en Bourgogne-Franche-Comté, Centre-Val de Loire, Île-de-France et au-delà.",
+    "Interventions autour d'Auxerre, Sens et dans l'Yonne, ainsi que dans les secteurs voisins en Bourgogne-Franche-Comté et Centre-Val de Loire, et au-delà.",
   // Ligne courte "ville de base" (option B, sans adresse de rue — on ne reçoit
   // pas de public). Distincte de `serviceArea` : celle-ci nomme juste la ville
   // d'ancrage, `serviceArea` détaille la zone. Les deux se complètent sans se

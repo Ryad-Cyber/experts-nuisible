@@ -58,9 +58,9 @@ export const LOCAL_AREAS: LocalArea[] = [
     slug: "sens",
     city: "Sens",
     postalCode: "89100",
-    role: "au nord de l'Yonne, aux portes de la Seine-et-Marne",
+    role: "deuxième ville de l'Yonne, au nord du département",
     intro:
-      "À Sens et dans le nord de l'Yonne, Experts Nuisible assure la dératisation, la désinsectisation et la désinfection pour les particuliers et les professionnels. Deuxième ville du département et proche de la Seine-et-Marne et de l'Île-de-France, Sens conjugue un centre historique commerçant autour de sa cathédrale, des zones pavillonnaires et d'importants axes de passage. Nos techniciens interviennent 24h/24, week-ends et jours fériés inclus.",
+      "À Sens et dans le nord de l'Yonne, Experts Nuisible assure la dératisation, la désinsectisation et la désinfection pour les particuliers et les professionnels. Deuxième ville du département, Sens conjugue un centre historique commerçant autour de sa cathédrale, des zones pavillonnaires et d'importants axes de passage. Nos techniciens interviennent 24h/24, week-ends et jours fériés inclus.",
     localContext:
       "Le cœur commerçant de Sens et ses immeubles anciens sont particulièrement concernés par les cafards et les rongeurs, tandis que la proximité des grands axes et des hébergements favorise la propagation des punaises de lit, souvent rapportées après un déplacement. Les quartiers résidentiels et les extérieurs voient, eux, revenir chaque été guêpes et frelons.",
     proContext:

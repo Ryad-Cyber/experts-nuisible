@@ -26,7 +26,7 @@ export const legalConfig = {
    *  le réseau de techniciens mobiles intervient aussi au-delà de cette liste.
    *  Rédigée pour s'insérer après "intervenant en" / "en" dans les pages légales. */
   serviceArea:
-    "Bourgogne-Franche-Comté (Auxerre, Sens), Centre-Val de Loire et Île-de-France — et au-delà",
+    "Bourgogne-Franche-Comté (Auxerre, Sens) et Centre-Val de Loire — et au-delà",
   /** Hébergeur du site (obligatoire : nom, adresse, moyen de contact). */
   host: {
     name: "Vercel Inc.",

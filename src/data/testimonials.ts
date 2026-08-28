@@ -31,7 +31,7 @@ export const testimonials: Testimonial[] = [
   {
     id: "4",
     author: "Julie D.",
-    location: "Melun",
+    location: "Montargis",
     rating: 4,
     quote:
       "Punaises de lit éliminées définitivement, bon accompagnement pendant tout le traitement.",

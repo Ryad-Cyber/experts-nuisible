@@ -62,21 +62,6 @@ export const COVERAGE_REGIONS: CoverageRegion[] = [
       "Joué-lès-Tours",
     ],
   },
-  {
-    name: "Île-de-France",
-    lead: "En Île-de-France, nos équipes interviennent à Paris comme en proche et grande couronne, contre les punaises de lit, cafards, rats et autres nuisibles fréquents en milieu urbain. Particuliers, commerces et copropriétés bénéficient d'une intervention discrète et rapide, avec un suivi jusqu'à la disparition complète du problème.",
-    departments: [
-      { name: "Paris", code: "75" },
-      { name: "Seine-et-Marne", code: "77" },
-      { name: "Essonne", code: "91" },
-      { name: "Yvelines", code: "78" },
-      { name: "Hauts-de-Seine", code: "92" },
-      { name: "Seine-Saint-Denis", code: "93" },
-      { name: "Val-de-Marne", code: "94" },
-      { name: "Val-d'Oise", code: "95" },
-    ],
-    exampleTowns: ["Melun", "Fontainebleau", "Provins", "Montereau-Fault-Yonne"],
-  },
 ];
 
 /** Noms de régions pour le `areaServed` du JSON-LD (source unique). */
@@ -102,7 +87,6 @@ export type CoverageHub = {
 // Placement relatif approximatif (0–100) des principaux hubs autour d'Auxerre.
 // Carte abstraite, pas cartographique : les anneaux évoquent le rayon d'action.
 export const COVERAGE_HUBS: CoverageHub[] = [
-  { name: "Paris / Île-de-France", short: "Paris", x: 60, y: 12 },
   { name: "Chartres", short: "Chartres", x: 30, y: 24 },
   { name: "Sens", short: "Sens", x: 84, y: 26, secondary: true },
   { name: "Auxerre", short: "Auxerre", x: 80, y: 46, primary: true },
