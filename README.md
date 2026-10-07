@@ -1,36 +1,89 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Security Monitor
 
-## Getting Started
+Outil de surveillance de surface d'exposition développé dans le cadre d'un stage en cybersécurité chez **Nethash**.
 
-First, run the development server:
+## Présentation
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+Ce projet automatise la surveillance d'une infrastructure en réalisant périodiquement des scans réseau et en détectant les changements au niveau des ports exposés.
+
+Il intègre également une solution d'évaluation des vulnérabilités et un système d'alerting afin de faciliter le suivi des événements de sécurité.
+
+## Fonctionnalités
+
+* Automatisation de scans Nmap périodiques
+* Détection des changements de ports ouverts
+* Évaluation des vulnérabilités avec Greenbone Community Edition (GVM/OpenVAS)
+* Analyse des résultats de scans
+* Génération de rapports à partir des exports XML
+* Envoi d'alertes par email
+* Intégration de l'API iLert
+* Vérification automatique du code avec GitHub Actions
+* Packaging du projet Python
+
+## Technologies
+
+* Python
+* Nmap
+* Greenbone Community Edition (GVM/OpenVAS)
+* Docker
+* XML
+* SMTP
+* API REST / iLert
+* GitHub Actions
+* Git / GitHub
+
+## Architecture générale
+
+```text
+             ┌──────────────┐
+             │    Nmap      │
+             └──────┬───────┘
+                    │
+                    ▼
+          ┌───────────────────┐
+          │ Analyse des      │
+          │ changements       │
+          └────────┬──────────┘
+                   │
+                   ▼
+          ┌───────────────────┐
+          │     Alerting      │
+          │ Email / iLert     │
+          └───────────────────┘
+
+
+        ┌─────────────────────┐
+        │       GVM           │
+        │     OpenVAS         │
+        └──────────┬──────────┘
+                   │
+                   ▼
+             XML / rapports
+                   │
+                   ▼
+             Analyse Python
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Scénario de vulnérabilité
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Le projet a notamment été utilisé avec **Metasploitable 2** comme cible de test pour l'évaluation des vulnérabilités.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Lors des scans, GVM a permis d'identifier de nombreuses vulnérabilités et CVE sur la machine cible.
 
-## Learn More
+## CI/CD
 
-To learn more about Next.js, take a look at the following resources:
+GitHub Actions est utilisé pour automatiser certaines vérifications du projet Python ainsi que son packaging.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Objectif
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Réduire les tâches manuelles liées à la surveillance de la surface d'exposition et permettre une détection plus rapide des changements et vulnérabilités observés sur les systèmes surveillés.
 
-## Deploy on Vercel
+## Contexte
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Projet réalisé dans le cadre d'un stage en cybersécurité chez **Nethash**, Paris.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Auteur
+
+**Ryad Boujenan**
+
+GitHub : [Ryad-Cyber](https://github.com/Ryad-Cyber)
